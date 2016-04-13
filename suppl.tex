@@ -1,4 +1,4 @@
-\documentclass[11pt]{amsart}
+\documentclass[11pt]{amsart} 
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage[marginratio = 1:1,
      height = 601pt, 
@@ -25,17 +25,18 @@
      urlcolor=magenta]{hyperref}
 \usepackage{verbatim}
 % $$$:
-\renewcommand{\rmdefault}{ptm} % times
-\renewcommand*\ttdefault{txtt} % typewriter is txtt
-\renewcommand*\sfdefault{phv}  % helvetica
-\usepackage[subscriptcorrection]{mtpro}
-\usepackage[mtphrb]{mtpams}
-\usepackage[mtpcal, mtpfrak]{mtpb}
+%\renewcommand{\rmdefault}{ptm} % times
+%\renewcommand*\ttdefault{txtt} % typewriter is txtt
+%\renewcommand*\sfdefault{phv}  % helvetica
+%\usepackage[subscriptcorrection]{mtpro}
+%\usepackage[mtphrb]{mtpams}
+%%\usepackage[mtpcal, mtpfrak]{mtpb}
+\usepackage[scaled=1.1]{rsfso}
 %
-\DeclareMathAlphabet{\txcal}{U}{tx-cal}{m}{n}
-\DeclareFontEncoding{FMS}{}{}
-  \DeclareFontSubstitution{FMS}{futm}{m}{n}
-\DeclareMathAlphabet{\foucal}{FMS}{futm}{m}{n}
+%\DeclareMathAlphabet{\txcal}{U}{tx-cal}{m}{n}
+%\DeclareFontEncoding{FMS}{}{}
+%  \DeclareFontSubstitution{FMS}{futm}{m}{n}
+%\DeclareMathAlphabet{\foucal}{FMS}{futm}{m}{n}
 %
 \newcommand{\wP}{P^\ast}
 \newcommand{\wE}{E^\ast}
@@ -47,7 +48,6 @@
 \newcommand{\wAp}{A_p^\ast}
 \newcommand{\wBe}{B_e^\ast}
 \newcommand{\wBp}{B_p^\ast}
-\newcommand{\tM}{\foucal M}
 %
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -128,7 +128,8 @@
        both to be considered as First Author}, 
      Rodrigo D. Drummond$^\dagger$,
      Renan Valieris and 
-     Israel T. da Silva\footnote{Corresponding author}$^,$\footnote{Partially supported by FAPESP grant */*}}
+     Israel T. da Silva\footnote{Corresponding
+       author}$^,$\footnote{Partially supported by FAPESP grant */*}}
  \end{center}
 
 
@@ -167,11 +168,11 @@ the observations $(M)_{ij}$ are independent and Poisson distributed
 random variables with rates $(PE)_{ij}(W)_{ij}$, with $W$ as the
 $K\times G$ opportunity matrix. The factors $P$, $E$, identified as
 the model parameters are denoted as $\theta$. The likelihood for this
-model, i.e. the function $\txcal L(\theta; m)$ defined by the map
-$\theta \mapsto p(M=m|\theta)$, is given by
+model, i.e. the function $\mathcal L: \Theta \to \mathbb R$ defined by
+the map $\theta \mapsto p(M=m|\theta)$, is given by
 \begin{equation}
   \label{eqn:PoisLik}
-   \txcal L(\theta; m) 
+   \mathcal L(\theta; m) 
    =
     \prod_{i=1}^K \prod_{j=1}^G e^{-w_{ij}\sum_{n=1}^{N}p_{in}e_{nj}}
     \Big(w_{ij}\sum_{n=1}^{N}p_{in}e_{nj}\Big)^{m_{ij}}
@@ -180,15 +181,18 @@ $\theta \mapsto p(M=m|\theta)$, is given by
 
 Posterior inferences about the factors $P$ and $E$ and the
 factorization rank $N$ require the joint distribution for the
-observations $M$ and the latent variables $Z$. Following the condition (1) in the main text and the independence between
+observations $M$ and the latent variables $Z$, also known as the
+complete data likelihood function when interpreted as a function of
+$\theta$ for given $Z=z$ and $M=m$. Following the condition
+(1) in the main text and the independence between
 the components of $Z$ this distribution equals
 \begin{equation}
    \label{eqn:jointdata}
  \begin{aligned}
     p(Z = z, M =&\ m \mid P, E) \notag\\
   &= 
-    \prod_{n=1}^N\prod_{i=1}^K\prod_{j=1}^G p\Big(Z_n = z_{inj}, M =
-    m_{ij}, \mathbf{1}_{\big\{M_{ij} = \sum_{n=1}^N
+    \prod_{n=1}^N\prod_{i=1}^K\prod_{j=1}^G p\Big(Z_{inj} = z_{inj},
+    M_{ij} = m_{ij}, \mathbf{1}_{\big\{M_{ij} = \sum_{n=1}^N
       Z_{inj}\big\}} \Big| P, E\Big)  \notag\\ 
   &=
     \prod_{n=1}^N\prod_{i=1}^K\prod_{j=1}^G e^{-p_{in}e_{nj}w_{ij}}
@@ -199,7 +203,8 @@ the components of $Z$ this distribution equals
 \end{equation}
 The symbol $\mathbf{1}$ denotes the indicator function for the 
 event $\big\{M_{ij} = \sum_n Z_{inj}\big\}$, with value 1 if $M_{ij} =  
-\sum_n  Z_{inj}$ and 0 otherwise.
+\sum_n  Z_{inj}$ and 0 otherwise. Marginalization of
+(\ref{eqn:jointdata}) with respect to $Z$ gives  (\ref{eqn:PoisLik}).
 
 
 \section{Gibbs sampler}
@@ -208,14 +213,23 @@ The construction of the Gibbs sampler relies on the determination of
 the full conditional distributions for all unknowns in the
 hierarchical model, that is, the distribution of each component of
 $(Z, \theta, \psi)$ conditioned on all other components of this vector,
-the data $M$ and the hyperprior parameters $\eta$. These distributions
-are obtained by straightforward computations following the likelihood
-in (\ref{eqn:PoisLik}) and the hierarchical model defined in the main
-text.
+the data $M$ and the hyperprior parameters $\eta$,
+\[
+   Z \sim \pi(Z|\theta, \psi, M, \eta), \quad
+   \theta \sim \pi(\theta|Z, \psi, M, \eta) \quad
+  \text{and}\quad
+  \psi \sim \pi(\psi|Z, \theta, M, \eta).
+\]
+These distributions are obtained by straightforward computations
+following the likelihood in (\ref{eqn:PoisLik}) and the hierarchical
+model defined in the main text. The full conditional for $Z$ is
+derived in Lemma~\ref{lem:Full_for_Z}. The full conditional for
+$\theta$ follows by observing that $\pi(\theta|Z, \psi, M, \eta) =
+p(P|\psi)p(E|\psi)$ \textcolor{red}{FINISH...}
 
 
 The full conditional of $p_{in}$, for any $1 \leq i\leq K$ and $1\leq
-n\leq  N$ is the following gamma density,
+n\leq  N$ is the following Gamma density,
 \begin{equation}
   \label{eqn:Full_for_P}
   p_{in} 
@@ -269,10 +283,10 @@ implementation are described in Section~\ref{sec:MHsteps} here.
 
 The exponential prior for the elements of $A_p$ leads, up to
 proportionality, to the following the full conditional density
-for\footnote{RD: I know we went already along this, but is it safe to
-  take the constant $\lambda_p(\beta_{in}^p + \delta_p)$ away from the
-density for $\alpha_{in}^p$ --because it cancels when one divides by
-the integral that will define the normalising constant?}  
+for\footnote{\textcolor{red}{RD: I know that we already went though
+    this, but  is it safe to take the constant $\lambda_p(\beta_{in}^p
+    + \delta_p)$ away from the density for $\alpha_{in}^p$ --because
+    it  cancels when one divides by the integral that will define the  normalising constant?}}  
 $\alpha_{ij}^p$,
 \begin{equation}
  \label{eqn:Full_for_Ap}
@@ -284,9 +298,9 @@ $\alpha_{ij}^p$,
    \quad  \alpha_{in}^p > 0.
 \end{equation}
 Similarly, up to proportionality, for the elements of $A_e$ we
-have\footnote{RD: same here, should we take away the constant
+have\footnote{\textcolor{red}{RD: same here, should we take away the constant
   $\lambda_e(\beta_{nj}^e + \delta_e)$ in the density for
-  $\alpha_{nj}^e$?}
+  $\alpha_{nj}^e$?}}
 \begin{equation}
  \label{eqn:Full_for_Ae}
   \alpha_{nj}^e 
@@ -308,11 +322,11 @@ throughout, the distribution of $Z$ is determined by a multinomial
 distributions. This result is precisely stated by the following
 Lemma.
 
-\begin{lemma} Conditionally on  $M= m$, the full conditional
-  distribution for the latent variables $Z$ is the following product
-  of multinomial laws 
+\begin{lemma}\label{lem:Full_for_Z} Conditionally on  $M= m$, the full
+  conditional distribution for the latent variables $Z$ is the
+  following  product of multinomial laws 
 \[
-   p(Z = z\,|\, M=m, \theta, \psi, \eta) 
+   p(Z = z\,|\, \theta, \psi, M=m, \eta)
    = 
    \prod_{i=1}^K\prod_{j=1}^G {m_{ij} \choose z_{i1j}, \ldots,
      z_{iNj}} 
@@ -333,7 +347,7 @@ leads to
 \begin{align*}
     \ln p(Z|M, P, E) 
   =&
-    \ln p(Z, M|P, E) - \txcal L(\theta; m) \\
+    \ln p(Z, M|P, E) - \mathcal L(\theta; m) \\
   =&
     \sum_{i=1}^K \sum_{j=1}^G \sum_{n=1}^N z_{inj}
      \ln(p_{in}e_{nj}w_{ij}) - 
@@ -358,8 +372,9 @@ $\sum_{n=1}^N  z_{inj}$ lead to
      &+ \ln \big(\sum_{u=1}^N z_{iuj}\big)!
    \Big\}.
 \end{align*}
-Reverting to the original scale shows that the full conditional for
-$Z$ is fact a product of multinomial distributions as required
+Considering exponentiation to revert to the original scale shows that
+the full conditional for $Z$ is fact a product of multinomial
+distributions as required,
 \begin{align}
        p(Z = z\mid M = m, P, E) 
      &= 
@@ -382,18 +397,19 @@ $A_e$ do not have a standard form. These are explicitly shown in
 distributions, necessary to define the Gibbs sampler,  are obtained by
 using Metropolis-Hastings steps.  Let $x > 0$ be the current value for
 for any given entry of $A_e$ or $A_p$. A new candidate value $y$ for
-this variable is generated from a gamma proposal density, $g(\cdot|
+this variable is generated from a Gamma proposal density, $g(\cdot|
 x)$ with shape $(x/\sigma)^2$ and rate $x/\sigma^2$. The mean of this
-proposal is $x$ and its variance equals $\sigma^2$. Most results
-described in the main text where obtained by setting $\sigma^2 =
-*$\footnote{RD: please put the value here!}. Let $\alpha$ be
-the ratio,
+proposal is set equal to $x$ and its variance to $\sigma^2$. The 
+results  described in the main text where obtained by
+\textcolor{red}{choosing 
+  $\sigma^2 = *$}\footnote{\textcolor{red}{RD: please put the value
+    here!}}. Let $\alpha$ be the ratio,
 \[
   \alpha 
  =
   \frac{p(y)}{p(x)} \frac{g(x|y)}{g(y|x)}
 \]
-with $p(x)$ any one of the densities in (\ref{eqn:Full_for_Ap}) and
+with $p(x)$ as any one of the densities in (\ref{eqn:Full_for_Ap}) and 
 (\ref{eqn:Full_for_Ae}). The value $y$ is accepted as a sample
 with probability $\rho = \min\{1, \alpha\}$, that is, if $x'$ denotes
 the new sampled value, then
@@ -405,9 +421,12 @@ the new sampled value, then
     y, & \text{if } U \leq \rho.
   \end{cases}
 \]
+for $U$ an uniformly distributed random variable on $[0, 1]$.
 
-The samples for the entries in $B_p$ and $B_e$ are produced exactly in
-the same way if $\delta_p > $ \textcolor{red}{Finish this!}.
+
+The samples for the entries in $B_p$ and $B_e$ are also produced by
+Metropolis-Hastings steps whenever $\delta_p > ...$
+\textcolor{red}{Finish  this!}.
 
 \section{MCMC EM}
 \subsection{Maximisation step}
@@ -417,7 +436,7 @@ necessary to derive the estimator $\hat\eta$, namely
    \label{eqn:etaMAX}
     \underset{\eta\,\in\,\Lambda}{\text{arg max}}\,
     \frac{1}{R}\sum_{r=1}^R \ln p\big(M, Z^{(r)}, \theta^{(r)},
-    \psi^{(r)}\,|\, \eta\big). \tag{$s_*$}
+    \psi^{(r)}\,|\, \eta\big). \tag{$s_9$}
 \end{equation}
 The solution to (\ref{eqn:etaMAX}) is used to define the sequence
 $\eta^{(k)}$, $k \geq 1$. The components of the latter are denoted
@@ -438,7 +457,7 @@ observe that $\ell(\eta)$ admits the form
   \ln p(A_p^{(r)}\,|\, \eta) + \ln p(B_p^{(r)}\,|\, \eta) +
   \ln p(A_e^{(r)}\,|\, \eta) + \ln p(B_e^{(r)}\,|\, \eta).
  \end{aligned}
- \tag{$s_{**}$}
+ \tag{$s_{10}$}
 \end{equation}
 The first three terms of $\ell(\eta)$ are independent of
 $\eta$. Further, each of the remaining terms can be optimized
@@ -480,61 +499,85 @@ $a_p$ and $b_p$, for the second term we have that
   (a_p-1)\ln\big[(B_p^{(r)})_{in} - b_p(B_p^{(r)})_{in}\big].
 \]
 Solving for $b_p$ in $\partial(\frac{1}{R}\sum_r \ln p(B_p^{(r)}\,|\,
-\eta))/\partial b_p = 0$  yields\footnote{RD, RR: have to check this
-  last equation!}
+\eta))/\partial b_p = 0$  yields\footnote{\textcolor{red}{RD, RR: have
+    to check this last equation!}}
 \[
    b_p =\frac{1}{R} \frac{\sum_r\sum_i\sum_n (B_p^{(r)})_{in}}{a_p}.
 \] 
-\textcolor{red}{Rodrigo: still to write} the numerical implementation 
-  of how $b_p$ (and hence also $b_e$) are obtained. I know you use
-  \cite{J}, anyway  please explain.
+\textcolor{red}{Rodrigo: still to write} the numerical implementation
+of how $b_p$ (and hence also $b_e$) are obtained. Maybe you are using
+\cite{J}, in any case please explain.
 
 
 \subsection{Convergence}
-The results in this section are adapted from those in \cite{C01}.
+This section justifies the convergence of $\hat\pi(\theta|M,
+\hat\eta)$ as defined by (3) towards $\pi(\theta|M, \eta)$. The
+arguments follow closely those in \cite{C01}, but they are adapted to
+the special case of the Metropolis-within-Gibbs sampler considered
+throughout. 
 
-\begin{lemma}\label{lem:technical} For the hierarchical model in (*), the 
-  following holds,
+\begin{lemma}\label{lem:technical} Suppose that the following
+  conditions hold:
 \begin{itemize}
  \item[(i)] $\hat\eta^{(k)} \to \eta$ as $k \to \infty$ almost
    surely with respect to $m$; 
- \item[(ii)] $h_\eta(\eta')$ is continuous in both $\eta$ and $\eta'$;
-   were, 
+ \item[(ii)] $h_\eta(\eta')$ defined as
 \[
-  h_{\eta}(\eta) 
+  h_{\eta}(\eta') 
    = 
- \int p(\theta|M, Z, \psi, \eta')p(\psi|M, \eta)\ d\psi
+ \int p(\theta|Z, \psi, M, \eta')p(Z, \psi|M, \eta)\ dZd\psi
 \]
-\item[(iii)] $\hat h_\eta(\eta')$, defined as
-\[
-  \hat h_\eta(\eta') 
+is continuous in both $\eta$ and $\eta'$;
+\item[(iii)] $\widehat h_\eta(\eta')$, defined as
+\begin{align*}
+  \widehat h_\eta(\eta') 
   = 
- \frac{1}{R}\sum_{r=1}^R \pi(\theta|M, Z^{(r)}, \psi^{(r)}, \eta')
-    \quad\text{with}\quad 
-   \psi^{(r)} \sim \pi(\psi|M, Z^{(r)}, \theta^{(r)}, \eta)
-\]
+ \frac{1}{R}\sum_{r=1}^R \pi(\theta|Z^{(r)}, \psi^{(r)}, M, \eta')
+    \quad \text{with}\quad 
+   \begin{aligned}
+      &\psi^{(r)} \sim \pi(\psi|Z^{(r-1)}, \theta^{(r)}, M, \eta)\\
+      &Z^{(r)} \sim \pi(Z| \psi^{(r)}, \theta^{(r)}, M, \eta) 
+   \end{aligned}
+\end{align*}
  is continuous in $\eta'$ and stochastically equicontinuous in $\eta$,
 that is, for any given $\epsilon > 0$ there is $\delta>0$ such that
-$|\eta_1 - \eta_2| < \delta$ implies $|\hat h_{\eta_1}(\eta') - \hat
-h_{\eta_2}(\eta')|$ for all $\eta_1, \eta_2$ except for a set of 0
-$\pi$-measure.
- \item[(iv)] the Gibbs sampler produces an ergodic Markov chain.
+$|\eta_1 - \eta_2| < \delta$ implies $|\widehat h_{\eta_1}(\eta') -
+\widehat h_{\eta_2}(\eta')|$\ \ for all $\eta_1, \eta_2$ except for a
+$\pi$-measurable null set.
+ \item[(iv)] the Metropolis-within-Gibbs sampler produces an ergodic Markov chain.
 \end{itemize}
+Then there exists a subsequence $(r_u)$ such that $\lim_{u\to\infty}
+r_u  = \infty$, for which
+\[
+   \big|\widehat h_{\hat\eta_u}(\hat\eta_u) - h_\eta(\eta)\big| \to 0 
+  \quad\text{as}\quad 
+   u \to \infty
+\]
+almost surely with respect to the densities * and *.
 \end{lemma}
-\begin{proof}  The first assertion follow by the argument exposed in
-  the main text, namely ... The second assertion follows by the
-  continuity of the full conditional densities for $\theta$ and
-  $\psi|M, \eta$ with respect to $\eta'$ and $\eta$
-  respectively. Likewise, (iii) follows by ... The ergodicity of our
-  hybrid Gibbs sampler is ensured by ...
+\begin{proof} The existence of $(r_u)$ ensuring the required
+convergence follows from Lemma~A.1 in \cite{C01}.  The rest of the
+proof consists in a direct verification of the hypothesis (i)-(iv) for
+the context of the current application.
+
+
+The first assertion follows by the argument exposed in the main text, 
+namely ... The second assertion follows by the continuity of the full
+conditional densities for $\theta$ and $\psi|M, \eta$ with respect to
+$\eta'$ and $\eta$ respectively. Likewise, (iii) follows by ... The
+ergodicity of the Metropolis-within-Gibbs sampler considered
+throughout follows from the Harris recurrence of the Markov chain
+$(Z^{(r)}, \theta^{(r)}, \psi^{(r)})$, $r \geqslant 1$ , see Theorem
+12 in \cite{RR}. Harris recurrence is established by observing that
+\textcolor{red}{... finish this!}.
 \end{proof}
 
 \begin{theorem} Under the conditions in Lemma~\ref{lem:technical}, for
   each measurable set $T\subseteq\Theta$, as $R$ and $k \to \infty$,
 \[
   \int_T \bigg|
-       \frac{1}{R}\sum_{r=1}^R \pi\big(\theta|M, Z^{(r)}, \psi^{(r)},
-       \hat\eta^{(k)}\big) - \pi(\theta|M, \eta)
+       \frac{1}{R}\sum_{r=1}^R \pi\big(\theta|Z^{(r)}, \psi^{(r)},
+       M, \hat\eta^{(k)}\big) - \pi(\theta|M, \eta)
     \bigg|\ d\theta \to 0
 \]
 almost surely with respect to the measures with densities $g$  and
@@ -553,13 +596,13 @@ from R's prompt by typing
 \begin{lstlisting}[]
   install.packages('signeR', dependencies=TRUE)
 \end{lstlisting}
-This should install also the following dependencies: \textcolor{red}{....  Now comes
-the difficult bit: are we distributing pre-compiled binaries at CRAN,
-or just source? Note that the first option needs someone to mantain
-this over time. In the second case, the installation relies upon the
-compilation of C++ code, and hence depends on the existence of a
-properly working C compiler. Have to explain on how to do this in a
-Mac OS X and Windows.} 
+This should install also the following dependencies:
+\textcolor{red}{....  Now comes the difficult bit: are we distributing
+pre-compiled binaries at CRAN, or just source? Note that the first
+option needs someone to mantain this over time. In the second case,
+the installation relies upon the compilation of C++ code, and hence
+depends on the existence of a properly working C compiler. Have to
+explain on how to do this in a Mac OS X and Windows.}
 
 
 \subsection{Running \texttt{signeR}}
@@ -572,7 +615,6 @@ structure for the input matrices $M$, $W$.
 
 Mention the actual dependencies \cite{Boo}, etc, and the also
 R's NMF package.
-
 \begin{lstlisting}[]
   # this is a comment
   Mut<-read.table('21_breast_cancers.mutations.txt',header=FALSE)
@@ -592,7 +634,7 @@ R's NMF package.
 \bibliography{suppl}
 
 
-\vspace{2.5cm}
+\vspace{1cm}
 
 {\footnotesize
 \begin{tabular}{ll}
@@ -604,30 +646,32 @@ R's NMF package.
    Universidade de S\~ao Paulo\\
    Av. Bandeirantes, 3900, Ribeir\~ao Preto\\
    CEP 14049-901,SP Brazil\\}
-   \verb~rrosales@usp.br~
+   E-mail: \verb~rrosales@usp.br~
   }
 &
   \parbox[c][4cm][t]{6.6cm}{
-  {\sc Rodrigo D. Drummond\\
+   {\sc Rodrigo D. Drummond\\
        Renan Valieris}\\
     {\it 
     Laboratory of Bioinformatics and Computational\\
     Biology, CIPE/A.C. Camargo Cancer Center\\ 
     S\~ao Paulo 01509-010, Brazil\\}
- \verb~rddrummond@gmail.com~\\ \verb~rvalieris@gmail.com~
+    E-mails: \parbox[t]{2.5cm}{%
+      \verb~rddrummond@gmail.com~\\ 
+      \verb~rvalieris@gmail.com~}
  }
-\\
- \parbox[c][4cm][t]{6.6cm}{
+\\[-1em]
+  \parbox[c][4cm][t]{6.6cm}{
    {\sc Israel T. da Silva}\\
    {\it 
     Laboratory of Bioinformatics and Computational\\
     Biology, CIPE/A.C. Camargo Cancer Center\\ 
     S\~ao Paulo 01509-010, Brazil\\
-   and\\
-   Laboratory of Molecular Immunology\\
-   The Rockefeller University\\
-   1230 York Avenue, New York, NY 10065\\}
-  \verb~itojal@gmail.com~
+    and\\
+    Laboratory of Molecular Immunology\\
+    The Rockefeller University\\
+    1230 York Avenue, New York, NY 10065\\}
+    E-mail: \verb~itojal@gmail.com~
  }
 \end{tabular}
 }
