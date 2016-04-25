@@ -25,15 +25,16 @@
      urlcolor=magenta]{hyperref}
 \usepackage{verbatim}
 % $$$:
-%\renewcommand{\rmdefault}{ptm} % times
-%\renewcommand*\ttdefault{txtt} % typewriter is txtt
-%\renewcommand*\sfdefault{phv}  % helvetica
-%\usepackage[subscriptcorrection]{mtpro}
-%\usepackage[mtphrb]{mtpams}
-%%\usepackage[mtpcal, mtpfrak]{mtpb}
-\usepackage[scaled=1.1]{rsfso}
+\renewcommand{\rmdefault}{ptm} % times
+\renewcommand*\ttdefault{txtt} % typewriter is txtt
+\renewcommand*\sfdefault{phv}  % helvetica
+\usepackage[subscriptcorrection]{mtpro}
+\usepackage[mtphrb]{mtpams}
+\usepackage[mtpcal, mtpfrak]{mtpb}
+%\usepackage[scaled=1.1]{rsfso}
 %
 %\DeclareMathAlphabet{\txcal}{U}{tx-cal}{m}{n}
+\DeclareMathAlphabet{\rsocl}{U}{rsfso}{m}{n}
 %\DeclareFontEncoding{FMS}{}{}
 %  \DeclareFontSubstitution{FMS}{futm}{m}{n}
 %\DeclareMathAlphabet{\foucal}{FMS}{futm}{m}{n}
@@ -127,7 +128,7 @@
      Rafael A. Rosales\footnote{R. A. Rosales and R. D. Drummond are
        both to be considered as First Author}, 
      Rodrigo D. Drummond$^\dagger$,
-     Renan Valieris and 
+     Renan Valieris, Emmanuel Dias-Neto  and
      Israel T. da Silva\footnote{Corresponding
        author}$^,$\footnote{Partially supported by FAPESP grant */*}}
  \end{center}
@@ -168,11 +169,11 @@ the observations $(M)_{ij}$ are independent and Poisson distributed
 random variables with rates $(PE)_{ij}(W)_{ij}$, with $W$ as the
 $K\times G$ opportunity matrix. The factors $P$, $E$, identified as
 the model parameters are denoted as $\theta$. The likelihood for this
-model, i.e. the function $\mathcal L: \Theta \to \mathbb R$ defined by
-the map $\theta \mapsto p(M=m|\theta)$, is given by
+model, i.e. the function $\rsocl L: \Theta \to \mathbb R$ defined by
+$\theta \mapsto p(M=m|\theta)$, is given by
 \begin{equation}
   \label{eqn:PoisLik}
-   \mathcal L(\theta; m) 
+   \rsocl L(\theta; m) 
    =
     \prod_{i=1}^K \prod_{j=1}^G e^{-w_{ij}\sum_{n=1}^{N}p_{in}e_{nj}}
     \Big(w_{ij}\sum_{n=1}^{N}p_{in}e_{nj}\Big)^{m_{ij}}
@@ -181,9 +182,9 @@ the map $\theta \mapsto p(M=m|\theta)$, is given by
 
 Posterior inferences about the factors $P$ and $E$ and the
 factorization rank $N$ require the joint distribution for the
-observations $M$ and the latent variables $Z$, also known as the
-complete data likelihood function when interpreted as a function of
-$\theta$ for given $Z=z$ and $M=m$. Following the condition
+observations $M$ and the latent variables $Z$. This is also known as
+the complete data likelihood function when interpreted as a function
+of  $\theta$ for given $Z=z$ and $M=m$. Following the condition 
 (1) in the main text and the independence between
 the components of $Z$ this distribution equals
 \begin{equation}
@@ -201,7 +202,7 @@ the components of $Z$ this distribution equals
  \end{aligned}
  \tag{$s_2$}
 \end{equation}
-The symbol $\mathbf{1}$ denotes the indicator function for the 
+The symbol $\mathbf{1}$ denotes the indicator function for the  
 event $\big\{M_{ij} = \sum_n Z_{inj}\big\}$, with value 1 if $M_{ij} =  
 \sum_n  Z_{inj}$ and 0 otherwise. Marginalization of
 (\ref{eqn:jointdata}) with respect to $Z$ gives  (\ref{eqn:PoisLik}).
@@ -220,22 +221,32 @@ the data $M$ and the hyperprior parameters $\eta$,
   \text{and}\quad
   \psi \sim \pi(\psi|Z, \theta, M, \eta).
 \]
-These distributions are obtained by straightforward computations
-following the likelihood in (\ref{eqn:PoisLik}) and the hierarchical
-model defined in the main text. The full conditional for $Z$ is
-derived in Lemma~\ref{lem:Full_for_Z}. The full conditional for
-$\theta$ follows by observing that $\pi(\theta|Z, \psi, M, \eta) =
-p(P|\psi)p(E|\psi)$ \textcolor{red}{FINISH...}
+The conditional distributions for $\theta$ and $\psi$ are obtained by
+straightforward computations following the likelihood in
+(\ref{eqn:PoisLik}) and the hierarchical model defined througout the
+main text. Only the conditional for $Z$, which also depends on the
+complete data likelihood in (\ref{eqn:jointdata}), deserves special
+attention. Its distribution is 
+derived in Lemma~\ref{lem:Full_for_Z}.
 
 
-The full conditional of $p_{in}$, for any $1 \leq i\leq K$ and $1\leq
-n\leq  N$ is the following Gamma density,
+To begin with, by \emph{a priori} indepence between $P$ and $E$, for
+the conditional for $\theta$ one has that 
+\[
+   \pi(\theta|Z, \psi, M, \eta) 
+   = 
+   \prod_{i=1}^K\prod_{n=1}^N\prod_{j=1}^G
+    \pi(p_{in}|Z, \psi, M, \eta)
+    \pi(e_{nj}|Z, \psi, M, \eta).
+\]
+Direct computations show that, for any $1 \leq i\leq K$ and $1\leq
+n\leq  N$, $p_{in}$ has the following Gamma density
 \begin{equation}
   \label{eqn:Full_for_P}
   p_{in} 
        \sim 
      \text{Gamma}\Big(p_{in}\,\Big|\, \alpha_{in}^p + 1 +
-     \sum_{j=1}^G z_{inj}, \beta_{in}^p + \delta_p +
+     \sum_{j=1}^G z_{inj}, \beta_{in}^p +
      \sum_{j=1}^G e_{nj}w_{ij}\Big).\tag{$s_2$}
 \end{equation}
 Similarly, the full conditional for $e_{nj}$, for any $1\leq n\leq 
@@ -245,40 +256,46 @@ N$, $1\leq j\leq G$, follows the Gamma density
   e_{nj} 
      \sim 
    \text{Gamma}\Big(e_{nj}\,\Big|\, \alpha_{nj}^e + 1 +
-   \sum_{i=1}^K z_{inj}, \beta_{nj}^e + \delta_e +
+   \sum_{i=1}^K z_{inj}, \beta_{nj}^e +
    \sum_{i=1}^K p_{in}w_{ij}\Big).\tag{$s_3$}
 \end{equation}
 
 
-As part of the  empirical Bayesian approach, we also consider the
+Guided by the empirical Bayesian approach, we also consider the
 following full conditional distributions for the hyperparameters
-$\psi$. Up to proportionality, each entry of the $B_p$ matrix,
-$\beta_{in}^p$,  has the full conditional density
+$\psi$. Observe first that due to independence between the
+components of the matrices $A_e$, $B_e$, $A_p$ and $B_p$, the full 
+conditional $\pi(\psi|\theta, Z, M, \eta)$ equals the product
+\[
+   \prod_{i=1}^K\prod_{n=1}^N
+     p(\alpha_{in}^p| \theta, Z, M, \eta)
+     p(\beta_{in}^p|\theta, Z, M, \eta)
+   \prod_{n=1}^N\prod_{j=1}^G
+     p(\alpha_{nj}^e|\theta, Z, M, \eta)
+     p(\beta_{nj}^e|\theta, Z, M, \eta)
+\]
+The update for $\psi$ runs therefore through the update of each
+element of these matrices. Up to proportionality, each entry of the
+$B_p$ matrix, $\beta_{in}^p$,  has the full conditional density
 \begin{equation}
  \label{eqn:Full_for_Bp}
  \beta_{in}^p
    \propto
-      (\beta_{in}^p + \delta_p)^{\alpha_{in}^p + 1}(\beta_{in}^p)^{a_p
-      - 1} \exp\Big(-(p_{in}+b_p)\beta_{in}^p\Big),\tag{$s_4$}
+   (\beta_{in}^p)^{a_p + \alpha_{in}^p} 
+   \exp\Big(-(p_{in}+b_p)\beta_{in}^p\Big),\tag{$s_4$}
 \end{equation}
-for $\beta_{in}^p > 0$. When $\delta_p = 0$, this  corresponds  to a
-Gamma density with shape $\alpha_{in}^p + 1 + a_p$ and rate $p_{in} +
-b_p$.  Likewise, for the $B_e$ matrix, the full conditional has density
+for $\beta_{in}^p > 0$. This corresponds to a Gamma density with shape
+$\alpha_{in}^p + 1 + a_p$ and rate $p_{in} + b_p$.  Likewise, for each
+entry of the $B_e$ matrix, the full conditional has density 
 \begin{equation}
  \label{eqn:Full_for_Be}
  \beta_{nj}^e
    \propto
-      (\beta_{nj}^e + \delta_e)^{\alpha_{nj}^e + 1}(\beta_{nj}^e)^{a_e
-      - 1} \exp\Big(-(e_{nj}+b_e)\beta_{nj}^e\Big),\tag{$s_5$}
+  (\beta_{nj}^e)^{a_e + \alpha_{nj}^e} 
+  \exp\Big(-(e_{nj}+b_e)\beta_{nj}^e\Big),\tag{$s_5$}
 \end{equation}
-for $\beta_{nj}^e > 0$. Also, if $\delta_e = 0$, this density is a
-Gamma with shape $\alpha_{nj}^e + 1+ a_e$ and rate $e_{nj}+b_e$. It
-should be observed that the densities for the cases $\delta_p > 0$ and
-$\delta_e > 0$ are not from a standard family of known densities. In
-this case, samples from the associated distributions may be generated
-by using Metropolis-Hastings steps. Further details concerning their
-implementation are described in Section~\ref{sec:MHsteps} here.
-
+which is a  Gamma density for $\beta_{nj}^e > 0$, with shape
+$\alpha_{nj}^e + 1+ a_e$ and rate $e_{nj}+b_e$. 
 
 
 The exponential prior for the elements of $A_p$ leads, up to
@@ -286,41 +303,41 @@ proportionality, to the following the full conditional density
 for\footnote{\textcolor{red}{RD: I know that we already went though
     this, but  is it safe to take the constant $\lambda_p(\beta_{in}^p
     + \delta_p)$ away from the density for $\alpha_{in}^p$ --because
-    it  cancels when one divides by the integral that will define the  normalising constant?}}  
+    it  cancels when one divides by the integral that will define the
+    normalising constant?}}
 $\alpha_{ij}^p$,
 \begin{equation}
  \label{eqn:Full_for_Ap}
   \alpha_{in}^p 
   \sim 
-  \lambda_p\frac{(\beta_{in}^p + \delta_p)}{\Gamma(\alpha_{in}^p + 1)} 
-   \Big[(\beta_{in}^p + \delta_p)p_{in}
+  \lambda_p\frac{\beta_{in}^p}{\Gamma(\alpha_{in}^p + 1)} 
+   \Big[\beta_{in}^pp_{in}
    e^{-\lambda_p}\Big]^{\alpha_{in}^p}, \tag{$s_6$}
    \quad  \alpha_{in}^p > 0.
 \end{equation}
 Similarly, up to proportionality, for the elements of $A_e$ we
-have\footnote{\textcolor{red}{RD: same here, should we take away the constant
+have\footnote{\textcolor{red}{RD: same here, should we take away the
+    constant 
   $\lambda_e(\beta_{nj}^e + \delta_e)$ in the density for
   $\alpha_{nj}^e$?}}
 \begin{equation}
  \label{eqn:Full_for_Ae}
   \alpha_{nj}^e 
   \sim
-  \lambda_e\frac{(\beta_{nj}^e + \delta_e)}{\Gamma(\alpha_{nj}^e + 1)} 
-   \Big[(\beta_{nj}^e + \delta_e)e_{nj}
+  \lambda_e\frac{\beta_{nj}^e}{\Gamma(\alpha_{nj}^e + 1)} 
+   \Big[\beta_{nj}^e e_{nj}
    e^{-\lambda_e}\Big]^{\alpha_{nj}^e}, 
    \quad  \alpha_{nj}^e > 0. \tag{$s_7$}
 \end{equation}
 The full conditional distributions for the hyperparameters $A_p$ and
 $A_e$ are not from a standard family. Samples from these distributions
 are obtained in this case also  by considering Metropolis-Hastings
-steps. These are presented in Section~\ref{sec:MHsteps} here.
+steps. The implementation of these is described in Section~\ref{sec:MHsteps}.
 
 
-The full conditional distribution for the latent variables $Z$ also
-has to be determined. In particular, for the model considered
-throughout, the distribution of $Z$ is determined by a multinomial
-distributions. This result is precisely stated by the following
-Lemma.
+The full conditional distribution for the latent variables, $Z$, is a
+product of multinomial distributions. This result is precisely stated
+by the following Lemma. 
 
 \begin{lemma}\label{lem:Full_for_Z} Conditionally on  $M= m$, the full
   conditional distribution for the latent variables $Z$ is the
@@ -347,7 +364,7 @@ leads to
 \begin{align*}
     \ln p(Z|M, P, E) 
   =&
-    \ln p(Z, M|P, E) - \mathcal L(\theta; m) \\
+    \ln p(Z, M|P, E) - \rsocl L(\theta; m) \\
   =&
     \sum_{i=1}^K \sum_{j=1}^G \sum_{n=1}^N z_{inj}
      \ln(p_{in}e_{nj}w_{ij}) - 
@@ -390,28 +407,28 @@ distributions as required,
 \end{proof}
 
 
-\section{MCMC implementation details}\label{sec:MHsteps}
+\subsection{Metropolis-within-Gibbs steps}\label{sec:MHsteps}
 The full conditional distributions for the entries in both $A_p$ and
 $A_e$ do not have a standard form. These are explicitly shown in
 (\ref{eqn:Full_for_Ap}) and (\ref{eqn:Full_for_Ae}). Draws from these
 distributions, necessary to define the Gibbs sampler,  are obtained by
-using Metropolis-Hastings steps.  Let $x > 0$ be the current value for
+using Metropolis-Hastings steps.  Let $x > 0$ be the current value
 for any given entry of $A_e$ or $A_p$. A new candidate value $y$ for
 this variable is generated from a Gamma proposal density, $g(\cdot|
 x)$ with shape $(x/\sigma)^2$ and rate $x/\sigma^2$. The mean of this
-proposal is set equal to $x$ and its variance to $\sigma^2$. The 
+proposal is thus set to equal $x$ and its variance to $\sigma^2$. The 
 results  described in the main text where obtained by
 \textcolor{red}{choosing 
   $\sigma^2 = *$}\footnote{\textcolor{red}{RD: please put the value
     here!}}. Let $\alpha$ be the ratio,
 \[
-  \alpha 
+  \ln \alpha 
  =
-  \frac{p(y)}{p(x)} \frac{g(x|y)}{g(y|x)}
+  \ln p(y) - \ln p(x) + \ln g(x|y) - \ln g(y|x)
 \]
 with $p(x)$ as any one of the densities in (\ref{eqn:Full_for_Ap}) and 
 (\ref{eqn:Full_for_Ae}). The value $y$ is accepted as a sample
-with probability $\rho = \min\{1, \alpha\}$, that is, if $x'$ denotes
+with probability $\rho = \min\{1, e^{\alpha}\}$, that is, if $x'$ denotes
 the new sampled value, then
 \[
    x'
@@ -422,11 +439,6 @@ the new sampled value, then
   \end{cases}
 \]
 for $U$ an uniformly distributed random variable on $[0, 1]$.
-
-
-The samples for the entries in $B_p$ and $B_e$ are also produced by
-Metropolis-Hastings steps whenever $\delta_p > ...$
-\textcolor{red}{Finish  this!}.
 
 \section{MCMC EM}
 \subsection{Maximisation step}
@@ -512,20 +524,19 @@ of how $b_p$ (and hence also $b_e$) are obtained. Maybe you are using
 \subsection{Convergence}
 This section justifies the convergence of $\hat\pi(\theta|M,
 \hat\eta)$ as defined by (3) towards $\pi(\theta|M, \eta)$. The
-arguments follow closely those in \cite{C01}, but they are adapted to
-the special case of the Metropolis-within-Gibbs sampler considered
-throughout. 
-
+arguments follow closely those in \cite{C01}, but they are of course
+adapted to the hierarchical NMF model considered in the main text. 
 \begin{lemma}\label{lem:technical} Suppose that the following
   conditions hold:
 \begin{itemize}
- \item[(i)] $\hat\eta^{(k)} \to \eta$ as $k \to \infty$ almost
+ \item[(i)] $\hat\eta^{(u)} \to \eta$ as $u \to \infty$ almost
    surely with respect to $m$; 
  \item[(ii)] $h_\eta(\eta')$ defined as
 \[
   h_{\eta}(\eta') 
    = 
- \int p(\theta|Z, \psi, M, \eta')p(Z, \psi|M, \eta)\ dZd\psi
+ \int p(\theta|Z, \psi, M, \eta')p(Z, \psi|M, \eta)\
+ \textup{d} Z \textup{d} \psi
 \]
 is continuous in both $\eta$ and $\eta'$;
 \item[(iii)] $\widehat h_\eta(\eta')$, defined as
@@ -544,7 +555,8 @@ that is, for any given $\epsilon > 0$ there is $\delta>0$ such that
 $|\eta_1 - \eta_2| < \delta$ implies $|\widehat h_{\eta_1}(\eta') -
 \widehat h_{\eta_2}(\eta')|$\ \ for all $\eta_1, \eta_2$ except for a
 $\pi$-measurable null set.
- \item[(iv)] the Metropolis-within-Gibbs sampler produces an ergodic Markov chain.
+ \item[(iv)] the Metropolis-within-Gibbs sampler produces an ergodic
+   Markov chain. 
 \end{itemize}
 Then there exists a subsequence $(r_u)$ such that $\lim_{u\to\infty}
 r_u  = \infty$, for which
@@ -554,40 +566,76 @@ r_u  = \infty$, for which
    u \to \infty
 \]
 almost surely with respect to the densities * and *.
-\end{lemma}
+\end{lemma} 
 \begin{proof} The existence of $(r_u)$ ensuring the required
 convergence follows from Lemma~A.1 in \cite{C01}.  The rest of the
-proof consists in a direct verification of the hypothesis (i)-(iv) for
-the context of the current application.
+proof consists in the direct verification of the hypotheses (i)-(iv). 
 
 
-The first assertion follows by the argument exposed in the main text, 
-namely ... The second assertion follows by the continuity of the full
-conditional densities for $\theta$ and $\psi|M, \eta$ with respect to
-$\eta'$ and $\eta$ respectively. Likewise, (iii) follows by ... The
-ergodicity of the Metropolis-within-Gibbs sampler considered
-throughout follows from the Harris recurrence of the Markov chain
-$(Z^{(r)}, \theta^{(r)}, \psi^{(r)})$, $r \geqslant 1$ , see Theorem
+The consistency of $\hat\eta_u$ follows by the EM argument exposed in
+the main text because $(Z^{(r)}$, $\theta^{(r)}$, $\psi^{(r)})$ is 
+asymptotically distributed according to $\pi(Z, \theta, \psi|M,
+\eta)$. The second assertion follows by the continuity of the full 
+conditional densities for $\theta$ with respect to $\eta'$
+and the continuity of the hyperprior density for  $\psi$ with respect
+to $\eta$. Likewise, the equicontinuity in (iii) follows 
+by observing that $\widehat h_\eta$ is function of the prior and the
+hyperprior densities, and the later are continuous respectively with
+respect to $\psi$ and $\eta$. The ergodicity of the
+Metropolis-within-Gibbs sampler considered throughout follows from the
+Harris recurrence of the Markov chain $(Z^{(r)}, \theta^{(r)},  \psi^{(r)})$, $r \geqslant 1$ , see Theorem
 12 in \cite{RR}. Harris recurrence is established by observing that
 \textcolor{red}{... finish this!}.
 \end{proof}
 
+Let $\mathcal B = \sigma(\Theta)$ be the Borel sigma-algebra generated  
+by the open sets of $\Theta$ and let a.e. stand for `almost everywhere'.
+
 \begin{theorem} Under the conditions in Lemma~\ref{lem:technical}, for
-  each measurable set $T\subseteq\Theta$, as $R$ and $k \to \infty$,
+  the statistic defined in \textup{(3)}, 
 \[
-  \int_T \bigg|
-       \frac{1}{R}\sum_{r=1}^R \pi\big(\theta|Z^{(r)}, \psi^{(r)},
-       M, \hat\eta^{(k)}\big) - \pi(\theta|M, \eta)
-    \bigg|\ d\theta \to 0
+  %\lim_{R, u \to\infty} 
+  \sup_{S \in  \mathcal B} 
+     \big| 
+         \hat\pi(S|M, \hat\eta) -  \pi(S|M, \eta)
+     \big| \to 0 \quad \text{as}\quad R, u \to \infty.
 \]
-almost surely with respect to the measures with densities $g$  and
-$m$.
 \end{theorem}
 \begin{proof}
-This Theorem is a immediate consequence of Lemma~\ref{lem:technical}
-and Scheff\'e's Lemma, see \cite{C01} for further details.
+From Lemma~\ref{lem:technical} it follows that $\widehat h_{\hat\eta_u}$
+converges a.e. to $h_\eta$ as $u, R \to \infty$, that is
+\[
+  \widehat\pi(\theta|M, \hat\eta) \to \pi(\theta|M,
+  \eta)\qquad\text{a.e. as } u, R \to \infty.
+\]
+This together with Scheff\'es Lemma, see for instance Theorem 7 in
+\cite{DG}, implies that 
+\[
+  \int \big|\widehat\pi(\theta|M, \hat\eta) - \pi(\theta|M,
+  \eta)\big|\ \text{d}m(\theta) \to 0 
+ \qquad\text{as } u, R\to \infty, 
+\]
+with $m$ as the Lebesgue measure defined in $(\Theta, \mathcal
+B)$. This gives
+\begin{align*}
+  \int \big|\widehat\pi(\theta|M, \hat\eta) 
+  &- 
+  \pi(\theta|M, \eta)\big|\ \text{d}m(\theta)                \\
+  &=
+  2 \sup_{B \in \mathcal B}\Bigg|
+      \int_B \widehat\pi(B|M, \hat\eta)\ \text{d}m(\theta) 
+      -
+      \int_B \pi(B|M, \eta)\ \text{d}m(\theta)
+   \Big| \to 0
+\end{align*}
+as $u, R \to \infty$, see Theorem 1 in \cite{DG}, and concludes
+therefore the proof. 
 \end{proof}
 
+
+\section{Simulation study}
+Put/describe the results for the `gold standard' data set. Also put
+the result of EMu on this. 
 
 \section{Installing and running \texttt{signeR}}
 \subsection{Installing \texttt{signeR}}
@@ -660,7 +708,17 @@ R's NMF package.
       \verb~rddrummond@gmail.com~\\ 
       \verb~rvalieris@gmail.com~}
  }
-\\[-1em]
+\\[-2em]
+  \parbox[c][4cm][t]{6.6cm}{
+   {\sc Emmanuel Dias-Neto}\\
+    {\it 
+    Laboratory of *\\
+    CIPE/A.C. Camargo Cancer Center\\ 
+    S\~ao Paulo 01509-010, Brazil\\}
+    E-mail: \parbox[t]{2.5cm}{%
+      \verb~someone@somewhere.com~}
+ }
+&
   \parbox[c][4cm][t]{6.6cm}{
    {\sc Israel T. da Silva}\\
    {\it 
