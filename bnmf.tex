@@ -53,15 +53,18 @@
 \author[Rosales, R. A. and Drummond, R. D.~\textit{et~al}.]{
     R. A. Rosales\,$^{\text{\sfb 1,}\dagger}$, 
     R. D. Drummond\,$^{\text{\sfb 2,}\dagger}$, 
-    R. Valieris\,$^{\text{\sfb 2}}$,  and
-    I. T. da Silva\,$^{\text{\sfb 2,3}*}$} 
+    R. Valieris\,$^{\text{\sfb 2}}$,
+    E. Dias-Neto\,$^{\text{\sfb 3}}$,
+    I. T. da Silva\,$^{\text{\sfb 2,4}*}$} 
 \address{%
    $^{\text{\sf 1}}$Departamento de Computa\c{c}\~ao e
    Matem\'atica, Universidade de S\~ao Paulo, 14040-901 SP, Brazil\\ 
    $^{\text{\sf 2}}$Laboratory of Bioinformatics and Computational 
    Biology, CIPE/A.C. Camargo Cancer Center, S\~ao Paulo  01509-010, 
    Brazil\\
-   $^{\text{\sf 3}}$Laboratory of Molecular Immunology, The
+   $^{\text{\sf 3}}$Centro de Pesquisas do Hospital AC Camargo,
+    S\~ao Paulo 01509-010 Brazil\\
+   $^{\text{\sf 4}}$Laboratory of Molecular Immunology, The
    Rockefeller University, New York, NY 10065, USA\\[1em]
    {\normalsize $^{\dagger}$The authors wish it to be known
      that, in their opinion, the first two authors should be regarded
@@ -188,6 +191,12 @@ approximation to the Bayesian information criterion
 (BIC).\footnote{\textcolor{red}{Finish: state our contribution.}}
 
 
+Following \cite{FICMV}, our model also takes into account the genome
+frequencies of the symbols in $\txcal A$.  These frequencies, known as
+the mutation opportunity, enter the model as a weighting matrix $W$, 
+such  that $M=PE\odot W$ with $\odot$ Hadamard's element wise matrix
+product.
+
 % Both of these models correspond to the ones initially considered by
 % \cite{LS} from the optimisation perspective. The latter is in fact
 % the one implemented by \cite{A}. The statistical perspective to NMF
@@ -201,34 +210,22 @@ approximation to the Bayesian information criterion
 % optimisation method in \cite{LS}. The NMF model order is chosen by
 % using the Bayesian information Criterion (BIC).
 
-
-%\cite{NCell} introduce a multivariate analysis technique,
-%termed non-negative matrix factorisation (NMF) to extract mutational
-%signatures in the genomes of 21 breast cancers. In a later work, they
-%also explored the heterogeneity of mutation signature within cancer
-%types \cite{ANat}. More recently, \cite{FICMV} propose an explicitly
-%probabilistic framework to infer the number of elementary mutational
-%processes  and their spectra from cancer sequence data. This method
-%allows the  tumor-specific opportunity for different mutation types
-%according  to sequence composition, which is particularly important to
-%account  for biases in the mutational opportunity and to accommodate
-%noisy  data \cite{FICMV}.
-
 \section{Approach}
 \subsection{Hierarchical model}
 \subsubsection{Likelihood and latent variables}
 Let $p_{in} = (P)_{in}$ be the $i,n$-entry of $P$. Likewise let
-$e_{nj} = (E)_{nj}$ and $w_{ij} = (W)_{ij}$.  The mutation counts
-$(M)_{ij}$ are assumed to be Poisson distributed random variables with
-rates $(PE)_{ij}(W)_{ij} = w_{ij}\sum_{n=1}^N p_{in}e_{nj}$. For a
-given sample of $M$, say $m$, this formulation is sufficient to define
-the likelihood function $\mathcal L(\theta; m)$ if one identifies the
-matrices $P, E$ as model parameters $\theta$ with $\theta \in \Theta =
-\mathbb R_+^{K\times N}\times \mathbb R_+^{N\times G}$. An expression
-for $\mathcal L(\theta; m)$ is presented in ($s_1$). This relatively
-simple model allows for a latent variable representation in which the
-observed counts are expressed as the sum of $N\geqslant 1$ independent
-Poisson variables
+$e_{nj} = (E)_{nj}$ and $w_{ij} = (W)_{ij}$.  The mutation counts in
+$M$ are assumed to be independent and Poisson distributed random
+variables with rates $PE\odot W$, that is, we assume $M_{ij}$ to be
+Poisson distributed with rate $(PE)_{ij}(W)_{ij} = w_{ij}\sum_{n=1}^N
+p_{in}e_{nj}$. For a given sample of $M$, say $m$, this formulation is
+sufficient to define the likelihood function $\mathcal L(\theta; m)$
+if one identifies the matrices $P, E$ as model parameters $\theta$,
+for $\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb
+R_+^{N\times G}$. An expression for $\mathcal L(\theta; m)$ is
+presented in ($s_1$). This relatively simple model allows for a latent
+variable representation in which the observed counts are expressed as
+the sum of $N\geqslant 1$ independent Poisson variables
 \begin{equation}
   \label{eqn:latent_representation}
    M_{ij} = Z_{i1j} + Z_{i2j} + \ldots + Z_{iNj},
@@ -237,12 +234,12 @@ each with rate respectively equal to $p_{in}e_{nj}w_{ij}$. This
 description is an immediate consequence of the properties of sums of
 independent Poisson random variables. Biologically, this accounts for
 the observation that the total number of mutations of a specific type,
-say $i,j$, arise as the linear combination of $N$ mutational processes
+say $(i,j)$, arise as the linear combination of $N$ mutational processes
 $Z_{inj}$, $n = 1, \ldots, N$. From a statistical perspective,
 (\ref{eqn:latent_representation}) enables a data augmentation scheme
 that becomes instrumental for a Bayesian treatment to NMF, allowing
 the implementation of Expectation Maximisation (EM), Markov chain
-Monte Carlo (MCMC), and variational Bayes approximations, see
+Monte Carlo (MCMC), and variational Bayesian approximations, see
 \cite{C}.  Hereafter let $Z = \{Z_{inj}: 1\leqslant i\leqslant K,
 1\leqslant n \leqslant N, 1\leqslant j\leqslant G\}$, and $z =
 \{z_{inj}\}$ denote a generic value for $Z$.
@@ -252,36 +249,22 @@ Monte Carlo (MCMC), and variational Bayes approximations, see
 We consider conjugate priors for the matrices $P$ ans $E$ by modeling
 each of their entries as being independent Gamma distributed random
 variables. Specifically, $p_{in}$ is Gamma distributed with shape
-$\alpha_{in}^p + 1$ and rate $\beta_{in}^p + \delta_e$ for
-$\alpha_{in}^p \geqslant 0$, $\beta_{in}^p \geqslant 0$. Likewise,
-$e_{nj}$ are Gamma with shape $\alpha_{nj}^e+1$ and rate $\beta_{nj}^e
-+ \delta_e$ with $\alpha_{nj}^e \geqslant 0$, $\beta_{nj}^e \geqslant
-0$. Shape parameters are shifted by 1 to ensure bounded values for the
-Gamma densities\footnote{\textcolor{red}{RD: we need to explain this.
-That is, why do we have to avoid a `singularity' near the origin?}}.
-The rate parameters are shifted by $\delta_p \geqslant 0$ and
-$\delta_e \geqslant 0$ to prevent arbitrarily large values for the
-elements of $P$ and $E$\footnote{\textcolor{red}{RD: same here, I
-    think we
- have to explain. We have to mention that these choices
-    are not too 
-    stringent  (too informative).}}. Let $A_p$ and $B_p$ be $K\times
-N$  matrices
-respectively with entries $\alpha_{in}^p$ and $\beta_{in}^p$ and
-$A_e$, $B_e$ be $N\times G$ matrices with elements $\alpha_{nj}^e$ and
-$\beta_{nj}^e$, and then let $\psi =  (A_p, B_p, A_e, B_e)$.
+$\alpha_{in}^p + 1$ and rate $\beta_{in}^p$ for $\alpha_{in}^p
+\geqslant 0$, $\beta_{in}^p \geqslant 0$. Likewise, $e_{nj}$ are Gamma
+with shape $\alpha_{nj}^e+1$ and rate $\beta_{nj}^e$ with
+$\alpha_{nj}^e \geqslant 0$, $\beta_{nj}^e \geqslant 0$. Shape
+parameters are shifted by 1 to ensure bounded values for the Gamma
+densities\footnote{\textcolor{red}{RD: we need to explain this.  That
+is, why do we have to avoid a `singularity' near the origin?}}. Let
+$A_p$ and $B_p$ be $K\times N$ matrices respectively with entries
+$\alpha_{in}^p$ and $\beta_{in}^p$ and $A_e$, $B_e$ be $N\times G$
+matrices with elements $\alpha_{nj}^e$ and $\beta_{nj}^e$, and then
+let $\psi = (A_p, B_p, A_e, B_e)$.
 
 \subsubsection{Hyperpriors} 
 A further hierarchy in our model is set by considering the
 distributions for the hyperparameters
-$\psi$\footnote{\textcolor{red}{RR: Maybe we
-have to justify why all this was made. The reason is to reduce the
-dependency on a large number of free hyperparameters for the model
-choice approach, i.e. the prior depends upon the actual
-values of the hyperparameters if we don't integrate them out: for
-$N=5$, $G=21$, $K=96$ we have $2(KN+NG)=1170$ (hyper)parameters to
-set. With the hierarchical model, we are able to reduce the free
-parameters down to 6.}}. By conjugancy to the prior, we
+$\psi$. By conjugancy to the prior, we
 define the entries of $B_p$ as being independent and distributed
 according to a common Gamma distribution with known shape and rate
 $a_p > 0$, $b_p > 0$. Similarly, the elements of $B_e$ are Gamma
@@ -326,23 +309,25 @@ $\psi$, computed by conditioning on $\hat\eta$, allow for the
 following estimate
 \begin{equation}
  \label{eqn:MCEM_estimate}
-   \hat{\pi}(\theta|M, \hat\eta)
+   \widehat{\pi}(\theta|M, \hat\eta)
  = 
    \frac{1}{R}\sum_{r=1}^R \pi(\theta|Z^{(r)}, \psi^{(r)}, M,
-   \hat\eta) 
+   \eta^{(U)})
 \end{equation}
-of the required posterior and also for point estimates for $\theta$
-and related posterior statistics. In particular, estimates
+of the target posterior distribution.
+
+
+The samples for $\theta$ are used to compute point estimates for
+$\theta$ and related posterior statistics. In particular, estimates
 for the mutation signatures and their exposures are computed as
 $\widehat P = R^{-1}\sum_{r=1}^R P^{(r)}$ and $\widehat E =
 R^{-1}\sum_{r=1}^R E^{(r)}$. Posterior variances or coverage intervals
-for $P$ and $E$ also be obtained from the samples $\theta^{(r)}$. 
-
-The set of samples for $\theta$ generated by the last iteration of
-the MCMC/EM analysis is also considered for the estimation of the NMF
-rank, that is, the number of mutational signatures that
-best account for the observations. To this end, for each rank $N$, we
-consider the set of BIC values, 
+for $P$ and $E$ also be obtained from the samples $\theta^{(r)}$. The
+set of samples for $\theta$ generated by the last iteration of the
+MCMC/EM analysis is also considered for the estimation of the NMF
+rank, that is, the number of mutational signatures $N$ that best
+account for the observations. To this end, for each $N$ we consider
+the set of BIC values,
 \[
   \text{BIC}\big(\theta^{(r)}_N\big) = 2\ln\mathcal L\big(m;
     \theta^{(r)}_{N}\big) - N(G+K)\ln G, \qquad r =1, \ldots,
@@ -356,13 +341,12 @@ available.
 
 Details about the Gibbs sampler are relatively standard and are
 included in Section 2 of the supplementary material. The following
-section details and justifies the Monte Carlo EM approach and
-therefore the empirical Bayesian formalism adopted throughout.k
+section details the Monte Carlo EM approach.
 
 \subsubsection{MCMC EM}\label{sec:MCMCEM}
 For a given data sample $m$, direct use of Bayes theorem
 allows to  express the the marginal likelihood for $\eta$, i.e. the
-function $\mathcal L: \Lambda \to \mathbb R_+$ induced by $\eta 
+function $\mathcal L: \Lambda \to \mathbb R$ induced by $\eta 
 \mapsto p(M=m|\eta)$, as
 \begin{equation}
   \label{eqn:margLik}
@@ -370,12 +354,22 @@ function $\mathcal L: \Lambda \to \mathbb R_+$ induced by $\eta
   = \frac{p(m, Z, \theta, \psi\,|\,\eta)}{\pi(Z,
       \theta, \psi|m, \eta)}.
 \end{equation}
-Similarly, let $\mathcal L(\eta; m, Z, \theta, \psi)$ equal the
-distribution $p(M=m$, $Z$, $\theta$, $\psi|\eta)$, but considered as a
-function of $\eta$. Taking\footnote{\textcolor{red}{RR: explain what is what, in FULL
- LENGTH}} logarithms and integrating with respect to the posterior 
-distribution  $\pi(Z,  \theta, \psi|m,  \eta)$ with $\eta = \eta_0$
-gives 
+Similarly, let $\mathcal L(\eta; m, Z, \theta, \psi)$ be defined as
+being equal to $p(M=m$, $Z$, $\theta$, $\psi|\eta)$ but considered as
+a function of $\eta$. For given $M=m$ and $Z= z$, this distribution is
+computed by observing the conditional decomposition
+\[
+   \mathcal L(\eta; m, Z, \theta, \psi) 
+  = 
+   p(M=m, Z=z|\theta) p(\theta|\psi)p(\psi|\eta), 
+\]
+where $p(\theta|\psi)$ and $p(\psi|\eta)$ stand respectively for the
+prior and the hyperprior distribution, and $p(M=m, Z=z|\theta)$  for
+the complete data likelihood. The later is easily evaluated and an
+expression is presented by equation ($s_2$) of the supplementary
+material. Taking logarithms and integrating with respect to the
+posterior distribution $\pi(Z, \theta, \psi|m, \eta)$ with $\eta =
+\eta_0$ at both sides of (\ref{eqn:margLik}) gives 
 \begin{align*}
    \mathbb E\big[\ln\mathcal L(\eta; m) \big| \eta_0\big] 
   =& 
@@ -416,24 +410,35 @@ supplementary material.
 The procedure described is valid because the sampler developed
 throughout generates $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$
 approximately from the posterior distribution that is actually used to
-define the expectation in (\ref{eqn:EofMCEM}), see for instance
+define the expectation in (\ref{eqn:EofMCEM}), see for example
 \cite{FM}. This rises however the issue as to in what sense
-$\hat\pi(\theta|M, \hat\eta)$ can be regarded as an estimate for
+$\widehat\pi(\theta|M, \hat\eta)$ can be regarded as an estimate for
 $\pi(\theta|M, \eta)$. The answer to this is provided by the following
 result, which ensures the convergence of the statistic in
-(\ref{eqn:MCEM_estimate}). For any measurable $T\subseteq \Theta$, it
-follows that 
+(\ref{eqn:MCEM_estimate}). For any measurable set $B\subseteq
+\Theta$, it follows that 
+%\[
+%   \lim_{U,\ R\to\infty}
+%   \bigg\{
+%     \int_{\mathcal D}
+%    \bigg|
+%       \frac{1}{R} \sum_{r=1}^R \pi(\theta|M, \psi^{(r)}, Z^{(r)},
+%          \hat\eta^{(U)}) - \pi(\theta|M,\eta)
+%    \bigg|\ d\theta 
+%   \bigg\} 
+%   = 0
+%\]
 \[
-   \lim_{R,\ u\to\infty}
-     \int_T
-    \bigg|
-       \frac{1}{R} \sum_{r=1}^R \pi(\theta|M, \psi^{(r)}, Z^{(r)},
-          \hat\eta^{(u)}) - \pi(\theta|M,\eta)
-    \bigg|\ d\theta = 0
+    \lim_{u,\ R\to\infty}
+    \Big|
+       \widehat\pi(\, B|M, \hat\eta) - \pi(\, B|M,\eta)
+    \Big|
+   =
+    0
 \]
-almost surely with respect to ***. This result is formally stated as
-Theorem 1 and further proved in Section 4.2 of the accompanying
-supplementary material.
+with $|\, |$ as the total variation norm. This result is
+formally stated as Theorem 1 and further proved in Section 4.2 of the 
+accompanying supplementary material.
 
 
 
@@ -445,27 +450,36 @@ The algorithm to estimate $\eta$ and generate the samples for $(Z,
 \theta, \psi)$ conditionally upon the estimate for $\eta$ proceeds as 
 follows. 
 \begin{enumerate}
-\item[\textbf{1}.] Set $k = 0$ and initialise $\eta^{(u)}$.
+\item[\textbf{1}.] Set $u = 0$ and initialise $\eta^{(0)}$ as
+  $\eta^{(0)} = (1, \ldots, 1)$.
 \item[\textbf{2}.] Initialise $Z^{(0)}$, $\theta^{(0)}$, $\psi^{(0)}$
-  by sampling $\psi$ from $p(\psi|\eta^{(0)})$, the model hyperprior,
-  and then $\theta$ from $p(\theta|\psi)$, the model prior. Optionally
-  $\theta^{(0)}$ may be initialised by solving (\ref{eqn:NMF})
-  via the NMF package from within R, see \citealp{GS}. 
+  by sampling according to the hierarchical model, that is
+  \begin{align*}
+     &\psi^{(0)} \sim p(\psi | \eta^{(0)}) &\ 
+        &\text{hyperprior}\\ 
+     &\theta^{(0)} \sim p(\theta | \psi^{(0)}) &\ 
+        &\text{prior}\\
+     &Z^{(0)} \sim p(Z, M|\theta^{(0)}) &\ 
+        &\text{complete data likelihood}
+  \end{align*}
+  Alternatively, the values for $\theta^{(0)}$ may be set by solving 
+  (\ref{eqn:NMF}) via the NMF package from within R, see
+  \citealp{GS}.
 \item[\textbf{3}.] Iterate the Gibbs sampler to generate the sequence
- $\{Z^{(r)}, \theta^{(r)}, \psi^{(r)}\}$, $r = 1, \ldots, R$.
+ $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r = 1, \ldots, R$.
 \item[\textbf{4}.] Update $\hat\eta^{(u)}$ with the Monte Carlo EM
-formula in (\ref{eqn:MCEM}) and set $k = k+1$. Return to step
+formula in (\ref{eqn:MCEM}) and set $u = u+1$. Return to step
 \textbf{3} until $\big\|\hat\eta^{(u)} - \hat\eta^{(u-1)}\big\|_\infty  
 \leqslant 0.05$ or $u > 1000$. 
-\item[\textbf{5}.] Set $\hat\eta = \hat\eta^{(u)}$ and then generate a 
-  final realization of the Gibbs sampler, producing the sequence of
-  samples $\{Z^{(r)}, \theta^{(r)}, \psi^{(r)}\}$, $r=1, \ldots
+\item[\textbf{5}.] Set $\hat\eta = \hat\eta^{(u)}$ and then iterate
+  the Gibbs sampler to obtain the final sequence of samples
+  $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r=1, \ldots
   R$. 
 \end{enumerate}
 
 \subsection{Differential Exposure and Classification}
 \textcolor{red}{RD: This may be the place to explain your 
-ideas.}
+ideas.} 
 
 
 \section{Methods}
@@ -482,19 +496,21 @@ the $5'$ and $3'$ neighboring bases in order to construct a $96\times
 %(\verb+http://www.sanger.ac.uk/genetics/CGP/cosmic+), but I have not
 %been able to find the data there! The ftp link here was found in
 %Table S1 of \cite{NCell}. DO CHECK.}. 
-The opportunity matrix $W$ was constructed (or taken from) ...
+The $(i,j)$-th element of the opportunity matrix was computed as the
+cumulative sum of the number of times that the $i$-th symbol of
+$\txcal A$ occurs in the $j$-th genome. This frequency was then
+multiplied by the copy number variation information found in the data 
+set by \cite{NCell}.
 
 
-The reliability of our method was further assessed by the
-analysis of synthetic data. In order to mimic real data sets, we
-considered a group of the mutational signatures commonly found in
-breast cancer genomes, namely the signatures 2, 3, 13 and 17 described 
-in the Catalogue  of somatic  mutations in cancer, \verb~http://cancer.sanger.ac.uk/cosmic/signatures~.
+Synthetic data sets mimicking real data were assembled by taking a
+group of four mutational signatures commonly found in 
+breast cancer genomes, namely the signatures 2, 3, 13 and 17 described  
+in the Catalogue  of somatic  mutations in cancer,
+\verb~http://cancer.sanger.ac.uk/cosmic/signatures~.\footnote{\textcolor{red}{RD:explain how do we simulate $E$ and how do we add extra noise}} 
 
 
-
-
-\subsection{\texttt{signeR}} Describe R's package
+\subsection{\texttt{signeR}} Describe R's package 
 source destination. Mention that is has been optimized in
 \CC. A detailed explanation about how to install, run, etc is
 presented as supplementary material.
@@ -513,7 +529,8 @@ number of advantages when compared with others approaches. First, it
 xxx $\ldots$ Second, xxx and Third $\ldots$ 
 
 \section*{Funding}
-This work was partially supported by FAPESP, grant $\ldots$. 
+This work was partially supported by Funda\c{c}\~ao de Apoio a Pesquisa
+do Estado de S\~ao Paulo (FAPESP), grant $\ldots$. 
 \vspace*{-12pt}
  
 %\bibliographystyle: natbib, achemnat, plainnat, abbrv, plain 
@@ -525,3 +542,14 @@ This work was partially supported by FAPESP, grant $\ldots$.
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
+
+
+At hyperpriors section:
+
+Maybe we have to justify why all this was made. The reason is to
+reduce the dependency on a large number of free hyperparameters for
+the model choice approach, i.e. the prior depends upon the actual
+values of the hyperparameters if we don't integrate them out: for
+$N=5$, $G=21$, $K=96$ we have $2(KN+NG)=1170$ (hyper)parameters to
+set. With the hierarchical model, we are able to reduce the free
+parameters down to 6.
