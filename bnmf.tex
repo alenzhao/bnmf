@@ -4,11 +4,11 @@
 \appnotes{Original Paper} 
 \usepackage{amsmath, amssymb}
   \allowdisplaybreaks % YEAH!
-\usepackage{textcomp} 
-%\usepackage[
-%    colorlinks, linkcolor={blue}, citecolor={blue},
-%    urlcolor={red}]
-%{hyperref}
+\usepackage{textcomp}
+\usepackage[
+    colorlinks, linkcolor={blue}, citecolor={blue},
+    urlcolor={red}]
+{hyperref}
 %\renewcommand*{\HyperDestNameFilter}[1]{}
 %% Option 1 URW Garamond (free any latex distribution): 
 %% ====================
@@ -45,6 +45,28 @@
 \renewcommand*\copyright{\textcopyright}
 \newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf
     +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}} 
+\makeatletter
+\newcommand{\opnorm}{\@ifstar\@opnorms\@opnorm}
+\newcommand{\@opnorms}[1]{%
+  \left|\mkern-1.5mu\left|\mkern-1.5mu\left|
+   #1
+  \right|\mkern-1.5mu\right|\mkern-1.5mu\right|
+}
+\newcommand{\@opnorm}[2][]{%
+  \mathopen{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
+  #2
+  \mathclose{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
+}
+\makeatother
+
+%\makeatletter
+% \newcommand{\sodot}{{\vphantom{\circ}\mathpalette\d@tD@lta\relax}}
+% \newcommand{\d@tD@lta}[2]{%
+%  \ooalign{\hidewidth$\m@th#1\mkern-0.0mu\cdot$\hidewidth\cr$\m@th#1\circ$\cr}%
+%}
+%\makeatother
+
+
 \begin{document}
 \firstpage{1}
 %\subtitle{}
@@ -74,7 +96,10 @@
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX} 
 \editor{Associate Editor: XXXXXXX} 
 \abstract{%
- \textbf{Motivation:} Analysis of somatic mutations.\\
+ \textbf{Motivation:} Cancer is an evolutionary process driven by
+ continuous acquisition of genetic variations in individual cells.
+ The actual identification of the  underlying mutational processes may
+ be  central to understanding of cancer origin and evolution.\\ 
  \textbf{Results:} Developed a full (empirical) Bayesian treatment to
 the factorisation problem.\\
  \textbf{Contact:}
@@ -95,7 +120,7 @@ diversity and complexity of somatic mutational processes in these
 clones is a conspicuous feature orchestrated by DNA damage agents and
 repair processes, including exogenous or endogenous mutagen exposures,
 defects in DNA mismatch repair and enzymatic modification of DNA,
-\cite{RG}. The actual identification of the underlying mutational
+\cite{RG}. The identification of the underlying mutational
 processes is central to understanding of cancer origin and evolution,
 \citealp{RG, AS, HEN}.\footnote{\textcolor{red}{Still have to
     concatenate this with next paragraph}}
@@ -131,7 +156,7 @@ $E$, then the data can be simply factored as $M=PE$. An example of
 this procedure is shown in Figure~\ref{fig:toyNMF}.
 
 \begin{figure*}
- \centering\includegraphics[width=15cm]{figs/f}
+ \centering\includegraphics[width=14cm]{figs/f_bw_t}
  \caption{\textrm{%
   A factorisation for a mutation counts matrix $M$. The
   mutation matrix shown at the centre is defined over an alphabet with
@@ -148,7 +173,7 @@ For a given a matrix of observed mutation counts there are essentially
 two interrelated questions that should be addressed. The first one
 concerns the determination of the underlying signatures and their
 exposures to best account for the observations. The second is related
-to the determination of the actual number of signatures,
+to the determination of the actual number of signatures
 $N$. \cite{NCell} and \cite{A} addressed the first issue by using
 nonnegative matrix factorisation (NMF) techniques.  NMF as conceived
 by \cite{LS} finds the factors $P$, $E$ that approximately solve the
@@ -159,8 +184,8 @@ following non-convex optimisation problem
 \end{equation}
 for a given fixed rank $N$ and an appropriately chosen matrix norm
 $\|\ \|$.  In order to deal with the second question, \cite{NCell} and
-\cite{A} perform the factorisation of the same data for various
-values of $N$ ranging from 1 to $\min\{K, G\}-1$. The rank is then
+\cite{A} perform the factorisation of the same data for various ranks,
+namely $1 \leq N \leq \min\{K, G\}-1$. The rank is then
 determined rather indirectly by studying the clustering properties of
 the obtained factors via a criterion developed by \cite{BTGM} or by 
 using the residual sum of squares, \cite{HMSG}.
@@ -194,8 +219,8 @@ approximation to the Bayesian information criterion
 Following \cite{FICMV}, our model also takes into account the genome
 frequencies of the symbols in $\txcal A$.  These frequencies, known as
 the mutation opportunity, enter the model as a weighting matrix $W$, 
-such  that $M=PE\odot W$ with $\odot$ Hadamard's element wise matrix
-product.
+such  that $M=PE\odot W$ with $\odot$ as Hadamard element wise
+matrix product.
 
 % Both of these models correspond to the ones initially considered by
 % \cite{LS} from the optimisation perspective. The latter is in fact
@@ -217,7 +242,7 @@ Let $p_{in} = (P)_{in}$ be the $i,n$-entry of $P$. Likewise let
 $e_{nj} = (E)_{nj}$ and $w_{ij} = (W)_{ij}$.  The mutation counts in
 $M$ are assumed to be independent and Poisson distributed random
 variables with rates $PE\odot W$, that is, we assume $M_{ij}$ to be
-Poisson distributed with rate $(PE)_{ij}(W)_{ij} = w_{ij}\sum_{n=1}^N
+Poisson with rate $(PE)_{ij}(W)_{ij} = w_{ij}\sum_{n=1}^N
 p_{in}e_{nj}$. For a given sample of $M$, say $m$, this formulation is
 sufficient to define the likelihood function $\mathcal L(\theta; m)$
 if one identifies the matrices $P, E$ as model parameters $\theta$,
@@ -295,18 +320,23 @@ conditional posterior distribution $\pi(\theta|M, \eta)$ by combining
 Markov chain Monte Carlo (MCMC) and EM techniques as
 encouraged by \cite{C01} or \cite{LC}. Specifically, for a given value
 of $\eta$ we consider a Metropolized Gibbs sampler targeted towards
-the conditional posterior. This entails the generation of the sequence
-$\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r \geqslant 1$,
-from the set of full conditional distributions, that is from $\pi(Z|
-\theta, \psi, M, \eta)$, $\pi(\theta| Z, \psi, M, \eta)$ and
-$\pi(\psi| Z, \theta, M, \eta)$. These MCMC samples are used to update
-the value of $\eta$ via a stochastic EM step and the later is then
-used to generate a subsequent sequence of MCMC samples. The iteration
-of these steps defines a convergent sequence $\big(\eta^{(u)}\big)$,
-$u = 1, \ldots, U$, which is then used to define the estimate
-$\hat\eta = \eta^{(U)}$. A final set of samples for $Z$, $\theta$ and
-$\psi$, computed by conditioning on $\hat\eta$, allow for the
-following estimate
+the conditional posterior. This entails the iterative generation of a
+sequence of samples $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r
+\geqslant 1$, from the set of full conditional distributions, that is 
+\begin{gather*}
+   Z^{(r+1)} \sim \pi(Z| \theta^{(r)}, \psi^{(r)}, M, \eta), \qquad
+   \theta^{(r+1)} \sim \pi(\theta| Z^{(r+1)}, \psi^{(r)}, M, \eta), \\
+       \text{and}\quad
+   \psi^{(r+1)} \sim \pi(\psi| Z^{(r+1)}, \theta^{(r+1)}, M, \eta).
+\end{gather*}
+These samples are then used to update the value of $\eta$ via a
+stochastic EM step and the later is then used to generate a subsequent
+sequence of samples. The iteration of these steps defines a 
+convergent sequence $\big(\eta^{(u)}\big)$, $u = 1, \ldots, U$, which
+is then used to define the estimate $\hat\eta = \eta^{(U)}$. A final
+set of MCMC samples for $Z$, $\theta$ and $\psi$, computed by
+conditioning on $\hat\eta$ allow for the following Monte Carlo
+estimate 
 \begin{equation}
  \label{eqn:MCEM_estimate}
    \widehat{\pi}(\theta|M, \hat\eta)
@@ -429,16 +459,16 @@ result, which ensures the convergence of the statistic in
 %   = 0
 %\]
 \[
-    \lim_{u,\ R\to\infty}
-    \Big|
+    \lim_{R,\ u\to\infty}
+     \Big|
        \widehat\pi(\, B|M, \hat\eta) - \pi(\, B|M,\eta)
-    \Big|
+     \Big|
    =
-    0
+    0,
 \]
-with $|\, |$ as the total variation norm. This result is
-formally stated as Theorem 1 and further proved in Section 4.2 of the 
-accompanying supplementary material.
+ where converge is with respect to the total variation norm. This
+ result is formally stated as Theorem 1 and further proved in Section 
+ 4.2 of the accompanying supplementary material.
 
 
 
@@ -470,7 +500,7 @@ follows.
 \item[\textbf{4}.] Update $\hat\eta^{(u)}$ with the Monte Carlo EM
 formula in (\ref{eqn:MCEM}) and set $u = u+1$. Return to step
 \textbf{3} until $\big\|\hat\eta^{(u)} - \hat\eta^{(u-1)}\big\|_\infty  
-\leqslant 0.05$ or $u > 1000$. 
+\leqslant 0.05$ or $u > 4000$. 
 \item[\textbf{5}.] Set $\hat\eta = \hat\eta^{(u)}$ and then iterate
   the Gibbs sampler to obtain the final sequence of samples
   $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r=1, \ldots
@@ -505,9 +535,11 @@ set by \cite{NCell}.
 
 Synthetic data sets mimicking real data were assembled by taking a
 group of four mutational signatures commonly found in 
-breast cancer genomes, namely the signatures 2, 3, 13 and 17 described  
+breast cancer genomes, namely the signatures 1, 2, 3 and 13 described   
 in the Catalogue  of somatic  mutations in cancer,
-\verb~http://cancer.sanger.ac.uk/cosmic/signatures~.\footnote{\textcolor{red}{RD:explain how do we simulate $E$ and how do we add extra noise}} 
+\verb~http://cancer.sanger.ac.uk/cosmic/signatures~.\footnote{\textcolor{red}{RD:explain
+    how do we simulate $E$ and how do we add extra noise}}. These
+signatures are ***
 
 
 \subsection{\texttt{signeR}} Describe R's package 
@@ -529,8 +561,8 @@ number of advantages when compared with others approaches. First, it
 xxx $\ldots$ Second, xxx and Third $\ldots$ 
 
 \section*{Funding}
-This work was partially supported by Funda\c{c}\~ao de Apoio a Pesquisa
-do Estado de S\~ao Paulo (FAPESP), grant $\ldots$. 
+This work was partially supported by Funda\c{c}\~ao de Apoio a
+Pesquisa do Estado de S\~ao Paulo (FAPESP), grant $\ldots$. 
 \vspace*{-12pt}
  
 %\bibliographystyle: natbib, achemnat, plainnat, abbrv, plain 
@@ -548,7 +580,7 @@ At hyperpriors section:
 
 Maybe we have to justify why all this was made. The reason is to
 reduce the dependency on a large number of free hyperparameters for
-the model choice approach, i.e. the prior depends upon the actual
+the model choice approach, i.e. the prior depends upon the
 values of the hyperparameters if we don't integrate them out: for
 $N=5$, $G=21$, $K=96$ we have $2(KN+NG)=1170$ (hyper)parameters to
 set. With the hierarchical model, we are able to reduce the free
