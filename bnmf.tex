@@ -5,10 +5,10 @@
 \usepackage{amsmath, amssymb}
   \allowdisplaybreaks % YEAH!
 \usepackage{textcomp}
-\usepackage[
-    colorlinks, linkcolor={blue}, citecolor={blue},
-    urlcolor={red}]
-{hyperref}
+%\usepackage[
+%    colorlinks, linkcolor={blue}, citecolor={blue},
+%    urlcolor={red}]
+%{hyperref}
 %\renewcommand*{\HyperDestNameFilter}[1]{}
 %% Option 1 URW Garamond (free any latex distribution): 
 %% ====================
@@ -23,9 +23,9 @@
     \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it} 
 %% Option 3 (Times via MathTimes Pro)
 %% =================================
-%    \usepackage[subscriptcorrection]{mtpro}
-%       \DeclareMathSizes{8}{7.15}{5.2}{4.2}
-%    \usepackage[mtpcal]{mtpb}
+    %\usepackage[subscriptcorrection]{mtpro}
+    %   \DeclareMathSizes{8}{7.15}{5.2}{4.2}
+    %\usepackage[mtpcal]{mtpb}
 \DeclareMathAlphabet{\txcal}{U}{tx-cal}{m}{n}
 \usepackage[scaled=1.1]{rsfso}
 \renewcommand*\ttdefault{txtt}
@@ -61,8 +61,8 @@
 
 %\makeatletter
 % \newcommand{\sodot}{{\vphantom{\circ}\mathpalette\d@tD@lta\relax}}
-% \newcommand{\d@tD@lta}[2]{%
-%  \ooalign{\hidewidth$\m@th#1\mkern-0.0mu\cdot$\hidewidth\cr$\m@th#1\circ$\cr}%
+% \newcommand{\d@tD@lta}[2]{%   
+%\ooalign{\hidewidth$\m@th#1\mkern-0.0mu\cdot$\hidewidth\cr$\m@th#1\circ$\cr}%
 %}
 %\makeatother
 
@@ -82,10 +82,9 @@
    $^{\text{\sf 1}}$Departamento de Computa\c{c}\~ao e
    Matem\'atica, Universidade de S\~ao Paulo, 14040-901 SP, Brazil\\ 
    $^{\text{\sf 2}}$Laboratory of Bioinformatics and Computational 
-   Biology, CIPE/A.C. Camargo Cancer Center, S\~ao Paulo  01509-010, 
+   Biology, A. C. Camargo Cancer Center, S\~ao Paulo  01509-010, 
    Brazil\\
-   $^{\text{\sf 3}}$Centro de Pesquisas do Hospital AC Camargo,
-    S\~ao Paulo 01509-010 Brazil\\
+   $^{\text{\sf 3}}$Laboratory of Medical Genomics, A. C. Camargo Cancer Center, S\~ao Paulo 01509-010, Brazil\\
    $^{\text{\sf 4}}$Laboratory of Molecular Immunology, The
    Rockefeller University, New York, NY 10065, USA\\[1em]
    {\normalsize $^{\dagger}$The authors wish it to be known
@@ -179,16 +178,16 @@ nonnegative matrix factorisation (NMF) techniques.  NMF as conceived
 by \cite{LS} finds the factors $P$, $E$ that approximately solve the
 following non-convex optimisation problem
 \begin{equation}
- \label{eqn:NMF}
-  \min_{P\geqslant 0,\ E\geqslant 0}\|M - PE\|,
+  \label{eqn:NMF}
+    \min_{P\geqslant 0,\ E\geqslant 0}\|M - PE\|,
 \end{equation}
-for a given fixed rank $N$ and an appropriately chosen matrix norm
-$\|\ \|$.  In order to deal with the second question, \cite{NCell} and
-\cite{A} perform the factorisation of the same data for various ranks,
-namely $1 \leq N \leq \min\{K, G\}-1$. The rank is then
-determined rather indirectly by studying the clustering properties of
-the obtained factors via a criterion developed by \cite{BTGM} or by 
-using the residual sum of squares, \cite{HMSG}.
+for a given fixed rank $N$ and an appropriately chosen norm $\|\ \|$.
+In order to deal with the second question, \cite{NCell} and \cite{A}
+perform the factorisation of the same data for various ranks, namely
+for $1 \leq N \leq \min\{K, G\}-1$. The rank is then determined rather 
+indirectly by studying the clustering properties of the obtained
+factors via a criterion developed by \cite{BTGM} or by using the
+residual sum of squares, \cite{HMSG}.
 
 
 An alternative approach to mutational signature discovery, and to NMF
@@ -219,8 +218,8 @@ approximation to the Bayesian information criterion
 Following \cite{FICMV}, our model also takes into account the genome
 frequencies of the symbols in $\txcal A$.  These frequencies, known as
 the mutation opportunity, enter the model as a weighting matrix $W$, 
-such  that $M=PE\odot W$ with $\odot$ as Hadamard element wise
-matrix product.
+such  that the observed mutations are generated at rate $PE\circ W$
+with $\circ$ as  Hadamard element wise matrix product.
 
 % Both of these models correspond to the ones initially considered by
 % \cite{LS} from the optimisation perspective. The latter is in fact
@@ -241,16 +240,22 @@ matrix product.
 Let $p_{in} = (P)_{in}$ be the $i,n$-entry of $P$. Likewise let
 $e_{nj} = (E)_{nj}$ and $w_{ij} = (W)_{ij}$.  The mutation counts in
 $M$ are assumed to be independent and Poisson distributed random
-variables with rates $PE\odot W$, that is, we assume $M_{ij}$ to be
+variables with rates $PE\circ W$, that is, we assume $M_{ij}$ to be
 Poisson with rate $(PE)_{ij}(W)_{ij} = w_{ij}\sum_{n=1}^N
 p_{in}e_{nj}$. For a given sample of $M$, say $m$, this formulation is
 sufficient to define the likelihood function $\mathcal L(\theta; m)$
 if one identifies the matrices $P, E$ as model parameters $\theta$,
 for $\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb
-R_+^{N\times G}$. An expression for $\mathcal L(\theta; m)$ is
-presented in ($s_1$). This relatively simple model allows for a latent
-variable representation in which the observed counts are expressed as
-the sum of $N\geqslant 1$ independent Poisson variables
+R_+^{N\times G}$. We observe that the opportunities, when available,
+are regarded as known parameters and in this sense the likelihood is
+is  defined by the function $\mathcal L(\theta, W; m)$. To simplify 
+notation we omit any further reference to $W$. An expression   
+for $\mathcal L(\theta; m)$ is presented in ($s_1$).
+
+
+This relatively simple model allows for a latent variable
+representation in which the observed counts are expressed as the sum
+of $N\geqslant 1$ independent Poisson variables
 \begin{equation}
   \label{eqn:latent_representation}
    M_{ij} = Z_{i1j} + Z_{i2j} + \ldots + Z_{iNj},
@@ -460,9 +465,9 @@ result, which ensures the convergence of the statistic in
 %\]
 \[
     \lim_{R,\ u\to\infty}
-     \Big|
+     \big|
        \widehat\pi(\, B|M, \hat\eta) - \pi(\, B|M,\eta)
-     \Big|
+     \big|
    =
     0,
 \]
@@ -533,18 +538,26 @@ multiplied by the copy number variation information found in the data
 set by \cite{NCell}.
 
 
-Synthetic data sets mimicking real data were assembled by taking a
-group of four mutational signatures commonly found in 
+Synthetic data sets mimicking real observations were assembled by
+taking a group of four mutational signatures commonly found in 
 breast cancer genomes, namely the signatures 1, 2, 3 and 13 described   
 in the Catalogue  of somatic  mutations in cancer,
-\verb~http://cancer.sanger.ac.uk/cosmic/signatures~.\footnote{\textcolor{red}{RD:explain
-    how do we simulate $E$ and how do we add extra noise}}. These
-signatures are ***
+\verb~http://cancer.sanger.ac.uk/cosmic/signatures~.
+\footnote{\textcolor{red}{RD:explain how do we simulate $E$ and how do
+    we add extra noise}}. 
+Signature 1 is the result of an endogenous mutational process
+initiated by spontaneous deamination of 5-methylcytosine and has been
+found in most cancer samples. Signature 2 is related to the activity
+of the AID/APOBEC family of cytidine deaminases. Signature 3 is
+associated with failure of DNA double-strand break-repair by
+homologous recombination and is strongly associated with
+germline and somatic BRCA1 and BRCA2 mutations in breast cancer.
+Signature 13 causes predominantly \texttt{C>G} mutations.
 
 
 \subsection{\texttt{signeR}} Describe R's package 
 source destination. Mention that is has been optimized in
-\CC. A detailed explanation about how to install, run, etc is
+\CC. A detailed explanation about how to install, run, etc is 
 presented as supplementary material.
 
 \section{Results}
