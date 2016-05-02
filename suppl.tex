@@ -114,16 +114,17 @@
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 \begin{document}
-\title[R. A. Rosales, R. D. Drummond, R. Valieris, I. T. da Silva]{}
+\title[\textup{R. A. Rosales, R. D. Drummond, 
+       R. Valieris, E. Dias-Neto, I. T. da Silva}]{} 
 \noindent{\parbox{\linewidth}{\footnotesize %
     {\footnotesize\textsl{Submitted to Bioinformatics }}
     {\footnotesize\textrm{ 29/02/16 - v 0.5}}
   }
  }\\[1em]
  \begin{center}
-   {\Large\bf Supplementary material to:\\[0.4em]
-   An empirical Bayesian approach\\[0.3em] 
-   to Mutational Signature Discovery\\[2em]}
+   {\large Supplementary material to:}\\[1em]
+   {\Large\sc An empirical Bayesian approach}\\[0.3em] 
+   {\Large\sc to Mutational Signature Discovery}\\[2em]
    {\large 
      Rafael A. Rosales\footnote{R. A. Rosales and R. D. Drummond are
        both to be considered as First Author}, 
@@ -226,8 +227,8 @@ straightforward computations following the likelihood in
 (\ref{eqn:PoisLik}) and the hierarchical model defined througout the
 main text. Only the conditional for $Z$, which also depends on the
 complete data likelihood in (\ref{eqn:jointdata}), deserves special
-attention. Its distribution is 
-derived in Lemma~\ref{lem:Full_for_Z}.
+attention. The conditional distribution for $Z$ is derived in
+Lemma~\ref{lem:Full_for_Z}.
 
 
 To begin with, by \emph{a priori} indepence between $P$ and $E$, for
@@ -261,11 +262,8 @@ N$, $1\leq j\leq G$, follows the Gamma density
 \end{equation}
 
 
-Guided by the empirical Bayesian approach, we also consider the
-following full conditional distributions for the hyperparameters
-$\psi$. Observe first that due to independence between the
-components of the matrices $A_e$, $B_e$, $A_p$ and $B_p$, the full 
-conditional $\pi(\psi|\theta, Z, M, \eta)$ equals the product
+Due to \emph{a priori} independence between the
+components of the matrices $A_e$, $B_e$, $A_p$ and $B_p$, the full conditional distribution for the hyperparameters $\psi$ equals the product
 \[
    \prod_{i=1}^K\prod_{n=1}^N
      p(\alpha_{in}^p| \theta, Z, M, \eta)
@@ -331,17 +329,16 @@ have\footnote{\textcolor{red}{RD: same here, should we take away the
 \end{equation}
 The full conditional distributions for the hyperparameters $A_p$ and
 $A_e$ are not from a standard family. Samples from these distributions
-are obtained in this case also  by considering Metropolis-Hastings
-steps. The implementation of these is described in Section~\ref{sec:MHsteps}.
-
+are obtained by considering Metropolis-Hastings steps. The
+implementation of these is described in Section~\ref{sec:MHsteps}.
 
 The full conditional distribution for the latent variables, $Z$, is a
 product of multinomial distributions. This result is precisely stated
 by the following Lemma. 
 
 \begin{lemma}\label{lem:Full_for_Z} Conditionally on  $M= m$, the full
-  conditional distribution for the latent variables $Z$ is the
-  following  product of multinomial laws 
+  conditional distribution for the latent variables $Z$ is a  product
+  of multinomial laws 
 \[
    p(Z = z\,|\, \theta, \psi, M=m, \eta)
    = 
@@ -354,13 +351,13 @@ with $\phi_{inj} = p_{in} e_{nj}/\sum_{r=1}^N p_{ir}e_{rj}$.
 
 \begin{proof} 
 Conditionally on $M = m$, $P$ and $E$, the distribution of $Z$ is
-independent of $\psi$ and $\eta$, $p(Z\,|\, M$, $P$, $E$, $\psi$, $\eta)
-= p(Z\,|\, M$, $P$, $E)$, because by definition $Z$ is a set of
-Poisson random variables with rates determined by $P$ and $E$. The
-required full conditional is determined by the ratio $p(Z\,|\,M, P, E)
-= p(Z,  M\,|\, P,E)/p(M\,|\,P, E)$, namely by considering the ratio 
-of (\ref{eqn:jointdata}) by (\ref{eqn:PoisLik}). Taking logarithms
-leads to
+independent of $\psi$ and $\eta$, $p(Z\,|\, M$, $P$, $E$, $\psi$,
+$\eta) = p(Z\,|\, M$, $P$, $E)$ because by definition our our model,
+$Z$ is a set of Poisson random variables with rates determined by $P$
+and $E$. The required full conditional is determined by the ratio
+$p(Z\,|\,M, P, E) = p(Z, M\,|\, P,E)/p(M\,|\,P, E)$, that is by
+considering the ratio of (\ref{eqn:jointdata}) by
+(\ref{eqn:PoisLik}). Taking logarithms leads to
 \begin{align*}
     \ln p(Z|M, P, E) 
   =&
@@ -375,7 +372,7 @@ leads to
       \sum_{u=1}^N p_{iu}e_{uj}w_{ij} + \ln m_{ij}!.
 \end{align*}
 Direct simplifications obtained by  setting $m_{ij}$ equal to
-$\sum_{n=1}^N  z_{inj}$ lead to  
+$\sum_{n=1}^N  z_{inj}$ give
 \begin{align*}
     \ln p(Z|M, P, E) 
   =&
@@ -413,21 +410,21 @@ $A_e$ do not have a standard form. These are explicitly shown in
 (\ref{eqn:Full_for_Ap}) and (\ref{eqn:Full_for_Ae}). Draws from these
 distributions, necessary to define the Gibbs sampler,  are obtained by
 using Metropolis-Hastings steps.  Let $x > 0$ be the current value
-for any given entry of $A_e$ or $A_p$. A new candidate value $y$ for
+for any given entry of $A_e$ (or $A_p$). A new candidate value $y$ for
 this variable is generated from a Gamma proposal density, $g(\cdot|
 x)$ with shape $(x/\sigma)^2$ and rate $x/\sigma^2$. The mean of this
 proposal is thus set to equal $x$ and its variance to $\sigma^2$. The 
 results  described in the main text where obtained by
 \textcolor{red}{choosing 
   $\sigma^2 = *$}\footnote{\textcolor{red}{RD: please put the value
-    here!}}. Let $\alpha$ be the ratio,
+    here!}}. Let $\ln \alpha$ be defined as
 \[
   \ln \alpha 
  =
   \ln p(y) - \ln p(x) + \ln g(x|y) - \ln g(y|x)
 \]
-with $p(x)$ as any one of the densities in (\ref{eqn:Full_for_Ap}) and 
-(\ref{eqn:Full_for_Ae}). The value $y$ is accepted as a sample
+with $p(x)$ as the density in (\ref{eqn:Full_for_Ap}) (or in  
+(\ref{eqn:Full_for_Ae})). The value $y$ is accepted as a sample
 with probability $\rho = \min\{1, e^{\alpha}\}$, that is, if $x'$ denotes
 the new sampled value, then
 \[
@@ -442,26 +439,27 @@ for $U$ an uniformly distributed random variable on $[0, 1]$.
 
 \section{MCMC EM}
 \subsection{Maximisation step}
-This section describes the maximization step in the EM algorithm
+This section describes the maximisation step in the EM algorithm
 necessary to derive the estimator $\hat\eta$, namely
 \begin{equation}
    \label{eqn:etaMAX}
     \underset{\eta\,\in\,\Lambda}{\text{arg max}}\,
-    \frac{1}{R}\sum_{r=1}^R \ln p\big(M, Z^{(r)}, \theta^{(r)},
-    \psi^{(r)}\,|\, \eta\big). \tag{$s_9$}
+    \frac{1}{R}\sum_{r=1}^R \ln \rsocl L\big(\eta; m, Z^{(r)},
+    \theta^{(r)}, \psi^{(r)}\big). \tag{$s_9$} 
 \end{equation}
 The solution to (\ref{eqn:etaMAX}) is used to define the sequence
-$\eta^{(k)}$, $k \geq 1$. The components of the latter are denoted
-throughout as $\lambda_a^{(k)}$, $a_e^{(k)}$ and so on.  Let
-$\ell(\eta) = \ln p(M, Z^{(r)}, \theta^{(r)}, \psi^{(r)}\,|\,
-\eta)$. The maximization of $\frac{1}{R}\sum_{r}\ell(\eta)$ with
-respect to $\eta$ is made by solving
-$\nabla\frac{1}{R}\sum_{r}\ell(\eta) = 0$ for $\eta$.  To start,
-observe that $\ell(\eta)$ admits the form
+$\hat\eta^{(u)}$, $u \geq 1$. The components of the latter are denoted
+throughout as $\hat b_e^{(u)}$, $\hat a_e^{(u)}$ and so on.  To
+simplify notation, let $\rsocl L(\eta; m, Z^{(r)}, \theta^{(r)},
+\psi^{(r)}) = \rsocl L(\eta)$. The maximisation of
+$\frac{1}{R}\sum_{r} \ln \rsocl L(\eta)$ with respect to $\eta$ is
+made by solving $\nabla\frac{1}{R}\sum_{r}\ln \rsocl L(\eta) = 0$ for
+$\eta$.  To start, observe that $\ln \rsocl L(\eta)$
+ admits the form
 \begin{equation}
  \label{eqn:ell}
  \begin{aligned}
-  \ell(\eta)
+  \ln \rsocl L(\eta)
   =&
   \ln p(M, Z^{(r)} | \theta^{(r)})  + \ln p(P^{(r)}\,|\, A_p^{(r)},
   B_p^{(r)}) + \ln p(E^{(r)}\,|\, A_e^{(r)},  B_e^{(r)})  \\
@@ -471,31 +469,35 @@ observe that $\ell(\eta)$ admits the form
  \end{aligned}
  \tag{$s_{10}$}
 \end{equation}
-The first three terms of $\ell(\eta)$ are independent of
-$\eta$. Further, each of the remaining terms can be optimized
+The first three terms of are independent of
+$\eta$. Further, each of the remaining terms can be optimised
 separately because each one depends on a different component of
-$\eta$. Following the exponential hyperprior for $A_p^{(r)}$ we have
+$\eta$. Following the exponential hyperprior for $A_p$ we have
 \[
    \frac{1}{R}\sum_{r=1}^R \ln  p(A_p^{(r)}\,|\ \lambda_p)
   %=
   % \frac{1}{R}\sum_{r=1}^R \sum_{i=1}^K\sum_{n=1}^N
   % \big(\ln(\lambda_p) - \lambda_p (A_p^{(r)})_{in}\big)
   = 
-  \frac{1}{R}KN\ln(\lambda_p) - \frac{1}{R}\lambda_p\sum_{r=1}^R
-  \sum_{i=1}^K\sum_{n=1}^N (A_p^{(r)})_{in}.
+  KN\ln(\lambda_p) - \frac{1}{R}\lambda_p
+  \sum_{r=1}^R\sum_{i=1}^K\sum_{n=1}^N \big(A_p^{(r)}\big)_{in}.
 \]
-Hence, solving for $\lambda_p$ in $\partial (\frac{1}{R}\sum_r \ln
-p(A_p^{(r)}\,|\ \lambda_p))/\partial\lambda_p = 0$ gives
+Hence, solving for $\lambda_p$ in 
 \[
-  \lambda_p^{(k)} = \frac{RKN}{\sum_{r=1}^R \sum_{i=1}^K 
-    \sum_{n=1}^N (A_p^{(r)})_{in}}.
+  \frac{\partial}{\partial\lambda_p} \frac{1}{R}\sum_r \ln
+  p(A_p^{(r)}\,|\ \lambda_p)) = 0
+\] 
+gives
+\[
+  \widehat\lambda_p = \frac{RKN}{\sum_{r=1}^R \sum_{i=1}^K 
+    \sum_{n=1}^N \big(A_p^{(r)}\big)_{in}}.
 \]
 Likewise, by considering the third of the remaining terms in
-(\ref{eqn:ell}), namely $\frac{1}{R} \sum_r 
+(\ref{eqn:ell}), that is, $\frac{1}{R} \sum_r 
 p(A_e\,|\, \lambda_e)$, gives
 \[
-  \lambda_e^{(k)} = \frac{RNG}{\sum_{r=1}^R \sum_{n=1}^N
-    \sum_{j=1}^G (A_e^{(r)})_{nj}}.
+  \widehat\lambda_e = \frac{RNG}{\sum_{r=1}^R \sum_{n=1}^N
+    \sum_{j=1}^G \big(A_e^{(r)}\big)_{nj}}.
 \]
 The maximization of the second and the fourth terms in (\ref{eqn:ell})
 must be handled numerically. This situation is analogous to the
@@ -506,26 +508,36 @@ $a_p$ and $b_p$, for the second term we have that
 \[
    \frac{1}{R}\sum_{r=1}^R \ln p(B_p^{(r)}\,|\, \eta)
   =
-   \frac{1}{R}\sum_{r=1}^R \sum_{i}\sum_{n} a_p\ln b_p  
+   \frac{1}{R}\sum_{r=1}^R \bigg(\sum_{i}\sum_{n} a_p\ln b_p  
     - \ln\Gamma(a_p) + 
-  (a_p-1)\ln\big[(B_p^{(r)})_{in} - b_p(B_p^{(r)})_{in}\big].
+   (a_p-1)\ln\big[\big(B_p^{(r)}\big)_{in}\big] -  
+    b_p\big(B_p^{(r)}\big)_{in}\bigg).
 \]
-Solving for $b_p$ in $\partial(\frac{1}{R}\sum_r \ln p(B_p^{(r)}\,|\,
-\eta))/\partial b_p = 0$  yields\footnote{\textcolor{red}{RD, RR: have
-    to check this last equation!}}
+Solving for $b_p$ in 
 \[
-   b_p =\frac{1}{R} \frac{\sum_r\sum_i\sum_n (B_p^{(r)})_{in}}{a_p}.
-\] 
-\textcolor{red}{Rodrigo: still to write} the numerical implementation
-of how $b_p$ (and hence also $b_e$) are obtained. Maybe you are using
-\cite{J}, in any case please explain.
+  \frac{\partial}{\partial b_p}
+   \frac{1}{R}\sum_r \ln p(B_p^{(r)}\,|\, \eta) = 0
+\]
+yields
+\[
+   \hat b_p = \frac{RKN}{\sum_{r=1}^R \sum_{i=1}^K \sum_{n=1}^N 
+     \big(B_p^{(r)}\big)}_{in}  a_p.
+\]
+Similarly, for $b_e$ we have
+\[
+   \hat b_e = \frac{RNG}{\sum_{r=1}^R \sum_{n=1}^N  \sum_{j=1}^G 
+     \big(B_e^{(r)}\big)}_{nj}  a_e.
+\]
+\textcolor{red}{Rodrigo: still to write the numerical implementation
+of how $a_p$ (and hence also $a_e$) are obtained. Maybe you are using
+\cite{J}, in any case please explain.}
 
 
 \subsection{Convergence}
-This section justifies the convergence of $\hat\pi(\theta|M,
+This section justifies the convergence of $\widehat\pi(\theta|M,
 \hat\eta)$ as defined by (3) towards $\pi(\theta|M, \eta)$. The
-arguments follow closely those in \cite{C01}, but they are of course
-adapted to the hierarchical NMF model considered in the main text. 
+arguments follow closely those in \cite{C01} but they are
+adapted to the hierarchical NMF model considered throughout. 
 \begin{lemma}\label{lem:technical} Suppose that the following
   conditions hold:
 \begin{itemize}
@@ -591,8 +603,8 @@ Harris recurrence of the Markov chain $(Z^{(r)}, \theta^{(r)},  \psi^{(r)})$, $r
 Let $\mathcal B = \sigma(\Theta)$ be the Borel sigma-algebra generated  
 by the open sets of $\Theta$ and let a.e. stand for `almost everywhere'.
 
-\begin{theorem} Under the conditions in Lemma~\ref{lem:technical}, for
-  the statistic defined in \textup{(3)}, 
+\begin{theorem} Under the conditions in Lemma~\ref{lem:technical},
+  the statistic defined in \textup{(3)} satisfies
 \[
   %\lim_{R, u \to\infty} 
   \sup_{S \in  \mathcal B} 
@@ -605,21 +617,24 @@ by the open sets of $\Theta$ and let a.e. stand for `almost everywhere'.
 From Lemma~\ref{lem:technical} it follows that $\widehat h_{\hat\eta_u}$
 converges a.e. to $h_\eta$ as $u, R \to \infty$, that is
 \[
-  \widehat\pi(\theta|M, \hat\eta) \to \pi(\theta|M,
-  \eta)\qquad\text{a.e. as } u, R \to \infty.
+  \lim_{u, R \to \infty} \widehat\pi(\theta|M, \hat\eta) 
+  =
+  \pi(\theta|M,\eta)\qquad\text{a.e.}
 \]
 This together with Scheff\'es Lemma, see for instance Theorem 7 in
 \cite{DG}, implies that 
 \[
+  \lim_{u, R \to \infty} 
   \int \big|\widehat\pi(\theta|M, \hat\eta) - \pi(\theta|M,
-  \eta)\big|\ \text{d}m(\theta) \to 0 
- \qquad\text{as } u, R\to \infty, 
+  \eta)\big|\ \text{d}m(\theta) 
+  =  
+  0,
 \]
-with $m$ as the Lebesgue measure defined in $(\Theta, \mathcal
-B)$. This gives
+where integration is with respect to Lebesgue measure defined in
+$(\Theta, \mathcal B)$. This immediately gives
 \begin{align*}
-  \int \big|\widehat\pi(\theta|M, \hat\eta) 
-  &- 
+  \int \big|\widehat\pi(\theta &| M, \hat\eta) 
+   - 
   \pi(\theta|M, \eta)\big|\ \text{d}m(\theta)                \\
   &=
   2 \sup_{B \in \mathcal B}\Bigg|
@@ -693,7 +708,7 @@ R's NMF package.
    Departamento de Computa\c{c}\~ao e Matem\'atica\\
    Universidade de S\~ao Paulo\\
    Av. Bandeirantes, 3900, Ribeir\~ao Preto\\
-   CEP 14049-901,SP Brazil\\}
+   S\~ao Paulo 14049-901, Brazil\\}
    E-mail: \verb~rrosales@usp.br~
   }
 &
@@ -702,7 +717,7 @@ R's NMF package.
        Renan Valieris}\\
     {\it 
     Laboratory of Bioinformatics and Computational\\
-    Biology, CIPE/A.C. Camargo Cancer Center\\ 
+    Biology, A. C. Camargo Cancer Center\\ 
     S\~ao Paulo 01509-010, Brazil\\}
     E-mails: \parbox[t]{2.5cm}{%
       \verb~rddrummond@gmail.com~\\ 
@@ -712,8 +727,8 @@ R's NMF package.
   \parbox[c][4cm][t]{6.6cm}{
    {\sc Emmanuel Dias-Neto}\\
     {\it 
-    Laboratory of *\\
-    CIPE/A.C. Camargo Cancer Center\\ 
+    Laboratory of Medical Genomics\\ 
+    A. C. Camargo Cancer Center\\
     S\~ao Paulo 01509-010, Brazil\\}
     E-mail: \parbox[t]{2.5cm}{%
       \verb~someone@somewhere.com~}
@@ -723,10 +738,10 @@ R's NMF package.
    {\sc Israel T. da Silva}\\
    {\it 
     Laboratory of Bioinformatics and Computational\\
-    Biology, CIPE/A.C. Camargo Cancer Center\\ 
-    S\~ao Paulo 01509-010, Brazil\\
+    Biology, A. C. Camargo Cancer Center\\ 
+    S\~ao Paulo 01509-010, Brazil\\}
     and\\
-    Laboratory of Molecular Immunology\\
+   {\it Laboratory of Molecular Immunology\\
     The Rockefeller University\\
     1230 York Avenue, New York, NY 10065\\}
     E-mail: \verb~itojal@gmail.com~
