@@ -4,6 +4,7 @@
 \appnotes{Original Paper} 
 \usepackage{amsmath, amssymb}
   \allowdisplaybreaks % YEAH!
+\newtheorem{thrm}{Theorem}
 \usepackage{textcomp}
 %\usepackage[
 %    colorlinks, linkcolor={blue}, citecolor={blue},
@@ -447,11 +448,14 @@ throughout generates $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$
 approximately from the posterior distribution that is actually used to
 define the expectation in (\ref{eqn:EofMCEM}), see for example
 \cite{FM}. This rises however the issue as to in what sense
-$\widehat\pi(\theta|M, \hat\eta)$ can be regarded as an estimate for
+$\widehat\pi(\theta|M, \hat\eta)$ defined by
+(\ref{eqn:MCEM_estimate}) can be regarded as an estimate for
 $\pi(\theta|M, \eta)$. The answer to this is provided by the following
-result, which ensures the convergence of the statistic in
-(\ref{eqn:MCEM_estimate}). For any measurable set $B\subseteq
-\Theta$, it follows that 
+result.
+
+\begin{thrm} For any measurable set $B\subseteq
+\Theta$, $\widehat\pi(B|M,\hat\eta)$ converges in total variation
+towards $\pi(B|M,\eta)$ as $R, u \to \infty$.
 %\[
 %   \lim_{U,\ R\to\infty}
 %   \bigg\{
@@ -463,17 +467,19 @@ result, which ensures the convergence of the statistic in
 %   \bigg\} 
 %   = 0
 %\]
-\[
-    \lim_{R,\ u\to\infty}
-     \big|
-       \widehat\pi(\, B|M, \hat\eta) - \pi(\, B|M,\eta)
-     \big|
-   =
-    0,
-\]
- where converge is with respect to the total variation norm. This
- result is formally stated as Theorem 1 and further proved in Section 
- 4.2 of the accompanying supplementary material.
+%\[
+%    \lim_{R,\ u\to\infty}
+%     \big|
+%       \widehat\pi(\, B|M, \hat\eta) - \pi(\, B|M,\eta)
+%     \big|
+%   =
+%    0,
+%\]
+%where converge is with respect to the total variation norm. 
+\end{thrm}
+
+The proof to this Theorem is included in Section 4.2 of the
+accompanying supplementary material.
 
 
 
