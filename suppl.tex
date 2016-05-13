@@ -169,9 +169,11 @@ $m$ denote a particular sample for $M$. For the factorization $M=PE$,
 the observations $(M)_{ij}$ are independent and Poisson distributed
 random variables with rates $(PE)_{ij}(W)_{ij}$, with $W$ as the
 $K\times G$ opportunity matrix. The factors $P$, $E$, identified as
-the model parameters are denoted as $\theta$. The likelihood for this
-model, i.e. the function $\rsocl L: \Theta \to \mathbb R$ defined by
-$\theta \mapsto p(M=m|\theta)$, is given by
+the model parameters are denoted as $\theta$. The same as 
+\cite{FICMV}, we regard $W$ as fixed and known and set $w_{ij} = 1$
+for all $i$ and $j$ if $W$ is not determined out from the data. The
+likelihood for this model, i.e. the function $\rsocl L: \Theta \to 
+\mathbb R$ defined by $\theta \mapsto p(M=m|\theta)$, is given by 
 \begin{equation}
   \label{eqn:PoisLik}
    \rsocl L(\theta; m) 
