@@ -8,8 +8,7 @@
 \usepackage{textcomp}
 %\usepackage[
 %    colorlinks, linkcolor={blue}, citecolor={blue},
-%    urlcolor={red}]
-%{hyperref}
+%    urlcolor={red}]{hyperref}
 %\renewcommand*{\HyperDestNameFilter}[1]{}
 %% Option 1 URW Garamond (free any latex distribution): 
 %% ====================
@@ -17,9 +16,9 @@
 %    \usepackage[T1]{fontenc}
 %% Option 2: Classic Garamond (requires .pfb sources)
 %% ==========================
-    \usepackage[T1]{fontenc}
-    \usepackage{sabon}
-    \usepackage[italic,defaultmathsizes]{mathastext}
+%    \usepackage[T1]{fontenc}
+%    \usepackage{sabon}
+%    \usepackage[italic,defaultmathsizes]{mathastext}
     % mdugm.sty magic bellow --!!!
     \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it} 
 %% Option 3 (Times via MathTimes Pro)
@@ -31,7 +30,7 @@
 \usepackage[scaled=1.1]{rsfso}
 \renewcommand*\ttdefault{txtt}
 %
-\usepackage{microtype}
+%\usepackage{microtype}
 %
 \newcommand{\wP}{P^\ast}
 \newcommand{\wE}{E^\ast}
@@ -47,26 +46,6 @@
 \newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf
     +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}} 
 \makeatletter
-\newcommand{\opnorm}{\@ifstar\@opnorms\@opnorm}
-\newcommand{\@opnorms}[1]{%
-  \left|\mkern-1.5mu\left|\mkern-1.5mu\left|
-   #1
-  \right|\mkern-1.5mu\right|\mkern-1.5mu\right|
-}
-\newcommand{\@opnorm}[2][]{%
-  \mathopen{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
-  #2
-  \mathclose{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
-}
-\makeatother
-
-%\makeatletter
-% \newcommand{\sodot}{{\vphantom{\circ}\mathpalette\d@tD@lta\relax}}
-% \newcommand{\d@tD@lta}[2]{%   
-%\ooalign{\hidewidth$\m@th#1\mkern-0.0mu\cdot$\hidewidth\cr$\m@th#1\circ$\cr}%
-%}
-%\makeatother
-
 
 \begin{document}
 \firstpage{1}
@@ -81,11 +60,11 @@
     I. T. da Silva\,$^{\text{\sfb 2,4}*}$} 
 \address{%
    $^{\text{\sf 1}}$Departamento de Computa\c{c}\~ao e
-   Matem\'atica, Universidade de S\~ao Paulo, 14040-901 SP, Brazil\\ 
+   Matem\'atica, Universidade de S\~ao Paulo, 14040-901 SP, Brazil, 
    $^{\text{\sf 2}}$Laboratory of Bioinformatics and Computational 
    Biology, A. C. Camargo Cancer Center, S\~ao Paulo  01509-010, 
-   Brazil\\
-   $^{\text{\sf 3}}$Laboratory of Medical Genomics, A. C. Camargo Cancer Center, S\~ao Paulo 01509-010, Brazil\\
+   Brazil, $^{\text{\sf 3}}$Laboratory of Medical Genomics,
+   A. C. Camargo Cancer Center, S\~ao Paulo 01509-010, Brazil, 
    $^{\text{\sf 4}}$Laboratory of Molecular Immunology, The
    Rockefeller University, New York, NY 10065, USA\\[1em]
    {\normalsize $^{\dagger}$The authors wish it to be known
@@ -96,38 +75,49 @@
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX} 
 \editor{Associate Editor: XXXXXXX} 
 \abstract{%
- \textbf{Motivation:} Cancer is an evolutionary process driven by
- continuous acquisition of genetic variations in individual cells.
- The actual identification of the  underlying mutational processes may
- be  central to understanding of cancer origin and evolution.\\ 
- \textbf{Results:} Developed a full (empirical) Bayesian treatment to
-the factorisation problem.\\
+ \textbf{Motivation:} All cancer harbour somatic mutations, ranging 
+hundreds to thousands of mutations. Beyond understanding of the
+prevalence and types of somatic mutation in cancer genomes, the
+causes and features of distinctive mutational process that lead to
+neoplastic transformation, however, remain largely unknown.\\
+Cancer is an evolutionary process driven by continuous acquisition of
+genetic variations in individual cells. The actual identification of
+the underlying mutational processes may be central to understanding of
+cancer origin and evolution.\\ 
+ \textbf{Results:} All cancer harbour somatic mutations, ranging 
+hundreds to thousands of mutations. Beyond understanding of the
+prevalence and types of somatic mutation in cancer genomes, the
+causes and features of distinctive mutational process that lead to
+neoplastic transformation, however, remain largely unknown.\\
+Cancer is an evolutionary process driven by continuous acquisition of
+genetic variations in individual cells. The actual identification of
+the underlying mutational processes may be central to understanding of
+cancer origin and evolution.\\
  \textbf{Contact:}
 %\href{rrosales@usp.br}{\texttt{rrosales@usp.br}},
 %\href{rdrummond@gmail.com}{\texttt{rdrummond@gmail.com}},
 %\href{rvalieris@gmail.com}{\texttt{rvalieris@gmail.com}},
  itojal@gmail.com\\
-\textbf{Supplementary information:} Supplementary data are available 
+\textbf{Supplementary information:} Supplementary data are available  
 at \textit{Bioinformatics} online.
 }
 \maketitle
 \section{Introduction}
-Cancer is an evolutionary process driven by continuous acquisition of
-heritable genetic variations in individual cells. A set of acquired
-mutations in cancer cells allows a growth advantage over its neighbour
-cells, thereby triggering the expansion of the tumor cell clone. The
-diversity and complexity of somatic mutational processes in these
-clones is a conspicuous feature orchestrated by DNA damage agents and
-repair processes, including exogenous or endogenous mutagen exposures,
-defects in DNA mismatch repair and enzymatic modification of DNA,
-\cite{RG}. The identification of the underlying mutational
-processes is central to understanding of cancer origin and evolution,
-\citealp{RG, AS, HEN}.\footnote{\textcolor{red}{Still have to
-    concatenate this with next paragraph}}
-% RR: I will elaborate on this next phrase below:
-%Nowadays, few computational approaches have been developed to
-%extract the repertoire of mutational signatures and processes
-%operating across the cancer genome \citealp{NCell, FICMV}.
+Cancer emerges as an evolutionary process driven by the continuous
+acquisition of heritable genetic variations in individual cells. A set
+of acquired mutations allows a growth advantage over its neighbour
+cells, thereby triggering the expansion of the tumour
+cell clone. The diversity and complexity of somatic mutational
+processes in these clones is a conspicuous feature orchestrated by DNA
+damage agents and repair processes, including exogenous or endogenous
+mutagen exposures, defects in DNA mismatch repair and enzymatic
+modification of DNA, \cite{RG}. The actual identification of the
+underlying mutational processes is central to an understanding of
+cancer origin and evolution, \citealp{RG, AS, HEN}. Most of the
+somatic mutations include base substitutions, insertions and deletions
+of bases, rearrangements and copy number variations
+(CNV).\footnote{\textcolor{red}{Still have to concatenate this with
+next paragraph}}
 
 
 Somatic mutations usually consist of single base substitutions that
@@ -139,8 +129,10 @@ to \cite{A}, this set may be further enlarged by including the $5'$
 and $3'$ neighbouring bases of each substitution site, leading to an 
 alphabet $\txcal A$ with 96 trinucleotide mutation types. More
 generally, the definition of $\txcal A$ could in principle accommodate
-mutations of various other kinds such as indels, rearrangements, copy
-number changes and even wider neighbouring contexts. Once $\txcal A$
+mutations of various other kinds 
+%such as indels, rearrangements, copy
+%number changes 
+and even wider neighbouring contexts. Once $\txcal A$
 is properly defined, the counts for the mutations found in $G$
 different genomes are assembled into a $K\times G$ matrix $M$ with $K
 = |\txcal A|$. A key assumption consists in viewing the counts in $M$
@@ -153,31 +145,33 @@ defined by $N$ exposure vectors of dimension $1 \times G$. If the
 basis vectors are merged into a $K\times N$ matrix of signatures $P$,
 and the coefficient vectors into a $N\times G$ matrix of exposures
 $E$, then the data can be simply factored as $M=PE$. An example of
-this procedure is shown in Figure~\ref{fig:toyNMF}.
+this is shown in Figure~\ref{fig:toyNMF}. 
+
 
 \begin{figure*}
- \centering\includegraphics[width=14cm]{figs/f_bw_t}
+ \centering\includegraphics[width=13.5cm]{figs/f_bw_t}
  \caption{\textrm{%
   A factorisation for a mutation counts matrix $M$. The
   mutation matrix shown at the centre is defined over an alphabet with
   $K=11$ symbols, $1 \leqslant i \leqslant 11$, and $G=15$ genomes,
   $1\leqslant j\leqslant 15$. The matrices at the left and the right 
-  represent respectively an exposure  matrix $E$ and a signature matrix
-  $P$ for a factorisation with rank $N=5$.
+  represent respectively a signature and an exposure matrix $P$ and
+  $E$, obtained for a factorisation with rank $N=5$.
   }
  }
 \label{fig:toyNMF}
 \end{figure*}
 
-For a given a matrix of observed mutation counts there are essentially
-two interrelated questions that should be addressed. The first one
-concerns the determination of the underlying signatures and their
-exposures to best account for the observations. The second is related
-to the determination of the actual number of signatures
-$N$. \cite{NCell} and \cite{A} addressed the first issue by using
-nonnegative matrix factorisation (NMF) techniques.  NMF as conceived
-by \cite{LS} finds the factors $P$, $E$ that approximately solve the
-following non-convex optimisation problem
+
+For any given a mutation counts matrix there are essentially two
+interrelated questions that should be addressed. The first one
+concerns the determination of the underlying signatures and exposures
+to best account for the observations. The second is related to the
+determination of the actual number of signatures $N$. \cite{NCell} and
+\cite{A} addressed the first issue by using nonnegative matrix
+factorisation (NMF) techniques.  NMF as conceived by \cite{LS} finds
+the factors $P$, $E$ that approximately solve the following non-convex
+optimisation problem
 \begin{equation}
   \label{eqn:NMF}
     \min_{P\geqslant 0,\ E\geqslant 0}\|M - PE\|,
@@ -189,7 +183,6 @@ for $1 \leq N \leq \min\{K, G\}-1$. The rank is then determined rather
 indirectly by studying the clustering properties of the obtained
 factors via a criterion developed by \cite{BTGM} or by using the
 residual sum of squares, \cite{HMSG}.
-
 
 An alternative approach to mutational signature discovery, and to NMF
 in general, follows from a statistical interpretation of the problem
@@ -250,7 +243,7 @@ for $\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb
 R_+^{N\times G}$. We observe that the opportunities, when available,
 are regarded as known parameters and in this sense the likelihood is
 is  defined by the function $\mathcal L(\theta, W; m)$. To simplify 
-notation we omit any further reference to $W$. An expression   
+notation we omit any further reference to $W$. A full expression
 for $\mathcal L(\theta; m)$ is presented in ($s_1$).
 
 
@@ -265,18 +258,21 @@ each with rate respectively equal to $p_{in}e_{nj}w_{ij}$. This
 description is an immediate consequence of the properties of sums of
 independent Poisson random variables. Biologically, this accounts for
 the observation that the total number of mutations of a specific type,
-say $(i,j)$, arise as the linear combination of $N$ mutational processes
-$Z_{inj}$, $n = 1, \ldots, N$. From a statistical perspective,
-(\ref{eqn:latent_representation}) enables a data augmentation scheme
-that becomes instrumental for a Bayesian treatment to NMF, allowing
-the implementation of Expectation Maximisation (EM), Markov chain
-Monte Carlo (MCMC), and variational Bayesian approximations, see
-\cite{C}.  Hereafter let $Z = \{Z_{inj}: 1\leqslant i\leqslant K,
-1\leqslant n \leqslant N, 1\leqslant j\leqslant G\}$, and $z =
-\{z_{inj}\}$ denote a generic value for $Z$.
+say $(i,j)$, arise as the linear combination of $N$ mutational
+processes $Z_{inj}$, $n = 1, \ldots, N$. From a statistical
+perspective, (\ref{eqn:latent_representation}) enables a data
+augmentation scheme that becomes instrumental for a Bayesian treatment
+to NMF. As observed by \cite{C}, this allows the implementation of
+several powerful techniques such as the Expectation Maximisation (EM)
+algorithm, Markov chain Monte Carlo (MCMC), and variational Bayesian
+approximations.  Our statistical approach to NMF fully exploits the
+data augmentation scheme provided
+by~(\ref{eqn:latent_representation}).  Hereafter let $Z = \{Z_{inj}:
+1\leqslant i\leqslant K, 1\leqslant n \leqslant N, 1\leqslant
+j\leqslant G\}$, and $z$ denote a generic value for $Z$.
 
 
-\subsubsection{Priors} 
+\subsubsection{Priors and hyperpriors} 
 We consider conjugate priors for the matrices $P$ ans $E$ by modeling
 each of their entries as being independent Gamma distributed random
 variables. Specifically, $p_{in}$ is Gamma distributed with shape
@@ -292,29 +288,27 @@ $\alpha_{in}^p$ and $\beta_{in}^p$ and $A_e$, $B_e$ be $N\times G$
 matrices with elements $\alpha_{nj}^e$ and $\beta_{nj}^e$, and then
 let $\psi = (A_p, B_p, A_e, B_e)$.
 
-\subsubsection{Hyperpriors} 
+
 A further hierarchy in our model is set by considering the
-distributions for the hyperparameters
-$\psi$. By conjugancy to the prior, we
-define the entries of $B_p$ as being independent and distributed
-according to a common Gamma distribution with known shape and rate
-$a_p > 0$, $b_p > 0$. Similarly, the elements of $B_e$ are Gamma
+distributions for the hyperparameters $\psi$. By conjugancy to the
+prior, we define the entries of $B_p$ as being independent and
+distributed according to a common Gamma distribution with shape and
+rate $a_p > 0$, $b_p > 0$. Similarly, the elements of $B_e$ are Gamma
 distributed with the same shape $a_e>0$ and rate $b_e>0$. The
 situation for the matrices $A_p$ and $A_e$ is however different. While
-a Gamma distribution for the entries of $A_p$ and
-$A_e$ is conjugate to the Gamma prior (see \citealp{M}), the resulting
-full conditional distribution necessary in order to draw inferences
-about $A_p$ and $A_e$ does not has a standard form.  This fact has
-long been recognized in the Poisson hierarchical model
-(\citealp{GMS93}) and may be dealt with by choosing any parametric
-family of probability distributions with the appropriate support. Here
-we consider the elements of $A_p$ and $A_e$ as independent and
-exponentially distributed with rates $\lambda_p > 0$ and $\lambda_e >
-0$.  Let $\eta$ be the vector of hyperprior parameters $\eta = (a_e$,
-$b_e$, $a_p$, $b_p$, $\lambda_p$, $\lambda_e) \in \Lambda =
-(0, \infty)^6$.
+a Gamma distribution for the entries of $A_p$ and $A_e$ is conjugate
+to the Gamma prior (see \citealp{M}), the resulting full conditional
+distribution necessary in order to draw inferences about $A_p$ and
+$A_e$ does not has a standard form.  This fact has long been
+recognized in the Poisson hierarchical model (\citealp{GMS93}) and may
+be dealt with by choosing any parametric family of
+distributions with the appropriate support. Here we consider the
+elements of $A_p$ and $A_e$ as independent and exponentially
+distributed with rates $\lambda_p > 0$ and $\lambda_e > 0$.  Define
+$\eta$ as the vector of hyperprior parameters $\eta = (a_e$, $b_e$,
+$a_p$, $b_p$, $\lambda_p$, $\lambda_e) \in \Lambda = (0, \infty)^6$.
 % $\psi \in \Psi = \mathbb R_+^{K\times N}\times \mathbb R_+^{N\times
-% G}\times \mathbb R_+^{K\times N}\times\mathbb R_+^{N\times G}$ and
+% G}\times \mathbb R_+^{K\times N}\times\mathbb R_+^{N\times G}$ and 
 % $z \in \txcal Z = \mathbb Z_+^{K\times N\times G}$.
 
 \subsection{Bayesian treatment}
@@ -322,27 +316,27 @@ We follow an empirical Bayesian approach in which the parameters
 $\theta$, the hyperparameters $\psi$ and the hyperprior parameters
 $\eta$ are all estimated from the data.  Inferences about the
 mutational signatures and their exposures are driven by the
-conditional posterior distribution $\pi(\theta|M, \eta)$ by combining
-Markov chain Monte Carlo (MCMC) and EM techniques as
-encouraged by \cite{C01} or \cite{LC}. Specifically, for a given value
-of $\eta$ we consider a Metropolized Gibbs sampler targeted towards
-the conditional posterior. This entails the iterative generation of a
+conditional posterior distribution for the NMF model by combining
+Markov chain Monte Carlo (MCMC) and EM techniques as encouraged by
+\cite{C01}. Specifically, for a given value of $\eta$ we consider a
+Metropolized Gibbs sampler targeted towards the conditional posterior
+$\pi(\theta|M, \eta)$. This entails the iterative generation of a
 sequence of samples $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r
-\geqslant 1$, from the set of full conditional distributions, that is 
+\geqslant 1$, from the set of full conditional distributions
 \begin{gather*}
    Z^{(r+1)} \sim \pi(Z| \theta^{(r)}, \psi^{(r)}, M, \eta), \qquad
    \theta^{(r+1)} \sim \pi(\theta| Z^{(r+1)}, \psi^{(r)}, M, \eta), \\
        \text{and}\quad
    \psi^{(r+1)} \sim \pi(\psi| Z^{(r+1)}, \theta^{(r+1)}, M, \eta).
 \end{gather*}
-These samples are then used to update the value of $\eta$ via a
-stochastic EM step and the later is then used to generate a subsequent
-sequence of samples. The iteration of these steps defines a 
-convergent sequence $\big(\eta^{(u)}\big)$, $u = 1, \ldots, U$, which
-is then used to define the estimate $\hat\eta = \eta^{(U)}$. A final
-set of MCMC samples for $Z$, $\theta$ and $\psi$, computed by
-conditioning on $\hat\eta$ allow for the following Monte Carlo
-estimate 
+These samples are used to update the value of $\eta$ via a
+stochastic EM step and the later is then used to draw a subsequent
+sequence of samples for $Z$, $\theta$ and $\psi$. The successive iteration of these steps defines a 
+convergent sequence $\big(\eta^{(u)}\big)$, $u \geq 1$, leading
+towards the estimate $\hat\eta = \eta^{(U)}$ for
+sufficiently large $U$. A final set of MCMC samples for $Z$, $\theta$
+and $\psi$ drawn by conditioning on $\hat\eta$ allow for the
+following Monte Carlo estimate
 \begin{equation}
  \label{eqn:MCEM_estimate}
    \widehat{\pi}(\theta|M, \hat\eta)
@@ -350,7 +344,7 @@ estimate
    \frac{1}{R}\sum_{r=1}^R \pi(\theta|Z^{(r)}, \psi^{(r)}, M,
    \eta^{(U)})
 \end{equation}
-of the target posterior distribution.
+of the posterior $\pi(\theta|M, \eta)$.
 
 
 The samples for $\theta$ are used to compute point estimates for
@@ -358,54 +352,40 @@ $\theta$ and related posterior statistics. In particular, estimates
 for the mutation signatures and their exposures are computed as
 $\widehat P = R^{-1}\sum_{r=1}^R P^{(r)}$ and $\widehat E =
 R^{-1}\sum_{r=1}^R E^{(r)}$. Posterior variances or coverage intervals
-for $P$ and $E$ also be obtained from the samples $\theta^{(r)}$. The
-set of samples for $\theta$ generated by the last iteration of the
-MCMC/EM analysis is also considered for the estimation of the NMF
-rank, that is, the number of mutational signatures $N$ that best
-account for the observations. To this end, for each $N$ we consider
-the set of BIC values,
-\[
-  \text{BIC}\big(\theta^{(r)}_N\big) = 2\ln\mathcal L\big(m;
-    \theta^{(r)}_{N}\big) - N(G+K)\ln G, \qquad r =1, \ldots,
-    R
-\]
-with $\theta^{(r)}_N$ as the sequence of signature and exposure
-samples obtained while considering . Contrary to previous approaches,
-the evaluation of the BIC does not requires any further approximation
-because the likelihood $\mathcal L(\theta^{(r)}_N; m)$ is directly 
-available.
+for $P$ and $E$ also be obtained from the samples $\theta^{(r)}$. 
+
 
 Details about the Gibbs sampler are relatively standard and are
 included in Section 2 of the supplementary material. The following
 section details the Monte Carlo EM approach.
 
 \subsubsection{MCMC EM}\label{sec:MCMCEM}
-For a given data sample $m$, direct use of Bayes theorem
+For a given data sample $m$ and $Z = z$, direct use of Bayes theorem 
 allows to  express the the marginal likelihood for $\eta$, i.e. the
 function $\mathcal L: \Lambda \to \mathbb R$ induced by $\eta 
 \mapsto p(M=m|\eta)$, as
 \begin{equation}
   \label{eqn:margLik}
   \mathcal L(\eta; m) 
-  = \frac{p(m, Z, \theta, \psi\,|\,\eta)}{\pi(Z,
-      \theta, \psi|m, \eta)}.
+  = \frac{\mathcal L(m, z, \theta, \psi\,|\,\eta)}{\pi(z,
+      \theta, \psi|m, \eta)}
 \end{equation}
-Similarly, let $\mathcal L(\eta; m, Z, \theta, \psi)$ be defined as
-being equal to $p(M=m$, $Z$, $\theta$, $\psi|\eta)$ but considered as
-a function of $\eta$. For given $M=m$ and $Z= z$, this distribution is
-computed by observing the conditional decomposition
+with $\mathcal L(\eta; m, z, \theta, \psi)$ 
+defined as being equal to the distribution $p(M=m$, $Z=z$, $\theta$,
+$\psi|\eta)$ but considered as a function of $\eta$.  This function
+can be evaluated by observing the conditional decomposition
 \[
-   \mathcal L(\eta; m, Z, \theta, \psi) 
+   \mathcal L(\eta; m, z, \theta, \psi) 
   = 
    p(M=m, Z=z|\theta) p(\theta|\psi)p(\psi|\eta), 
 \]
 where $p(\theta|\psi)$ and $p(\psi|\eta)$ stand respectively for the
-prior and the hyperprior distribution, and $p(M=m, Z=z|\theta)$  for
-the complete data likelihood. The later is easily evaluated and an
-expression is presented by equation ($s_2$) of the supplementary
-material. Taking logarithms and integrating with respect to the
-posterior distribution $\pi(Z, \theta, \psi|m, \eta)$ with $\eta =
-\eta_0$ at both sides of (\ref{eqn:margLik}) gives 
+prior and the hyperprior distributions and $p(M=m, Z=z|\theta)$
+is the complete data likelihood. An expression for the later is given
+by ($s_2$) in the supplementary material. Taking logarithms and
+integrating with respect to the posterior distribution $\pi(Z, \theta,
+\psi|m, \eta)$ with $\eta = \eta_0$ at both sides of
+(\ref{eqn:margLik}) gives 
 \begin{align*}
    \mathbb E\big[\ln\mathcal L(\eta; m) \big| \eta_0\big] 
   =& 
@@ -439,7 +419,7 @@ leading to the sequence
    \bigg\}.
 \end{equation}
 The maximisation steps involved in (\ref{eqn:MCEM}) are relatively
-simple to implement and further detailed in Section 4.1 of the
+simple to implement and further detailed in Section 3.1 of the
 supplementary material.
 
 
@@ -448,25 +428,28 @@ throughout generates $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$
 approximately from the posterior distribution that is actually used to
 define the expectation in (\ref{eqn:EofMCEM}), see for example
 \cite{FM}. This rises however the issue as to in what sense
-$\widehat\pi(\theta|M, \hat\eta)$ defined by
-(\ref{eqn:MCEM_estimate}) can be regarded as an estimate for
-$\pi(\theta|M, \eta)$. The answer to this is provided by the following
-result.
+$\widehat\pi(\theta|M, \hat\eta)$ defined by (\ref{eqn:MCEM_estimate})
+can be regarded as an estimate for $\pi(\theta|M, \eta)$. The answer
+to this is provided by the following result. Let $f(\theta|M, \eta)$
+be the density of the posterior distribution $\pi(\theta|M, \eta)$.
 
-\begin{thrm} For any measurable set $B\subseteq
-\Theta$, $\widehat\pi(B|M,\hat\eta)$ converges in total variation
-towards $\pi(B|M,\eta)$ as $R, u \to \infty$.
-%\[
-%   \lim_{U,\ R\to\infty}
-%   \bigg\{
-%     \int_{\mathcal D}
-%    \bigg|
-%       \frac{1}{R} \sum_{r=1}^R \pi(\theta|M, \psi^{(r)}, Z^{(r)},
-%          \hat\eta^{(U)}) - \pi(\theta|M,\eta)
-%    \bigg|\ d\theta 
-%   \bigg\} 
-%   = 0
-%\]
+
+\begin{thrm} For any measurable set $B\subseteq \Theta$,
+ $\widehat\pi(B|M,\hat\eta)$ converges in total variation
+towards $\pi(B|M,\eta)$ as $R, U \to \infty$, that is
+\[
+   \lim_{U,\ R\to\infty}
+   \sup_{B}
+    \bigg|
+     \int_B
+      % \frac{1}{R} \sum_{r=1}^R \pi(\theta|M, \psi^{(r)}, Z^{(r)}, 
+      %    \hat\eta^{(U)}) 
+     \Big[
+       \widehat \pi(\theta|M, \hat\eta) - f(\theta|M,\eta)
+     \Big]\ d\theta
+    \bigg|
+   = 0.
+\]
 %\[
 %    \lim_{R,\ u\to\infty}
 %     \big|
@@ -478,13 +461,8 @@ towards $\pi(B|M,\eta)$ as $R, u \to \infty$.
 %where converge is with respect to the total variation norm. 
 \end{thrm}
 
-The proof to this Theorem is included in Section 4.2 of the
-accompanying supplementary material.
-
-
-
-
-%%%\end{methods}
+The proof to this is included in Section 3.2 of the accompanying 
+supplementary material.
 
 \subsection{Parameter estimation}
 The algorithm to estimate $\eta$ and generate the samples for $(Z,
@@ -514,11 +492,27 @@ formula in (\ref{eqn:MCEM}) and set $u = u+1$. Return to step
 \leqslant 0.05$ or $u > 4000$. 
 \item[\textbf{5}.] Set $\hat\eta = \hat\eta^{(u)}$ and then iterate
   the Gibbs sampler to obtain the final sequence of samples
-  $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r=1, \ldots
+  $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $r=1, \ldots,
   R$. 
 \end{enumerate}
 
-\subsection{Differential Exposure and Classification}
+\subsection{Model selection}
+The samples for $\theta$ generated by the last iteration of the
+MCMC/EM analysis is considered for the estimation of the number 
+of mutational signatures $N$. To this end, for each $N$ we consider
+the set of BIC values
+\[
+  \text{BIC}\big(\theta^{(r)}_N\big) = 2\ln\mathcal L\big(m;
+    \theta^{(r)}_{N}\big) - N(G+K)\ln G, \qquad r =1, \ldots,
+    R
+\]
+with $\theta^{(r)}_N$ as the sequence of signature and exposure 
+samples obtained while analysing the  data with $N$
+signatures. Contrary to previous approaches, the evaluation of the BIC
+does not requires any further approximation because the likelihood
+$\mathcal L(\theta^{(r)}_N; m)$ is directly available.
+
+\subsection{Differential Exposure Score and Classification}
 \textcolor{red}{RD: This may be the place to explain your 
 ideas.} 
 
@@ -540,8 +534,8 @@ the $5'$ and $3'$ neighboring bases in order to construct a $96\times
 The $(i,j)$-th element of the opportunity matrix was computed as the
 cumulative sum of the number of times that the $i$-th symbol of
 $\txcal A$ occurs in the $j$-th genome. This frequency was then
-multiplied by the copy number variation information found in the data 
-set by \cite{NCell}.
+multiplied by the CNV information found in the data set by
+\cite{NCell}.
 
 
 Synthetic data sets mimicking real observations were assembled by
@@ -564,11 +558,96 @@ Signature 13 causes predominantly \texttt{C>G} mutations.
 \subsection{\texttt{signeR}} Describe R's package 
 source destination. Mention that is has been optimized in
 \CC. A detailed explanation about how to install, run, etc is 
-presented as supplementary material.
+presented as supplementary material. 
 
 \section{Results}
 \subsection{21 breast cancer data}
+Our analysis of the 21 breast cancer data revealed 5 biologically
+distinct signatures (Figure~\ref{fig:bcancer}.A). These results agree
+well with existing knowledge. Signatures $S_1$ and $S_5$ are
+attributed to activity of the  APOBEC family of cytidine
+deaminases. Signature $S_2$ is associated with a process initiated by 
+the spontaneous deamination of 5-methylcytosine and it correlates with 
+age of cancer diagnosis. Signature $S_3$ is associated 
+with failure of DNA double-strand break-repair by homologous
+recombination.  Signature $S_4$ is of unknown 
+aetiology. The two most highly exposed signatures, namely $S_1$ and
+$S_2$ were also found in \cite{FICMV} and $S_1$, $S_2$, $S_3$, and 
+$S_5$ were described by \cite{A}. The determination of the number of 
+signatures is based on the median of the BIC values obtained by
+varying $N$ from 1 to 95\footnote{\textcolor{red}{RD: please set the
+    right upper limit for $N$ considered by \texttt{signeR}}}.
+ Figure~\ref{fig:bcancer}.B presents the box
+plots obtained at each model rank.
+
+The results for the differential exposure analysis are shown in 
+Figure~\ref{fig:bcancer}.C. Specifically, we considered samples
+with and without germinative mutations in BRCA1 and BRCA2 genes, thus
+providing a better understanding of how germline mutation status may
+lead to distinctive mutational patterns. The protein products of BRCA1
+and BRCA2 plays a role in maintaining genomic stability and are
+involved in a variety of cellular processes such as damage signaling
+and DNA repair (\citealp{LY}). Disruption of such processes often
+leads to a rapid accumulation of somatic mutations in cancer
+genomes. DES highlights four mutational signatures
+(Figure~\ref{fig:bcancer}: $S_3$-$S_5$), two of these are associated
+with inactivating mutations in BRCA1/BRCA2 (Figure 1: S3) and
+implicate to activity of APOBEC (Figure 1: S1,S3) respectively. Taken
+together, this finding is consistent with existing knowledge and
+thereby may help explain the failure in the response to DNA damage by
+homologous recombination in BRCA-defective breast cancer. Based on
+this, we conclude that our DES method allows reveal features into
+genotype-phenotype relationships between groups of interest.
+ 
+
+\begin{figure*}
+  \centering
+  \begin{tabular}{c}
+   \includegraphics[width=13cm]{figs/Signatures_5_com_Opp_bw}
+  \\
+   \begin{tabular}{ccc}
+    \includegraphics[width=5.5cm]{figs/BICs_21bc_with_Opportunity_5_3to12}
+   &
+     \includegraphics[width=5.5cm]{figs/Diffexp_boxplot_21bc_com_Opp_b2}
+   &
+     \includegraphics[width=5.5cm]{figs/Classific_result_with_Opp_5b}
+   \end{tabular}
+ \end{tabular}
+ \caption{\textrm{%
+     Results for the 21 breast cancer data. A presents the five
+    signatures obtained for the highest NMF model rank according to the
+BIC score presented in B. Signatures are labelled according to the
+order induced by the total signature exposure defined as $\hat e_n =
+\sum_{j} \hat e_{nj}$, with $S_1$ being the most exposed
+signature. Mention the rescaling so that sum of bars equals 1?
+Mention what the small horizontal levels are: posterior marginal
+estimates for each component media, and *, *, * percentiles. B: values
+for the BIC$(\theta^{(r)}_N)$, $1 \leq r \leq R$ obtained at various
+NMF ranks, $N$. C: Differential exposure scores: mention that the
+dashed lines are located at the significance levels 0.05, 0.01 and
+0.001. D: Classification \textcolor{red}{RD: please explain briefly.}
+  }
+ }\label{fig:bcancer} 
+\end{figure*} 
+
+The analysis of the 21 breast cancer data is summarised in
+Figure 2. Describe the signatures: say what the different
+bars present (I mean the median, etc...). Compare this to figure * in
+*. Explain the model selection result.
+ 
+Explain the differential exposure result. Focus on biology, importance
+of this from a biological perspective.
+
+Include the classification result.
+
 \subsection{Simulation study}
+Mention the results with the simulated data: focus on the robustness
+of our method. Observe that this data set is rather challenging from
+an inferential point of view because of the similarity of two of the 
+ signatures considered (see signatures $S_*$, and $S_{**}$ in Figure
+ S*).
+
+
 
 \section{Discussion}
 The idea that many cancers acquire a mutator phenotype at different 
@@ -579,12 +658,26 @@ novel approach to deciphering mutational signatures, and featuring a
 number of advantages when compared with others approaches. First, it
 xxx $\ldots$ Second, xxx and Third $\ldots$ 
 
+
+Our method is robust. It requires minimal intervention from part of
+the user, but it also allows the incorporation of prior information
+into the modelling. This justifies in part the empirical
+approach. Mention that this reduces considerably the number of
+parameters that have to be specified: from $2(KN+NG)=1170$ hyper
+parameters down to 6.
+
+
+Our method considers the model selection problem robustly. Elaborate
+on the model selection problem to NMF --there is space for
+improvement. Close.
+
+
 \section*{Funding}
 This work was partially supported by Funda\c{c}\~ao de Apoio a
 Pesquisa do Estado de S\~ao Paulo (FAPESP), grant $\ldots$. 
 \vspace*{-12pt}
  
-%\bibliographystyle: natbib, achemnat, plainnat, abbrv, plain 
+%\bibliographystyle: natbib, achemnat, plainnat, abbrv, plain
 \bibliographystyle{bioinformatics} 
 \bibliography{bnmf}
 \end{document} 
