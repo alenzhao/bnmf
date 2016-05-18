@@ -148,7 +148,7 @@ $E$, then the data can be simply factored as $M=PE$. An example of
 this is shown in Figure~\ref{fig:toyNMF}. 
 
 \begin{figure*}
-  \centering\includegraphics[width=13.5cm]{figs/f_bw_t}
+  \centering\includegraphics[width=13.5cm]{figs/f_t}
   \caption{\textrm{%
    A factorisation for a mutation counts matrix $M$. The
    mutation matrix shown at the centre is defined over an alphabet
@@ -268,8 +268,8 @@ $\alpha_{in}^p + 1$ and rate $\beta_{in}^p$ for $\alpha_{in}^p
 with shape $\alpha_{nj}^e+1$ and rate $\beta_{nj}^e$ with
 $\alpha_{nj}^e \geqslant 0$, $\beta_{nj}^e \geqslant 0$. Shape
 parameters are shifted by 1 to ensure bounded values for the Gamma
-densities\footnote{\textcolor{red}{RD: we need to explain this.  That
-is, why do we have to avoid a `singularity' near the origin?}}. Let
+densities, what improves the stability of the proposed Gibbs sampler 
+without compromising its flexibility. Let
 $A_p$ and $B_p$ be $K\times N$ matrices respectively with entries
 $\alpha_{in}^p$ and $\beta_{in}^p$ and $A_e$, $B_e$ be $N\times G$
 matrices with elements $\alpha_{nj}^e$ and $\beta_{nj}^e$, and then
@@ -497,12 +497,79 @@ samples obtained while analysing the  data with $N$
 signatures. Contrary to the approach in \cite{FICMV}, we observe that
 the evaluation of the BIC does not requires any further approximation
 because the likelihood $\mathcal L(\theta^{(r)}_N; m)$ is directly
-available.
+available. The median of computed BIC values is used as the selection 
+criterion for the model rank. A search heuristic is applied to find 
+the number of signatures corresponding to the maximum of median BIC 
+values: 
+\begin{enumerate}
+\item[\textbf{1}.] Limits for model rank are user-defined or set as 
+$1\leqslant rank \leqslant max[M\quad dimensions]-1$.
+\item[\textbf{2}.] Set \textit{range} = maximum\_rank - minimum\_rank + 1.
+\item[\textbf{3}.] Set \textit{step} = $2^d$ for an integer \textit{d} such that 
+$range/8 < step \leqslant range/4$.
+\item[\textbf{4}.] Evaluate rank = 1, 1 + \textit{step}, 1 + 2*\textit{step}, ..., 
+keeping the rank corresponding to the biggest median BIC found 
+(let us call it r\_optimum). The algorithm continues until it runs 
+out of possibilities or evaluates two consecutive ranks for which the 
+median BICs are less then the biggest of those values found so far.
+\item[\textbf{5}.] Update \textit{step} to half of its previous value.
+\item[\textbf{6}.] Evaluate rank = r\_optimum - \textit{step} and 
+rank = r\_optimum + \textit{step}, updating r\_optimum whenever needed.
+\item[\textbf{7}.] Return to 5 and iterates until \textit{step}=1.
+\item[\textbf{8}.] Select the final r\_optimum as the number of mutational 
+signatures, N.
+\end{enumerate}
 
-
-\subsection{Differential Exposure Score and Classification}
-\textcolor{red}{RD: This may be the place to explain your 
-ideas.} 
+\subsection{Applications of Gibbs samples} 
+The posterior distribution of matrices P and E is reflected on the generated 
+Gibbs samples for those parameters and provides a landscape of the mutational 
+signatures and exposures of studied genomes. The information contained on it 
+is much richer than what a single estimators could provide. Instances of matrix 
+P can be used to estimate the signatures along with a measure of uncertainty for 
+them, as well as instances of matrix E can be used to draw inferences about 
+genome samples.
+\subsubsection{Signature estimation}
+We propose the use of matrix P instances as the estimator for signatures, thus 
+any computation that would be performed over those signatures should be performed 
+on every P instance and results should be summarized together. Although, for 
+visualization we adopt the entrywise median of those samples, as well as their 
+entrywise quantiles provides measures of their stability along instances (Figure 2.A).
+\subsubsection{Differential Exposure}
+On the other hand, matrix E instances keep information about the mutational 
+profiles of genome samples. This could be associated with other infomations, 
+such as clinical data, in order to check how the activity of each mutational 
+process correlates to them. Particularly, when such prior infomation motivates 
+the division of samples in two or more groups, we propose the use of a 
+non-parametric test, e. g. Kruskal-Wallis test, to check whether exposure 
+values are significantly different among groups. This test must be applied to 
+each instance of matrix E, thus generating a set of p-values for each signature. 
+For easy of visualization we log-transform those values and multiply the 
+results by -1. The median of those trasformed values (or any other 
+quantile) can be used as an indicator of differential exposure. We named this value the 
+\textit{Differential Exposure Score} (DES) and signatures that show DES above a given 
+threshold are considered as differentially active among groups.
+\subsubsection{Genome sample classification}
+Matrix E instances can also be used for the classification of genome samples. 
+As above, let us assume the existence of some prior information motivating the 
+division of samples in two or more groups, and suppose there are also some genomes 
+for which those information are not available (unlabeled samples). Assigning those 
+genomes to one of the groups based on their mutational profiles could be of interest, 
+especially for clinical applications. We propose the use of classification algorithms, 
+e.g. k-Nearest Neighbors or Random Forests, to accomplish this task. The selected 
+algorithm should be applied  to each instance of matrix E in order to classify the
+ unlabeled samples according to its exposures to mutational processes.  This procedure 
+generates a set of possible classifications\footnote{If kNN is used, one 
+classification is generated for each instance of matrix E. If Random Forest is used 
+instead, a number of classification trees is generated for each E instance, according 
+to the parameter ntree. In the last case, the number of possible classifications will 
+be given by the product of ntree by the number of E instances.} for each unlabeled 
+sample, and one can apply a majority rule to find the final group assignment. 
+Although, unlabeled samples are assigned to a group only if there is more than 75\% 
+of agreement among possible classifications, otherwise they are labeled as \textit{undefined}. 
+This approach can provide a valuable tool for prognostic, for example it has been 
+suggested that patients with mutational profiles similar to those found in genomes 
+with mutated BRCA genes could respond to treatments targeting defective DNA 
+double-strand break repair mechanisms (\citealp{Ash}).
 
 \section{Methods}
 \subsection{Data} The data set containing 183916 somatic point
@@ -542,7 +609,7 @@ presented as supplementary material.}
     \begin{tabular}{ccc}
      \includegraphics[width=5.5cm]{figs/BICs_21bc_with_Opportunity_5_3to12}
      &
-     \includegraphics[width=5.5cm]{figs/Diffexp_boxplot_21bc_com_Opp_b2}
+     \includegraphics[width=5.5cm]{figs/Diffexp_boxplot_21bc_com_Opp_bw3}
      &
      \includegraphics[width=5.5cm]{figs/Classific_result_with_Opp_5b}
    \end{tabular}
@@ -557,10 +624,14 @@ presented as supplementary material.}
   Mention what the small horizontal levels are: posterior marginal
   estimates for each component media, and *, *, * percentiles. B: values
   for the BIC$(\theta^{(r)}_N)$, $1 \leq r \leq R$ obtained at various
-  NMF ranks, $N$. C: Differential exposure scores: mention that the
-  dashed lines are located at the significance levels 0.05, 0.01 and
-  0.001. D: Classification \textcolor{red}{RD: please explain
-    briefly.}
+  NMF ranks, $N$. C: Differential exposure scores - signatures showing 
+  median of log-p-values above thresholds were selected as differentially 
+  active among groups, and labels show group where they were most active. 
+  Dashed lines correspond, in ascending order, to 
+  significance levels of 0.05, 0.01 and 0.001. D: Classifications obtained 
+  for each breast cancer genome based on the remaining 20 samples. The sample 
+  marked with an ``*'' was the only misclassification found (it carries a 
+  mutation at BRCA1 gene).
   }
  }\label{fig:bcancer} 
 \end{figure*}
@@ -593,16 +664,22 @@ and BRCA2 play a role in maintaining genomic stability and are
 involved in a variety of cellular processes such as damage signaling
 and DNA repair (\citealp{LY}). Disruption of such processes often
 leads to a rapid accumulation of somatic mutations in cancer
-genomes. DES highlights four mutational signatures
+genomes. DES highlights three mutational signatures
 (Figure~\ref{fig:bcancer}: $S_3$-$S_5$), two of these are associated
-with inactivating mutations in BRCA1/BRCA2 (Figure 1: S3) and
-implicate to activity of APOBEC (Figure 1: S1,S3) respectively. Taken
+with inactivating mutations in BRCA1/BRCA2 genes and
+implicated to activity of APOBEC genes (Figure 1: S1 and S3, respectively). Taken
 together, this finding is consistent with existing knowledge and
 thereby may help explain the failure in the response to DNA damage by
 homologous recombination in BRCA-defective breast cancer. Based on
 this, we conclude that our DES method allows reveal features into
 genotype-phenotype relationships between groups of interest.
- 
+
+A leave-one-out cross-validation strategy was applied to test our 
+classification approach, based on the same grouping of samples used 
+for the differential exposure score. Each genome sample at a time had 
+its label removed and were classified based on the remaining 20 samples. 
+Results can be seen in Figure 2.D. Only one sample were misclassified, 
+thus attesting the efficiency of our classification approach. 
  
 \textcolor{red}{RD, IT: Explain the classification result.}
 
@@ -614,8 +691,16 @@ described in Sanger's catalogue of somatic cancer mutations,
 \verb~http://cancer.sanger.ac.uk/cosmic/signatures~.
 Further information concerning their aetiology and supplemental
 features can be found in \cite{HEN} and
-\cite{ANat}.\footnote{\textcolor{red}{RD:explain how do we simulate
-    $E$ and how do we add extra noise}}
+\cite{ANat}.Exposures were generated with a maximum likelihood 
+estimator: matrix E was determined such that  $\mathcal L(M; P,E,W)$ 
+was maximal, where P contains the four above mentioned signatures and 
+M and W are, respectively, the mutation counts and opportunity from 
+the 21 breast cancer data set. A matrix of simulated mutation counts 
+were then generated with Poisson noise, according to our model:
+\begin{equation}
+  \label{eqn:simulation_matrix}
+     M_{ij} \sim Poisson((PE\circ W)_{ij})
+\end{equation}
 %Signature 1 is the result of an endogenous mutational process
 %initiated by spontaneous deamination of 5-methylcytosine and has been
 %found in most cancer samples. Signature 2 is related to the activity
@@ -627,10 +712,10 @@ features can be found in \cite{HEN} and
 A plot of the signatures and the actual synthetic data set is included
 as supplementary material (Figures~*, *). 
 
-The data set was analysed * times with \texttt{signeR} and EMu. Emu
-estimated the correct number of signatures only * of all the
+The data set was analysed 100 times with \texttt{signeR} and EMu. Emu
+estimated the correct number of signatures only in nine of all the
 analyses, while \texttt{signeR} correctly estimated the model
-dimension in all 
+dimension in all of them.
 
 
 Te supplementary material includes R scripts employed in all of these
@@ -639,7 +724,7 @@ analyses.
  \centering
    \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_boxplot_SSE}
   \caption{\textrm{%
-    Squared sum of errors for the $P$ and $E$ estimates of a 4
+    Sum of Squared Errors for the signature estimates (matrix $P$) of a 4 signatures
     synthetic data set obtained by \texttt{signeR} and EMu.
    }
   }
@@ -647,10 +732,10 @@ analyses.
 \end{figure}
 \begin{figure}  
  \centering
-  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_histogram_LLh}
+  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_histogram_LLh_same_axis}
   \caption{\textrm{%
-   Log likelihood values at the estimates for $P$ and $E$
-   obtained by the analysis of a 4 signature synthetic data set via
+   Histogram of Log likelihood values at the estimates for $P$ and $E$
+   obtained by the analysis of a 4 signatures synthetic data set via
    \texttt{signeR} and EMu.
    }
   }
