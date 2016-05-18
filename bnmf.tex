@@ -230,7 +230,7 @@ for $\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb
 R_+^{N\times G}$. We observe that the opportunities, when available,
 are regarded as known parameters and in this sense the likelihood is
 is  defined by the function $\mathcal L(\theta, W; m)$. To simplify 
-notation we omit any further reference to $W$. A full expression
+notation we omit hereafter any further reference to $W$. A full expression
 for $\mathcal L(\theta; m)$ is presented in ($s_1$).
 
 
@@ -260,20 +260,20 @@ j\leqslant G\}$ and let $z$ denote a generic value for $Z$.
 
 
 \subsubsection{Priors and hyperpriors} 
-We consider conjugate priors for the matrices $P$ ans $E$ by modeling
+We consider conjugate priors for the matrices $P$ and $E$ by modelling
 each of their entries as being independent Gamma distributed random
 variables. Specifically, $p_{in}$ is Gamma distributed with shape
-$\alpha_{in}^p + 1$ and rate $\beta_{in}^p$ for $\alpha_{in}^p
-\geqslant 0$, $\beta_{in}^p \geqslant 0$. Likewise, $e_{nj}$ are Gamma
-with shape $\alpha_{nj}^e+1$ and rate $\beta_{nj}^e$ with
-$\alpha_{nj}^e \geqslant 0$, $\beta_{nj}^e \geqslant 0$. Shape
-parameters are shifted by 1 to ensure bounded values for the Gamma
-densities\footnote{\textcolor{red}{RD: we need to explain this.  That
-is, why do we have to avoid a `singularity' near the origin?}}. Let
-$A_p$ and $B_p$ be $K\times N$ matrices respectively with entries
-$\alpha_{in}^p$ and $\beta_{in}^p$ and $A_e$, $B_e$ be $N\times G$
-matrices with elements $\alpha_{nj}^e$ and $\beta_{nj}^e$, and then
-let $\psi = (A_p, B_p, A_e, B_e)$.
+$\alpha_{in}^p + 1$ and rate $\beta_{in}^p \geqslant 0$ for
+$\alpha_{in}^p \geqslant 0$. Likewise, $e_{nj}$ are Gamma with shape
+$\alpha_{nj}^e+1$ and rate $\beta_{nj}^e \geqslant 0$ for
+$\alpha_{nj}^e \geqslant 0$. Shape parameters are shifted by 1 to
+ensure bounded values for the Gamma densities, improving stability of
+the computational methods described in subsequent sections without
+compromising its generality. Let $A_p$ and $B_p$ be $K\times N$
+matrices respectively with entries $\alpha_{in}^p$ and $\beta_{in}^p$
+and $A_e$, $B_e$ be $N\times G$ matrices with elements $\alpha_{nj}^e$
+and $\beta_{nj}^e$, and then let $\psi = (A_p, B_p, A_e, B_e)$ denote
+the hyperparameters.
 
 
 A further hierarchy in our model is set by considering the
@@ -281,19 +281,19 @@ distributions for the hyperparameters $\psi$. By conjugancy to the
 prior, we define the entries of $B_p$ as being independent and
 distributed according to a common Gamma distribution with shape and
 rate $a_p > 0$, $b_p > 0$. Similarly, the elements of $B_e$ are Gamma
-distributed with the same shape $a_e>0$ and rate $b_e>0$. The
-situation for the matrices $A_p$ and $A_e$ is however different. While
-a Gamma distribution for the entries of $A_p$ and $A_e$ is conjugate
-to the Gamma prior (see \citealp{M}), the resulting full conditional
+distributed with shape $a_e>0$ and rate $b_e>0$. The situation for the
+matrices $A_p$ and $A_e$ is however different. While a Gamma
+distribution for the entries of $A_p$ and $A_e$ is conjugate to the
+Gamma prior (see \citealp{M}), the resulting full conditional
 distribution necessary in order to draw inferences about $A_p$ and
 $A_e$ does not has a standard form.  This fact has long been
-recognized in the Poisson hierarchical model (\citealp{GMS93}) and may
-be dealt with by choosing any parametric family of
-distributions with the appropriate support. Here we consider the
-elements of $A_p$ and $A_e$ as independent and exponentially
-distributed with rates $\lambda_p > 0$ and $\lambda_e > 0$.  Define
-$\eta$ as the vector of hyperprior parameters $\eta = (a_e$, $b_e$,
-$a_p$, $b_p$, $\lambda_p$, $\lambda_e) \in \Lambda = (0, \infty)^6$.
+recognised in the Poisson hierarchical model (\citealp{GMS93}) and may
+be dealt with by choosing any parametric family of distributions with
+the appropriate support. Here we consider the elements of $A_p$ and
+$A_e$ as independent and exponentially distributed with rates
+$\lambda_p > 0$ and $\lambda_e > 0$.  Let $\eta$ be the vector of
+hyperprior parameters $\eta = (a_e$, $b_e$, $a_p$, $b_p$, $\lambda_p$,
+$\lambda_e)$ defined on $\Lambda = (0, \infty)^6$.
 % $\psi \in \Psi = \mathbb R_+^{K\times N}\times \mathbb R_+^{N\times
 % G}\times \mathbb R_+^{K\times N}\times\mathbb R_+^{N\times G}$ and 
 % $z \in \txcal Z = \mathbb Z_+^{K\times N\times G}$.
@@ -320,9 +320,9 @@ These samples are used to update the value of $\eta$ via a stochastic
 EM step and the later is then used to draw a subsequent sequence of
 samples for $Z$, $\theta$ and $\psi$. The successive iteration of
 these steps defines a convergent sequence $\big(\eta^{(u)}\big)$, $u
-\geq 1$, leading towards the estimate $\hat\eta = \eta^{(U)}$ for
+\geq 1$, allowing for the estimate $\hat\eta = \eta^{(U)}$ for
 sufficiently large $U$. A final set of MCMC samples for $Z$, $\theta$
-and $\psi$ drawn by conditioning on $\hat\eta$ allow for the following
+and $\psi$ drawn by conditioning on $\hat\eta$ furnish the 
 Monte Carlo estimate
 \begin{equation}
  \label{eqn:MCEM_estimate}
@@ -334,17 +334,12 @@ Monte Carlo estimate
 of the posterior $\pi(\theta|M, \eta)$.
 
 
-The samples for $\theta$ are used to compute point estimates for
-$\theta$ and related posterior statistics. In particular, estimates
-for the mutation signatures and their exposures are computed as
-$\widehat P = R^{-1}\sum_{r=1}^R P^{(r)}$ and $\widehat E =
-R^{-1}\sum_{r=1}^R E^{(r)}$. Posterior variances or coverage intervals
-for $P$ and $E$ also be obtained from the samples $\theta^{(r)}$. 
-
-
-Details about the Gibbs sampler are relatively standard and are
-included in Section 2 of the supplementary material. The following
-section details the Monte Carlo EM approach.
+The MCMC samples are used to compute point estimates and all other
+related posterior statistics for the signatures and their exposures. 
+In particular, estimates for these quantities are computed as the
+sample median. Further details about the Gibbs sampler are relatively
+standard and are included in  Section 2 of the supplementary
+material. The following section details the MCMC EM approach.
 
 \subsubsection{MCMC EM}\label{sec:MCMCEM}
 For a given data sample $m$ and $Z = z$, direct use of Bayes theorem 
@@ -359,7 +354,7 @@ function $\mathcal L: \Lambda \to \mathbb R$ induced by $\eta
 \end{equation}
 with $\mathcal L(\eta; m, z, \theta, \psi)$ 
 defined as being equal to  $p(M=m$, $Z=z$, $\theta$,
-$\psi|\eta)$, but considered as a function of $\eta$.  The latter
+$\psi|\eta)$ but considered as a function of $\eta$.  The latter
 can be evaluated by observing the conditional decomposition
 \[
    \mathcal L(\eta; m, z, \theta, \psi) 
@@ -494,15 +489,79 @@ the set of BIC values
 \]
 with $\theta^{(r)}_N$ as the sequence of signature and exposure 
 samples obtained while analysing the  data with $N$
-signatures. Contrary to the approach in \cite{FICMV}, we observe that
-the evaluation of the BIC does not requires any further approximation
-because the likelihood $\mathcal L(\theta^{(r)}_N; m)$ is directly
-available.
+signatures. The value for $N$ is chosen as the one with highest median 
+BIC. It is important to observe that in contrast to the approach in
+\cite{FICMV}, the evaluation of BIC here does not requires any further
+approximation because the likelihood $\mathcal L(\theta^{(r)}_N; m)$
+is directly available.
 
 
-\subsection{Differential Exposure Score and Classification}
-\textcolor{red}{RD: This may be the place to explain your 
-ideas.} 
+The following heuristic is applied to find the number of
+signatures corresponding to the maximum of median BIC values.
+\begin{enumerate}
+\item[\textbf{1}.] Limits for model rank are user-defined or set as 
+$1\leqslant rank \leqslant max[M\quad dimensions]-1$.
+\item[\textbf{2}.] Set \textit{range} = maximum\_rank - minimum\_rank + 1.
+\item[\textbf{3}.] Set \textit{step} = $2^d$ for an integer \textit{d} such that 
+$range/8 < step \leqslant range/4$.
+\item[\textbf{4}.] Evaluate rank = 1, 1 + \textit{step}, 1 + 2*\textit{step}, ..., 
+keeping the rank corresponding to the biggest median BIC found 
+(let us call it r\_optimum). The algorithm continues until it runs 
+out of possibilities or evaluates two consecutive ranks for which the 
+median BICs are less then the biggest of those values found so far.
+\item[\textbf{5}.] Update \textit{step} to half of its previous value.
+\item[\textbf{6}.] Evaluate rank = r\_optimum - \textit{step} and 
+rank = r\_optimum + \textit{step}, updating r\_optimum whenever needed.
+\item[\textbf{7}.] Return to 5 and iterates until \textit{step}=1.
+\item[\textbf{8}.] Select the final r\_optimum as the number of mutational 
+signatures, N.
+\end{enumerate}
+
+
+\subsection{Differential Exposure Score}
+On the other hand, matrix E instances keep information about the
+mutational profiles of genome samples. This could be associated with
+other infomations, such as clinical data, in order to check how the
+activity of each mutational process correlates to them. Particularly,
+when such prior infomation motivates the division of samples in two or
+more groups, we propose the use of a non-parametric test,
+e. g. Kruskal-Wallis test, to check whether exposure values are
+significantly different among groups. This test must be applied to
+each instance of matrix E, thus generating a set of p-values for each
+signature.  For easy of visualization we log-transform those values
+and multiply the results by -1. The median of those trasformed values
+(or any other quantile) can be used as an indicator of differential
+exposure. We named this value the \emph{Differential Exposure Score}
+(DES) and signatures that show DES above a given threshold are
+considered as differentially active among groups.
+
+\subsection{Genome sample classification}
+Matrix $E$ instances can also be used for the classification of genome
+samples.  As above, let us assume the existence of some prior
+information motivating the division of samples in two or more groups,
+and suppose there are also some genomes for which those information
+are not available (unlabelled samples). Assigning those genomes to one
+of the groups based on their mutational profiles could be of interest,
+especially for clinical applications. We propose the use of
+classification algorithms, e.g. $k$-Nearest Neighbors or Random
+Forests, to accomplish this task. The selected algorithm should be
+applied to each instance of matrix E in order to classify the
+unlabelled samples according to its exposures to mutational processes.
+This procedure generates a set of possible classifications\footnote{If
+kNN is used, one classification is generated for each instance of
+matrix E. If Random Forest is used instead, a number of classification
+trees is generated for each E instance, according to the parameter
+ntree. In the last case, the number of possible classifications will
+be given by the product of ntree by the number of E instances.} for
+each unlabelled sample, and one can apply a majority rule to find the
+final group assignment.  Although, unlabelled samples are assigned to
+a group only if there is more than 75\% of agreement among possible
+classifications, otherwise they are labeled as
+\textit{undefined}. This approach can provide a valuable tool for
+prognostic, for example it has been suggested that patients with
+mutational profiles similar to those found in genomes with mutated
+BRCA genes could respond to treatments targeting defective DNA
+double-strand break repair mechanisms (\citealp{Ash}).
 
 \section{Methods}
 \subsection{Data} The data set containing 183916 somatic point
@@ -548,19 +607,23 @@ presented as supplementary material.}
    \end{tabular}
  \end{tabular}
  \caption{\textrm{%
-  Results for the 21 breast cancer data. A presents the five
-  signatures obtained for the highest NMF model rank according to the
-  BIC score presented in B. Signatures are labelled according to the
-  order induced by the total signature exposure defined as $\hat e_n =
-  \sum_{j} \hat e_{nj}$, with $S_1$ being the most exposed
-  signature. Mention the rescaling so that sum of bars equals 1?
-  Mention what the small horizontal levels are: posterior marginal
-  estimates for each component media, and *, *, * percentiles. B: values
-  for the BIC$(\theta^{(r)}_N)$, $1 \leq r \leq R$ obtained at various
-  NMF ranks, $N$. C: Differential exposure scores: mention that the
-  dashed lines are located at the significance levels 0.05, 0.01 and
-  0.001. D: Classification \textcolor{red}{RD: please explain
-    briefly.}
+   Results for the 21 breast cancer data. A presents the five
+   signatures obtained for the highest NMF model rank according to the
+   BIC score presented in B. Signatures are labelled according to the
+   order induced by the total signature exposure defined as $\hat e_n =
+   \sum_{j} \hat e_{nj}$, with $S_1$ being the most exposed
+   signature. \textcolor{red}{Mention the rescaling so that sum of bars
+   equals 1?  Mention what the small horizontal levels are: posterior
+   marginal estimates for each component media, and *, *, * percentiles.}
+   B: values for the BIC$(\theta^{(r)}_N)$, $1 \leq r \leq R$ obtained at
+   various NMF ranks, $N$. C: Differential exposure scores - signatures
+   showing median of log-p-values above thresholds were selected as
+   differentially active among groups, and labels show group where they
+   were most active.  Dashed lines correspond to
+   significance levels of 0.05, 0.01 and 0.001. D: Classifications
+   obtained for each breast cancer genome based on the remaining 20
+   samples. The sample marked with an ``*'' was the only
+   misclassification found (it carries a mutation at BRCA1 gene).
   }
  }\label{fig:bcancer} 
 \end{figure*}
@@ -593,16 +656,22 @@ and BRCA2 play a role in maintaining genomic stability and are
 involved in a variety of cellular processes such as damage signaling
 and DNA repair (\citealp{LY}). Disruption of such processes often
 leads to a rapid accumulation of somatic mutations in cancer
-genomes. DES highlights four mutational signatures
+genomes. DES highlights three mutational signatures
 (Figure~\ref{fig:bcancer}: $S_3$-$S_5$), two of these are associated
-with inactivating mutations in BRCA1/BRCA2 (Figure 1: S3) and
-implicate to activity of APOBEC (Figure 1: S1,S3) respectively. Taken
+with inactivating mutations in BRCA1/BRCA2 genes and
+implicated to activity of APOBEC genes (Figure 1: S1 and S3, respectively). Taken
 together, this finding is consistent with existing knowledge and
 thereby may help explain the failure in the response to DNA damage by
 homologous recombination in BRCA-defective breast cancer. Based on
 this, we conclude that our DES method allows reveal features into
 genotype-phenotype relationships between groups of interest.
- 
+
+A leave-one-out cross-validation strategy was applied to test our 
+classification approach, based on the same grouping of samples used 
+for the differential exposure score. Each genome sample at a time had 
+its label removed and were classified based on the remaining 20 samples. 
+Results can be seen in Figure 2.D. Only one sample were misclassified, 
+thus attesting the efficiency of our classification approach. 
  
 \textcolor{red}{RD, IT: Explain the classification result.}
 
@@ -614,32 +683,52 @@ described in Sanger's catalogue of somatic cancer mutations,
 \verb~http://cancer.sanger.ac.uk/cosmic/signatures~.
 Further information concerning their aetiology and supplemental
 features can be found in \cite{HEN} and
-\cite{ANat}.\footnote{\textcolor{red}{RD:explain how do we simulate
-    $E$ and how do we add extra noise}}
-%Signature 1 is the result of an endogenous mutational process
-%initiated by spontaneous deamination of 5-methylcytosine and has been
-%found in most cancer samples. Signature 2 is related to the activity
-%of the AID/APOBEC family of cytidine deaminases. Signature 3 is
-%associated with failure of DNA double-strand break-repair by
-%homologous recombination and is strongly associated with
-%germline and somatic BRCA1 and BRCA2 mutations in breast cancer.
-%Signature 13 causes predominantly \texttt{C>G} mutations.
+\cite{ANat}. Exposures were generated with a maximum likelihood 
+estimator: matrix E was determined such that  $\mathcal L(M; P,E,W)$ 
+was maximal, where P contains the four above mentioned signatures and 
+M and W are, respectively, the mutation counts and opportunity from 
+the 21 breast cancer data set. A matrix of simulated mutation counts 
+were then generated with Poisson noise, according to our model:
+\begin{equation}
+  \label{eqn:simulation_matrix}
+     M_{ij} \sim Poisson((PE\circ W)_{ij})
+\end{equation} 
 A plot of the signatures and the actual synthetic data set is included
-as supplementary material (Figures~*, *). 
+as supplementary material (Figures~*, *).  R scripts used to recreate
+this data and all the analysis throughout are also available. 
 
-The data set was analysed * times with \texttt{signeR} and EMu. Emu
-estimated the correct number of signatures only * of all the
-analyses, while \texttt{signeR} correctly estimated the model
-dimension in all 
+This data was analysed 100 times with \texttt{signeR} and the EMu
+software described in \cite{FICMV}. All of the analyses made with
+\texttt{signeR} correctly estimated four signatures. Only nine of the
+analyses performed by EMu detected four signatures, the other 91
+analyses estimated three signatures.  The accuracy of both methods was
+compared by the sum of squared errors between $P$ and the estimated
+signature matrix $\widehat P$, defined as the
+squared Frobenius norm $\| P - \widehat P\|_F^2 = \sum_{in} |P_{in} -
+\widehat P_{in}|^2$. Only those runs where EMu correctly estimated the
+dimension of $P$ where included. The results are resumed in
+Figure~\ref{fig:synth_SSE}. The estimates produced by \texttt{signeR}
+are clearly (significantly ($p<*$)) more accurate than those obtained by
+EMu. The median for the sum of squared errors obtained with the
+analyses of \texttt{signeR} is * and the median for EMu's runs is 
+*. The results in Figure~\ref{fig:synth_LLh} present a
+histogram of the log likelihood values\footnote{despite of the fact
+that signeR is driven by a  posterior} obtained at the estimates for 
+$P$ and $E$ of each method. The estimates obtained by EMu cluster
+about two different likelihood values, the lower one is identified
+with those runs where only three signatures are found. All the
+estimates * It should be mentioned that NMF is well known multiple
+mode .... to depend critically upon the initial value (refs) and few 
+methods exist to overcome this... although few of these initialisation
+procedures are available through R's NMF (\cite{GS}), they are not
+implemented in Alexandrov -- nor EMu.
 
 
-Te supplementary material includes R scripts employed in all of these
-analyses. 
 \begin{figure}  
  \centering
    \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_boxplot_SSE}
   \caption{\textrm{%
-    Squared sum of errors for the $P$ and $E$ estimates of a 4
+    Sum of Squared Errors for the signature estimates (matrix $P$) of a 4 signatures
     synthetic data set obtained by \texttt{signeR} and EMu.
    }
   }
@@ -647,10 +736,10 @@ analyses.
 \end{figure}
 \begin{figure}  
  \centering
-  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_histogram_LLh}
+  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_histogram_LLh_same_axis}
   \caption{\textrm{%
-   Log likelihood values at the estimates for $P$ and $E$
-   obtained by the analysis of a 4 signature synthetic data set via
+   Histogram of Log likelihood values at the estimates for $P$ and $E$
+   obtained by the analysis of a 4 signatures synthetic data set via
    \texttt{signeR} and EMu.
    }
   }
