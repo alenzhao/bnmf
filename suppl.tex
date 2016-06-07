@@ -302,11 +302,8 @@ $\alpha_{nj}^e + 1+ a_e$ and rate $e_{nj}+b_e$.
 
 The exponential prior for the elements of $A_p$ leads, up to
 proportionality, to the following the full conditional density
-for\footnote{\textcolor{red}{RD: I know that we already went though
-    this, but  is it safe to take the constant $\lambda_p(\beta_{in}^p
-    + \delta_p)$ away from the density for $\alpha_{in}^p$ --because
-    it  cancels when one divides by the integral that will define the
-    normalising constant?}}
+for\footnote{\textcolor{red}{RR: It is safe to take the constant $\lambda_p(\beta_{in}^p
+    + \delta_p)$ away from the density for $\alpha_{in}^p$, however I believe we should keep it here, just for clarity.}}
 $\alpha_{ij}^p$,
 \begin{equation}
  \label{eqn:Full_for_Ap}
@@ -318,10 +315,8 @@ $\alpha_{ij}^p$,
    \quad  \alpha_{in}^p > 0.
 \end{equation}
 Similarly, up to proportionality, for the elements of $A_e$ we
-have\footnote{\textcolor{red}{RD: same here, should we take away the
-    constant 
-  $\lambda_e(\beta_{nj}^e + \delta_e)$ in the density for
-  $\alpha_{nj}^e$?}}
+have\footnote{\textcolor{red}{RR: same here, keep the
+    constant for clarity.}}
 \begin{equation}
  \label{eqn:Full_for_Ae}
   \alpha_{nj}^e 
@@ -419,9 +414,7 @@ this variable is generated from a Gamma proposal density, $g(\cdot|
 x)$ with shape $(x/\sigma)^2$ and rate $x/\sigma^2$. The mean of this
 proposal is thus set to equal $x$ and its variance to $\sigma^2$. The 
 results  described in the main text where obtained by
-\textcolor{red}{choosing 
-  $\sigma^2 = *$}\footnote{\textcolor{red}{RD: please put the value
-    here!}}. Let $\ln \alpha$ be defined as
+choosing $\sigma^2 = 10$. Let $\ln \alpha$ be defined as
 \[
   \ln \alpha 
  =
@@ -503,39 +496,16 @@ p(A_e\,|\, \lambda_e)$, gives
   \widehat\lambda_e = \frac{RNG}{\sum_{r=1}^R \sum_{n=1}^N
     \sum_{j=1}^G \big(A_e^{(r)}\big)_{nj}}.
 \]
-The maximization of the second and the fourth terms in (\ref{eqn:ell})
+The maximization of the second and the fourth of the remaining terms in (\ref{eqn:ell})
 must be handled numerically. This situation is analogous to the
 maximum likelihood estimation of the scale and the rate parameters of
-a Gamma density, which has no closed form solution, see \cite{CW}. For
-instance, because of a Gamma hyperprior for $B_p$ with parameters
-$a_p$ and $b_p$, for the second term we have that
-\[
-   \frac{1}{R}\sum_{r=1}^R \ln p(B_p^{(r)}\,|\, \eta)
-  =
-   \frac{1}{R}\sum_{r=1}^R \bigg(\sum_{i}\sum_{n} a_p\ln b_p  
-    - \ln\Gamma(a_p) + 
-   (a_p-1)\ln\big[\big(B_p^{(r)}\big)_{in}\big] -  
-    b_p\big(B_p^{(r)}\big)_{in}\bigg).
-\]
-Solving for $b_p$ in 
-\[
-  \frac{\partial}{\partial b_p}
-   \frac{1}{R}\sum_r \ln p(B_p^{(r)}\,|\, \eta) = 0
-\]
-yields
-\[
-   \hat b_p = \frac{RKN}{\sum_{r=1}^R \sum_{i=1}^K \sum_{n=1}^N 
-     \big(B_p^{(r)}\big)}_{in}  a_p.
-\]
-Similarly, for $b_e$ we have
-\[
-   \hat b_e = \frac{RNG}{\sum_{r=1}^R \sum_{n=1}^N  \sum_{j=1}^G 
-     \big(B_e^{(r)}\big)}_{nj}  a_e.
-\]
-\textcolor{red}{Rodrigo: still to write the numerical implementation
-of how $a_p$ (and hence also $a_e$) are obtained. Maybe you are using
-\cite{J}, in any case please explain.}
-
+a Gamma density, which has no closed form solution, see \cite{CW}. 
+To circumvent this difficult we used an R package for non-linear optimization, 
+nloptr, which is an R interface to NLopt, a free/open-source library for nonlinear 
+optimization (Johnson, S.G., http://ab-initio.mit.edu/nlopt). Hyperparameters 
+$\hat{a_p}$, $\hat{b_p}$, $\hat{a_e}$ and $\hat{b_e}$ were 
+estimated by maximising  the likelihood of the sampled $\psi$ using the Nlopt 
+implementation of Tom Rowan's "Subplex" algorithm (Rowan, 1990).
 
 \subsection{Convergence}
 This section justifies the convergence of $\widehat\pi(\theta|M,
@@ -724,8 +694,8 @@ R's NMF package.
     Biology, A. C. Camargo Cancer Center\\ 
     S\~ao Paulo 01509-010, Brazil\\}
     E-mails: \parbox[t]{2.5cm}{%
-      \verb~rddrummond@gmail.com~\\ 
-      \verb~rvalieris@gmail.com~}
+      \verb~rdrummond@cipe.accamargo.org.br~\\ 
+      \verb~renan.valieris@cipe.accamargo.org.br~}
  }
 \\[-2em]
   \parbox[c][4cm][t]{6.6cm}{
@@ -735,7 +705,7 @@ R's NMF package.
     A. C. Camargo Cancer Center\\
     S\~ao Paulo 01509-010, Brazil\\}
     E-mail: \parbox[t]{2.5cm}{%
-      \verb~someone@somewhere.com~}
+      \verb~emmanuel@cipe.accamargo.org.br~}
  }
 &
   \parbox[c][4cm][t]{6.6cm}{
@@ -748,7 +718,7 @@ R's NMF package.
    {\it Laboratory of Molecular Immunology\\
     The Rockefeller University\\
     1230 York Avenue, New York, NY 10065\\}
-    E-mail: \verb~itojal@gmail.com~
+    E-mail: \verb~itojal@cipe.accamargo.org.br~
  }
 \end{tabular}
 }
