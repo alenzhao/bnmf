@@ -58,7 +58,7 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{xca}[theorem]{Exercise}
-\theoremstyle{remark}
+%\theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
 \setcounter{tocdepth}{3} % to get subsubsections in toc
@@ -118,11 +118,10 @@
 \begin{document}
 \title[\textup{R. A. Rosales, R. D. Drummond, 
        R. Valieris, E. Dias-Neto, I. T. da Silva}]{} 
-\noindent{\parbox{\linewidth}{\footnotesize %
+\noindent\parbox{\linewidth}{\footnotesize %
     {\footnotesize\textsl{Submitted to Bioinformatics }}
-    {\footnotesize\textrm{ 29/02/16 - v 0.5}}
-  }
- }\\[1em]
+    {\footnotesize\textrm{\hfill\today}}
+  }\\[1em]
  \begin{center}
    {\large Supplementary material to:}\\[1em]
    {\Large\sc An empirical Bayesian approach}\\[0.3em] 
@@ -136,32 +135,7 @@
        author}$^,$\footnote{Partially supported by FAPESP grant */*}}
  \end{center}
 
-
 \maketitle
-
-%  {Rafael A. Rosales}\\
-%  {\footnotesize\it Deparatmento de Computa\c{c}\~ao e Matem\'atica, 
-%   Universidade de S\~ao Paulo}\\ 
-%  {\footnotesize\it Av. Bandeirantes, 3900, Ribeir\~ao Preto, 
-%  14049-901, SP, Brazil}\\{\footnotesize\verb+rrosales@usp.br+}\\[1em]
-%%
-%  {Rodrigo Drummond, Renan Valieris}\\
-%  {\footnotesize\it Laboratory of Bioinformatics and Computational 
-%  Biology, CIPE/A.C. Camargo Cancer Center\\ S\~ao Paulo 
-%  01509-010,  Brazil}\\
-%  {\footnotesize\verb+rddrummond@gmail.com+,    
-%     \verb+rvalieris@gmail.com+}\\[1em] 
-%%
-%  {Israel T. da Silva}\\
-%  {\footnotesize\it Laboratory of Bioinformatics and Computational 
-%   Biology, CIPE/A.C. Camargo Cancer Center\\ S\~ao Paulo 
-%   01509-010, Brazil}\\
-%  {\footnotesize\it and}\\
-%  {\footnotesize\it Laboratory of Molecular Immunology, 
-%  The Rockefeller University}\\
-%  {\footnotesize\it 1230 York Avenue, New York, NY 10065}\\
-%  {\footnotesize\verb+itojal@gmail.com+}\\[1.5em]
-%\end{center} 
 
 \tableofcontents 
 
@@ -172,10 +146,10 @@ the observations $(M)_{ij}$ are independent and Poisson distributed
 random variables with rates $(PE)_{ij}(W)_{ij}$, with $W$ as the
 $K\times G$ opportunity matrix. The factors $P$, $E$, identified as
 the model parameters are denoted as $\theta$. The same as 
-\cite{FICMV}, we regard $W$ as fixed and known and set $w_{ij} = 1$
-for all $i$ and $j$ if $W$ is not determined out from the data. The
-likelihood for this model, i.e. the function $\rsocl L: \Theta \to 
-\mathbb R$ defined by $\theta \mapsto p(M=m|\theta)$, is given by 
+\cite{FICMV}, we regard the opportunity matrix $W$ as fixed and known
+and set $w_{ij} = 1$ for all $i$ and $j$ if $W$ is not determined out
+from the data. The likelihood for this model, i.e. the function
+$\rsocl L: \Theta \to \mathbb R$ defined by $\theta \mapsto p(M=m|\theta)$, is given by 
 \begin{equation}
   \label{eqn:PoisLik}
    \rsocl L(\theta; m) 
@@ -304,12 +278,7 @@ $\alpha_{nj}^e + 1+ a_e$ and rate $e_{nj}+b_e$.
 
 The exponential prior for the elements of $A_p$ leads, up to
 proportionality, to the following the full conditional density
-for\footnote{\textcolor{red}{RD: I know that we already went though
-    this, but  is it safe to take the constant $\lambda_p(\beta_{in}^p
-    + \delta_p)$ away from the density for $\alpha_{in}^p$ --because
-    it  cancels when one divides by the integral that will define the
-    normalising constant?}}
-$\alpha_{ij}^p$,
+for $\alpha_{ij}^p$,
 \begin{equation}
  \label{eqn:Full_for_Ap}
   \alpha_{in}^p 
@@ -320,10 +289,7 @@ $\alpha_{ij}^p$,
    \quad  \alpha_{in}^p > 0.
 \end{equation}
 Similarly, up to proportionality, for the elements of $A_e$ we
-have\footnote{\textcolor{red}{RD: same here, should we take away the
-    constant 
-  $\lambda_e(\beta_{nj}^e + \delta_e)$ in the density for
-  $\alpha_{nj}^e$?}}
+have
 \begin{equation}
  \label{eqn:Full_for_Ae}
   \alpha_{nj}^e 
@@ -392,7 +358,7 @@ $\sum_{n=1}^N  z_{inj}$ give
      &+ \ln \big(\sum_{u=1}^N z_{iuj}\big)!
    \Big\}.
 \end{align*}
-Considering exponentiation to revert to the original scale shows that
+Taking exponential to revert to the original scale shows that
 the full conditional for $Z$ is a product of multinomial
 distributions as required,
 \begin{align}
@@ -409,6 +375,10 @@ distributions as required,
 \end{align}
 \end{proof}
 
+\begin{remark} The result of Lemma~\ref{lem:Full_for_Z} holds if
+$W=\mathbf 1$ or $W \in \mathbb R^{K\times G}_+$ and includes
+therefore both modelling approaches without and with opportunities.
+\end{remark}
 
 \subsection{Metropolis-within-Gibbs steps}\label{sec:MHsteps}
 The full conditional distributions for the entries in both $A_p$ and
@@ -419,11 +389,9 @@ using Metropolis-Hastings steps.  Let $x > 0$ be the current value
 for any given entry of $A_e$ (or $A_p$). A new candidate value $y$ for
 this variable is generated from a Gamma proposal density, $g(\cdot|
 x)$ with shape $(x/\sigma)^2$ and rate $x/\sigma^2$. The mean of this
-proposal is thus set to equal $x$ and its variance to $\sigma^2$. The 
-results  described in the main text where obtained by
-\textcolor{red}{choosing 
-  $\sigma^2 = *$}\footnote{\textcolor{red}{RD: please put the value
-    here!}}. Let $\ln \alpha$ be defined as
+proposal is thus set to equal $x$ and its variance to $\sigma^2$. The
+results described in the main text were obtained by choosing
+$\sigma^2 = 10$. Let $\ln \alpha$ be defined as
 \[
   \ln \alpha 
  =
@@ -508,7 +476,11 @@ p(A_e\,|\, \lambda_e)$, gives
 The maximization of the second and the fourth terms in (\ref{eqn:ell})
 must be handled numerically. This situation is analogous to the
 maximum likelihood estimation of the scale and the rate parameters of
-a Gamma density, which has no closed form solution, see \cite{CW}. For
+a Gamma density, which has no closed form solution, see \cite{CW}. To
+circumvent this difficulty *****
+
+
+For
 instance, because of a Gamma hyperprior for $B_p$ with parameters
 $a_p$ and $b_p$, for the second term we have that
 \[
@@ -661,13 +633,7 @@ from R's prompt by typing
 \begin{lstlisting}[]
   install.packages('signeR', dependencies=TRUE)
 \end{lstlisting}
-This should install also the following dependencies:
-\textcolor{red}{....  Now comes the difficult bit: are we distributing
-pre-compiled binaries at CRAN, or just source? Note that the first
-option needs someone to mantain this over time. In the second case,
-the installation relies upon the compilation of C++ code, and hence
-depends on the existence of a properly working C compiler. Have to
-explain on how to do this in a Mac OS X and Windows.}
+\textcolor{red}{RD, RV: please write.}
 
 
 \subsection{Running \texttt{signeR}}
@@ -677,9 +643,6 @@ Loading the package \verb+library(signeR)+ and then typing
 \verb+eBayesNMF()+ with the following arguments. Explain the data
 structure for the input matrices $M$, $W$.
 
-
-Mention the actual dependencies \cite{Boo}, etc, and the also
-R's NMF package.
 \begin{lstlisting}[]
   # this is a comment
   Mut<-read.table('21_breast_cancers.mutations.txt',header=FALSE)
@@ -698,45 +661,55 @@ R's NMF package.
 \section{Additional Results}
 This section presents some information to complement the results
 described in the main text. 
-\subsection{21 Breast cancer data set}
-The plots in Figure~\ref{fig:bcancerDATA} presents the mutation
-counts matrix and the estimated matrix. The sample P**** has been left
-out for visualisation purposes, because it contains extremely large 
-counts.
 
-Plot the exposures as box plots.
+\subsection{21 Breast cancer data set}
+The plots in Figure~\ref{fig:bcancerDATA} present the mutation
+counts matrix and the estimated mutation count matrix. The sample
+PD4120a has been left out for visualisation purposes, because it
+contains extremely large counts.
+
+The exposure matrix obtained by analysis the 21 breast cancer data
+set, for the NMF rank $N=5$, is presented in
+Figure~\ref{fig:21BCExposures}.
 
 \subsection{Simulation study}
 This section presents some additional figures related to the analysis  
 of the synthetic data set generated according to the description in
-Section 4.2 in the main text. Figure~\ref{fig:COSMIC} presents the
-signatures 1, 2, 3 and 13 obtained from Sanger's catalogue at\\
-\indent\url{http://cancer.sanger.ac.uk/cosmic/signatures}\\ 
-It it worth observing that this data set is rather challenging because
-of the similarity of signatures $S_2$ and $S_4$.
+Section 4.2 in the main text. 
+
+The latest version of Emu, see \cite{FICMV}, was obtained by following
+the instructions in
+\indent\url{http://www.sanger.ac.uk/science/tools/emu}  which
+redirects to\\ \indent \url{https://github.com/andrej-fischer/EMu}\\
+The analyses with the framework described in \cite{A} were made by
+downloading Mathlab code from
+\indent\url{http://www.mathworks.com/matlabcentral/fileexchange/38724}
+
+Figure~\ref{fig:COSMIC} here presents the signatures 1, 2, 3 and 13 as
+obtained from Sanger's catalogue at\\
+\indent\url{http://cancer.sanger.ac.uk/cosmic/signatures}\\ We observe
+that this data set can be rather challenging from an inferential
+perspective because of the similarity of signatures $S_2$ and $S_4$.
 
 The signatures estimated by \texttt{signeR} are shown in
 Figure~\ref{fig:signeR}. These correspond to the output generated by
 only one of the 100 analyses considered for the same synthetic
-data. The actual run shown here was randomly
-chosen\footnote{\textcolor{red}{RD: please confirm this}}. Figure~\ref{fig:EMu} presents the signatures estimated by EMu  
+data. The actual run shown here for illustration purposes was randomly
+chosen. Figure~\ref{fig:BICS} presents the boxplots for the BIC values
+obtained for this analysis. The BIC values obtained for other runs are
+consistent wit this (data not shown).
+
+
+Figure~\ref{fig:EMu} presents the signatures estimated by EMu  
 in one of the analyses where it correctly estimated the NMF model
-rank.\footnote{\textcolor{red}{RD: should by put also 
-those by Alexandrov? I know, this implies mentioning all the stuff
-related to opportunities?}} The latest version of Emu was obtained by
-following the instructions in\\
-\indent\url{http://www.sanger.ac.uk/science/tools/emu}\\
-which redirects to\\
-\indent \url{https://github.com/andrej-fischer/EMu}\\
-Figure~\ref{fig:ANZ} presents the signatures obtained in one of the
-100 analyses made by using the method in \cite{A}. As mentioned in the 
-main text, all these analyses were made by setting the NMF rank to its
-correct value. 
+rank.
 
+Figure~\ref{fig:LBA}\footnote{\textcolor{red}{RD, RR: Substitute the
+actual figure by the correct data!}} presents the signatures obtained
+in one of the 100 analyses made by using the method by Alexandrov, see
+\cite{A}. As mentioned in the main text, these analyses were made by
+setting the NMF rank to its correct value.
 
-The analysis with the framework described in \cite{A} was made by
-downloading Mathlab code from \\
-\indent \url{http://www.mathworks.com/matlabcentral/fileexchange/38724}
 %\bibliographystyle: natbib, achemnat, plainnat, abbrv, plain
 \bibliographystyle{alpha}
 \bibliography{suppl}
@@ -803,13 +776,22 @@ downloading Mathlab code from \\
  \\
  \includegraphics[width=9cm]{sfigs/21_Breast_Cancer_3D_Mhat} 
  \end{tabular}
- \caption{The 21 breast cancer data set (left) and the corresponding
-% counts matrix $\widehat M$ obtained by the factorisation $ \widehat
-% M = \widehat P\widehat E$ for the rank $N=4$.}
-}\label{fig:bcancerDATA}
+ \caption{The 21 breast cancer data set (top) and the corresponding 
+   estimated counts matrix $M$ obtained by \texttt{signeR} for the NMF
+   model rank $N=5$.
+ }\label{fig:bcancerDATA}
 \end{figure}
 \end{center}
 
+
+\begin{center}
+\begin{figure}
+  \includegraphics[width=16cm]
+     {sfigs/Exposure_boxplot_simulated_21bc_com_Opp}
+  \caption{Exposures estimated by \texttt{signeR} for the  21 breast
+     cancer data set.}\label{fig:21BCExposures}
+\end{figure}
+\end{center}
 
 \begin{center}
 \begin{figure}
@@ -822,14 +804,28 @@ downloading Mathlab code from \\
 \begin{center}
 \begin{figure}
 \includegraphics[width=16cm]{sfigs/Signatures_plot_simulated_21bc_com_Opp}
-\caption{Four signatures estimated by \texttt{signeR}.}\label{fig:signeR}
+\caption{Signatures estimated by \texttt{signeR} while analysing the
+  synthetic data  formed by the four signatures in
+  Figure~\ref{fig:COSMIC}.}\label{fig:signeR} 
 \end{figure}
 \end{center}
 
 \begin{center}
 \begin{figure}
   \includegraphics[width=16cm]{sfigs/Signature_EMu_plot}
-  \caption{Four signatures estimated by EMu}\label{fig:EMu}
+  \caption{Four signatures estimated by EMu while
+  analysing the synthetic data  formed by the four signatures in
+  Figure~\ref{fig:COSMIC}.}\label{fig:EMu}
+\end{figure}
+\end{center}
+
+\begin{center}
+\begin{figure}
+  \includegraphics[width=16cm]{sfigs/Signature_EMu_plot}
+  \caption{Four signatures estimated by LBA while
+  analysing the synthetic data  formed by the four signatures in
+  Figure~\ref{fig:COSMIC}. The NMF model rank in all analyses made
+  with LBA was set to its correct value.}\label{fig:LBA}
 \end{figure}
 \end{center}
 
@@ -840,11 +836,6 @@ downloading Mathlab code from \\
     \texttt{signeR} for the synthetic data set.}\label{fig:BICS}
 \end{figure}
 \end{center}
-
-
-
-
-
 \end{document}
 %%% Local Variables:
 %%% mode: latex
