@@ -1,4 +1,4 @@
-\documentclass{bioinfo}
+\documentclass{bioinfo} 
 \copyrightyear{2016} \pubyear{2016}
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Original Paper} 
@@ -8,18 +8,18 @@
 \newtheorem{thrm}{Theorem} 
 %\usepackage[
 %    colorlinks, linkcolor={blue}, citecolor={blue},
-%    urlcolor={blue}]{hyperref} 
+%    urlcolor={blue}]{hyperref}  
 %% Option 1 URW Garamond (free any latex distribution): 
 %% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 %    \usepackage[urw-garamond]{mathdesign} 
-%    \usepackage[T1]{fontenc}
+%    \usepackage[T1]{fontenc} 
 %% Option 2: Classic Garamond (requires .pfb sources)
 %% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    \usepackage[T1]{fontenc}
+    \usepackage[T1]{fontenc} 
     \usepackage{sabon}
     \usepackage[italic,defaultmathsizes]{mathastext}
     % mdugm.sty magic bellow --!!!
-    \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it}
+    \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it} 
 %% Option 3 (Times via MathTimes Pro) 
 %% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 %    \usepackage[subscriptcorrection]{mtpro}
@@ -69,32 +69,45 @@
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX} 
 \editor{Associate Editor: XXXXXXX} 
 \abstract{%
- \textbf{Motivation:} All cancer types harbour somatic mutations,
-ranging from hundreds to thousands of events. Beyond understanding the
-prevalence and types of somatic mutations in cancer genomes, the
-understanding of the causes and features of distinctive mutational
-process that lead to neoplastic transformation is crucial to
-comprehend cancer biology. Dietary compounds, tobacco consumption,
-radiation exposure and viral infections are among the most common
-environmental factors that lead to mutations. These acquired genomic
-variations (somatic mutations) drive an evolutionary process where
-some cell clones gain growth advantage and lead to tumour
-development. The identification of mutation signatures and their
-underlying mutational processes may be central to understanding of
-cancer origin and evolution.\\
- \textbf{Results:} To illustrate our method, we consider the analysis
- of a 21 breast cancers data set that has previously been used as a
- benchmark in the literature. \texttt{signeR} . Mention the
- Classification/DES results and their utility for applications. We
- also consider the analysis of synthetic data sets to compare the
- performance against previous methods.\\
+\textbf{Motivation:} Tracking the activity of mutational processes
+provides an unique opportunity to understand the origins of human 
+cancer. These processes have recently been identified with mutational
+signatures while analysing high throughput data from cancer
+genomes. Mutational signatures are nowadays identified by using
+non-negative factorisation (NMF) techniques. An important question in
+this context consists in the determination of the actual number of
+signatures that best represent the data. Current methods, based on
+optimisation techniques, employ ad-hoc heuristics to address this
+issue. Moreover, they are strongly dependent on initial conditions 
+because the NMF paradigm is highly dimensional and a non-convex
+optimisation problem. The extraction of  mutational signatures
+from high-throughput data still remains therefore a challenging
+question.
+\\
+\textbf{Results:} 
+Here we present a method for the statistical estimation of mutational
+signatures based on an empirical Bayesian treatment of the NMF model.
+While requiring minimal intervention from part of the user our method
+addresses the determination of the number of signatures directly as a
+model selection problem. Our modelling introduces two new concepts for
+evaluating the mutational profile that are of considerable clinical
+interest. The advantages of our approach are shown by the analysis of
+real and synthetic data sets.  The later are used to compare our
+approach against two alternative methods mostly used in the literature
+and with the same NMF parametrisation as the one considered here. Our
+approach is robust to initial conditions and more accurate than
+competing alternatives. It also estimates the correct number of
+signatures even when other methods fail. Results obtained in the
+analysis of a publicly available data set formed by somatic mutations 
+from 21 breast cancers are consistent with previous knowledge.
+\\
 \textbf{Availability and implementation:} \texttt{singeR} is
 implemented in R and C++, and is available as a R package at
 \url{http://bioconductor.org/...}\\
  \textbf{Contact:}
 %\href{rrosales@usp.br}{\texttt{rrosales@usp.br}},
-%\href{rdrummond@gmail.com}{\texttt{rdrummond@gmail.com}},
-%\href{rvalieris@gmail.com}{\texttt{rvalieris@gmail.com}},
+%\href{rdrummond@gmail.com}{\texttt{rdrummond@cipe.accamargo.org.br}},
+%\href{rvalieris@gmail.com}{\texttt{rvalieris@cipe.accamargo.org.br}},
 itojal@cipe.accamargo.org.br\\
 \textbf{Supplementary information:} Supplementary data are available  
 at \textit{Bioinformatics} online.
@@ -104,23 +117,22 @@ at \textit{Bioinformatics} online.
 Cancer is a collection of diverse pathological entities that harbour
 and probably derive from a complex collection of genomic
 alterations. Today, it is widely accepted that the accumulation of
-these alterations, including somatic DNA mutations, is one of 
-the major causes of the malignant transformation, triggering the
-expansion of tumour cell clones. As tumors evolve, these mutations
-are found across many genomic loci, but also tend to
-preferentially affect certain pathways (\citealp{CCSS}). The diversity
-and complexity of somatic mutational processes in these clones is a
-conspicuous feature orchestrated by DNA damaging agents and repair
-processes, including the exposure to exogenous or endogenous
-carcinogenic/mutagenic agents, retro-insertion of endogenous
-retroviruses, defects in DNA mismatch repair enzymes and enzymatic
-modifications of the DNA among others (\citealp{RG}). The actual
-identification of the underlying mutational processes is central to an
-understanding of cancer origin and evolution (\citealp{ANat, AS, HEN,
-RG}).
+these alterations, including somatic mutations, is one of the major
+causes of the malignant transformation, triggering the expansion of
+tumour cell clones. As tumors evolve, these mutations are found across
+many genomic loci, but also tend to preferentially affect certain
+pathways (\citealp{CCSS}). The diversity and complexity of somatic
+mutational processes in these clones is a conspicuous feature
+orchestrated by DNA damaging agents and repair processes, including
+the exposure to exogenous or endogenous carcinogenic/mutagenic agents,
+retro-insertion of endogenous retroviruses, defects in DNA mismatch
+repair enzymes and enzymatic modifications of the DNA among others
+(\citealp{RG}). The actual identification of the underlying mutational
+processes is central to an understanding of cancer origin and
+evolution (\citealp{ANat, AS, HEN, RG}).
 
 
-Most of the somatic mutations include single base substitutions,
+Most somatic mutations include single base substitutions,
 insertions and deletions, rearrangements and copy number variations
 (CNV). Single base substitutions fall into one of six possible base
 changes, namely \texttt{C:G}$>$\texttt{A:T},
@@ -177,7 +189,7 @@ optimisation problem
     \min_{P\geq 0,\ E\geq 0}\|M - PE\|,
 \end{equation}
 for a given fixed rank $N$ and an appropriately chosen norm.
-In order to deal with the second question, \cite{NCell} and \cite{A}
+To deal with the second question, \cite{NCell} and \cite{A}
 perform the factorisation of the same data for various ranks, namely
 for $1 \leq N \leq \min\{K, G\}-1$. The rank is then determined rather 
 indirectly by studying the clustering properties of the obtained
@@ -205,40 +217,43 @@ mutational signature application. \cite{FICMV} modelled $M$ as Poisson
 distributed and then considered the estimation of $P$ and $E$ by using
 an expectation maximisation (EM) algorithm. The number of mutational
 signatures where estimated by considering an (unnecessary) saddlepoint
-approximation to the Bayesian information criterion
-(BIC). 
+approximation to the Bayesian information criterion (BIC). Recently,
+\cite{STMS} and \cite{RMHTS} also considered a statistical approach to
+the determination of mutational signatures. The former, however,
+considers a different NMF parametrisation in which the components of
+the symbols in $\txcal A$ are assumed independent. The latter
+considers the simpler problem of the estimation of $E$ for given $M$,
+$P$ and $N$.
 
-
-Following \cite{FICMV}, our model also takes into account the genome
-frequencies of the symbols in $\txcal A$.  These frequencies, known as
-mutation opportunities, enter the model as a weighting matrix $W$,
-such  that the observed mutations are generated at rate $PE\circ W$
-with $\circ$ as  Hadamard element wise matrix product.
-
-
-Recently, two other approaches have been considered for the estimation
-of mutation signatures in \cite{STMS} and \cite{RMHTS}. The NMF
-parameterisation considered by \cite{STMS} differs significantly from
-the . The method in \cite{RMHTS} considers the simpler problem of the
-estimation of $E$ for given $M$ and $P$.
+In this article we consider an empirical Bayesian treatment to the NMF
+model as initially described by \cite{A} for the estimation of
+mutational signatures. Following \cite{FICMV}, our model also
+incorporates the genome frequencies of the symbols in $\txcal A$ known
+as opportunities. These enter the model as a matrix of weights $W$,
+leading to observations generated at rate $PE\circ W$ with $\circ$ as
+Hadamard's element wise matrix product. Both, the effectiveness and
+the advantages of our method are shown by using real and synthetic
+data sets.
 
 \section{Approach}
 \subsection{Hierarchical model}
 \subsubsection{Likelihood and latent variables}
-Let $p_{in} = (P)_{in}$ be the $i,n$-entry of $P$. Likewise let
-$e_{nj} = (E)_{nj}$ and $w_{ij} = (W)_{ij}$.  The mutation counts in
-$M$ are assumed to be independent and Poisson distributed random
-variables with rates $PE\circ W$, that is, we assume $M_{ij}$ to be
-Poisson with rate $(PE)_{ij}(W)_{ij} = w_{ij}\sum_{n=1}^N
-p_{in}e_{nj}$. For a given sample of $M$, say $m$, this formulation is
-sufficient to define the likelihood function $\mathcal L(\theta; m)$
-if one identifies the matrices $P, E$ as model parameters $\theta$,
-for $\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb 
-R_+^{N\times G}$. We observe that the opportunities, when available,
-are regarded as known parameters and in this sense the likelihood is
-is  defined by the function $\mathcal L(\theta, W; m)$. To simplify 
-notation we omit hereafter any further reference to $W$. A full
-expression for $\mathcal L(\theta; m)$ is presented in ($s_1$).
+Let $p_{in} = (P)_{in}$ be the $i,n$-entry of $P$ and likewise let
+$e_{nj} = (E)_{nj}$ and $w_{ij} = (W)_{ij}$.  The random variables
+$M_{ij}$ are assumed to be independent and Poisson distributed with
+rates 
+$
+  (PE\circ W)_{ij} = w_{ij}\sum_{n=1}^N p_{in}e_{nj}.
+$
+For a given sample of $M$, say $m$, this formulation is sufficient to
+define the likelihood function $\mathcal L(\theta, W; m)$ if one
+identifies the matrices $P, E$ as model parameters $\theta$, for
+$\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb
+R_+^{N\times G}$. The opportunities are known or set to $W =
+\mathbf{1}$, and hence regarded as fixed parameters. To simplify
+notation we omit any further reference to $W$. An
+expression for $\mathcal L(\theta; m)$ is presented as supplementary
+material by the equation ($s_1$).
 
 
 This relatively simple model allows for a latent variable
@@ -259,29 +274,27 @@ augmentation scheme that becomes instrumental for a Bayesian treatment
 to NMF. As observed by \cite{C}, this allows the implementation of
 several powerful techniques such as the Expectation Maximisation (EM)
 algorithm, Markov chain Monte Carlo (MCMC) and variational Bayesian
-approximations.  Our approach to NMF fully exploits the
-data augmentation scheme defined
-by~(\ref{eqn:latent_representation}).  Hereafter let $Z$  be the
-tensor $\{Z_{inj}:
-1\leq i\leq K, 1\leq n \leq N, 1\leq
-j\leq G\}$ and let $z$ denote a generic value for $Z$.
+approximations.  Our approach to NMF fully exploits the data
+augmentation scheme defined by~(\ref{eqn:latent_representation}).
+Hereafter we denote by $Z$ the random tensor $\{Z_{inj}: 1\leq i\leq
+K, 1\leq n \leq N, 1\leq j\leq G\}$ and then let $z$ be a generic
+value for $Z$.
 
 
 \subsubsection{Priors and hyperpriors} 
 We consider conjugate priors for the matrices $P$ and $E$ by modelling
 each of their entries as being independent Gamma distributed random
 variables. Specifically, $p_{in}$ is Gamma distributed with shape
-$\alpha_{in}^p + 1$ and rate $\beta_{in}^p \geq 0$ for
-$\alpha_{in}^p \geq 0$. Likewise, $e_{nj}$ are Gamma with shape
-$\alpha_{nj}^e+1$ and rate $\beta_{nj}^e \geq 0$ for
-$\alpha_{nj}^e \geq 0$. Shape parameters are shifted by 1 to
-ensure bounded values for the Gamma densities, improving stability of
-the computational methods described in subsequent sections without
-compromising its generality. Let $A_p$ and $B_p$ be $K\times N$
-matrices respectively with entries $\alpha_{in}^p$ and $\beta_{in}^p$
-and $A_e$, $B_e$ be $N\times G$ matrices with elements $\alpha_{nj}^e$
-and $\beta_{nj}^e$, and then let $\psi = (A_p, B_p, A_e, B_e)$ denote
-the hyperparameters.
+$\alpha_{in}^p + 1$ and rate $\beta_{in}^p \geq 0$ for $\alpha_{in}^p
+\geq 0$. Likewise, $e_{nj}$ are Gamma with shape $\alpha_{nj}^e+1$ and
+rate $\beta_{nj}^e \geq 0$ for $\alpha_{nj}^e \geq 0$. Shape
+parameters are shifted by 1 to ensure bounded values for the Gamma
+densities, improving stability of the computational methods described
+in subsequent sections. Let $A_p$ and $B_p$ be $K\times N$ matrices
+respectively with entries $\alpha_{in}^p$ and $\beta_{in}^p$ and
+$A_e$, $B_e$ be $N\times G$ matrices with elements $\alpha_{nj}^e$ and
+$\beta_{nj}^e$, and then let $\psi = (A_p, B_p, A_e, B_e)$ denote the
+hyperparameters.
 
 
 A further hierarchy in our model is set by considering the
@@ -319,7 +332,7 @@ of a sequence of samples $\big(Z^{(r)}, \theta^{(r)},
 \psi^{(r)}\big)$, $r \geq 1$, from the set of full conditional
 distributions
 \begin{gather*}
-   Z^{(r+1)} \sim \pi(Z| \theta^{(r)}, \psi^{(r)}, M, \eta), \qquad
+   Z^{(r+1)} \sim \pi(Z| \theta^{(r)}, \psi^{(r)}, M, \eta), \quad
    \theta^{(r+1)} \sim \pi(\theta| Z^{(r+1)}, \psi^{(r)}, M, \eta), \\
        \text{and}\quad
    \psi^{(r+1)} \sim \pi(\psi| Z^{(r+1)}, \theta^{(r+1)}, M, \eta).
@@ -341,14 +354,22 @@ estimate
 \end{equation}
 of the required posterior $\pi(\theta|M, \eta)$.
 
-
 The MCMC samples are used to compute estimates and all other related
-posterior statistics for the signatures and their exposures. Point
-estimates for these quantities, denoted hereafter by $\widehat P$ and
-$\widehat E$, are computed as the sample median. Further details about
-the Gibbs sampler are relatively standard and are included in Section
-2 of the supplementary material. The following section details and
-justifies the MCMC EM approach.
+posterior statistics for the signatures and their exposures. The
+sampled matrices are first rescaled such that the columns of $P$ sum
+to 1 and the product $PE$ is left unaltered. The full set of rescaled 
+samples is used to exploit the posterior distribution of those
+parameters, allowing to define two novel applications described in
+Sections~\ref{sec:DES} and \ref{sec:Class}.  Point
+estimates for the signatures and their exposures are considered for
+visualisation and comparison purposes. These are computed as the
+sample median and denoted hereafter by $\widehat P$ and $\widehat E$
+respectively.
+
+Details about the implementation of Gibbs sampler are relatively
+standard and are included in Section 2 of the supplementary
+material. The following section presents and justifies the MCMC EM  
+approach. 
 
 \subsubsection{MCMC EM}\label{sec:MCMCEM}
 For a given data sample $m$ and $Z = z$, direct use of Bayes theorem 
@@ -358,12 +379,12 @@ function $\mathcal L: \Lambda \to \mathbb R$ induced by $\eta
 \begin{equation}
   \label{eqn:margLik}
   \mathcal L(\eta; m) 
-  = \frac{\mathcal L(m, z, \theta, \psi\,|\,\eta)}{\pi(z,
-      \theta, \psi|m, \eta)}
+  = \frac{\mathcal L(\eta; m, z, \theta, \psi)}{\pi(z,
+      \theta, \psi|m, \eta)}.
 \end{equation}
-with $\mathcal L(\eta; m, z, \theta, \psi)$ 
+Here $\mathcal L(\eta; m, z, \theta, \psi)$ is 
 defined as being equal to  $p(M=m$, $Z=z$, $\theta$,
-$\psi|\eta)$ but considered as a function of $\eta$.  The latter
+$\psi|\eta)$ but considered as a function of $\eta$.  This quantity
 can be evaluated by observing the conditional decomposition
 \[
    \mathcal L(\eta; m, z, \theta, \psi) 
@@ -372,14 +393,14 @@ can be evaluated by observing the conditional decomposition
 \]
 where $p(\theta|\psi)$ and $p(\psi|\eta)$ stand respectively for the
 prior and the hyperprior distributions, and $p(M=m, Z=z|\theta)$ is the
-complete data likelihood. An expression for the complete data
-likelihood is given by ($s_2$) in the supplementary material. Taking
+complete data likelihood. An expression for the later is included as 
+supplementary material by equation ($s_2$). Taking
 logarithms and integrating with respect to the posterior distribution
 $\pi(Z, \theta, \psi|m, \eta)$ with $\eta = \eta_0$ at both sides of
 (\ref{eqn:margLik}) gives 
 \begin{align*}
    \mathbb E\big[\ln\mathcal L(\eta; m) \big| \eta_0\big] 
-  =& 
+  =\ & 
   \mathbb E\big[\ln\mathcal L(\eta; m, Z, \theta, \psi)
     \big|  \eta_0\big]\\ 
   &-
@@ -436,7 +457,7 @@ towards $\pi(B|M,\eta)$ as $R, U \to \infty$, that is
       %    \hat\eta^{(U)}) 
      \Big[
        \widehat \pi(\theta|M, \hat\eta) - f(\theta|M,\eta)
-     \Big]\ d\theta
+     \Big]\, d\theta
     \bigg|
    = 0.
 \]
@@ -455,19 +476,18 @@ The proof to this is included in Section 3.2 of the accompanying
 supplementary material. 
 
 The implementation of the MCMC EM used to estimate $\eta$ and generate
-the samples for $(Z, \theta, \psi)$ conditionally upon this estimate
-is shown Algorithm~\ref{alg:mcmcem}. Model parameters $\theta$ are
-initialised by sampling from the prior or by considering the
-optimisation approach to (\ref{eqn:NMF}), implemented in R by the NMF
-package, \cite{GS}. The constants $R_1$ and $R_2$ are set to * and
-*\footnote{\textcolor{red}{RD: Please specify these numbers --can they
-be changed by the user?}}, but may also be changed.
+the samples for $(Z, \theta, \psi)$ conditionally on $\eta$ for the
+rank $N$ is shown Algorithm~\ref{alg:mcmcem}. Model parameters
+$\theta$ are initialised by sampling from the prior or by considering
+the optimisation approach to (\ref{eqn:NMF}), implemented in R via the
+NMF package by \cite{GS}. The constants $R_1$ and $R_2$ are set to 100
+and 1000, but may also be changed by the user.
 
 \begin{algorithm}
 \caption{MCMC EM}\label{alg:mcmcem}
 \begin{algorithmic}[1]
 %\Procedure{Initialise}{}
-\BState $\textbf{Input:}$ $M$, $W$, \texttt{start}
+\BState $\textbf{Input:}$ $M$, $W$, $N$, \texttt{start}
 \BState $\textbf{Initialize}\ \eta, \psi, \theta, Z \textbf{:}$
 \State $\textit{u} \gets \text{0}$; $\epsilon \gets 1$
 \State $\eta^{(0)} \gets (1, \ldots, 1)$
@@ -476,13 +496,16 @@ be changed by the user?}}, but may also be changed.
 \If {\texttt{start} = ``\texttt{NMF}''} 
 \State $\theta^{(0)} \gets \text{NMF}(M/W)$ %\Comment{NMF: \cite{GS}}
 \Else
-\State $\theta^{(0)} \gets \theta^{prior} \sim p(\theta | \psi^{(0)})$ 
+\State $\theta^{(0)} \gets \theta^{prior} \sim p(\theta | \psi^{(0)})$
 %\Comment{prior distribution}
 \EndIf {$\textbf{end if}$}
-\State $Z^{(0)} \gets Z^{conditional} \sim p(Z \mid M,\theta^{(0)})$
+\State $Z^{(0)} \gets Z^{conditional} \sim p(Z \mid \theta^{(0)},
+\psi^{(0)}, M, \eta^{(0)})$
 %\Comment{full conditional}
+\State \textbf{Burning phase:} run the Gibbs sampler for $R_2$ 
+iterations
 \While {$\epsilon > 0.05$ \textbf{and}  $u \leq 100$}
-\State Iterate the Gibbs sampler to obtain  $\big(Z^{(r)},
+\State Iterate the Gibbs sampler to get  $\big(Z^{(r)},
  \theta^{(r)}, \psi^{(r)}\big)$, $1 \leq r \leq R_1$
 \State Update $\hat\eta^{(u)}$ according to the MCMC EM 
 formula~(\ref{eqn:MCEM})
@@ -492,7 +515,7 @@ formula~(\ref{eqn:MCEM})
 \State $u \gets  u+1$
 \EndWhile {$\textbf{end while}$}
 \BState \textbf{Final run:} Set $\hat\eta \gets \hat\eta^{(u)}$ and
-iterate the Gibbs sampler to obtain final sequence of samples
+iterate the Gibbs sampler to obtain the final sequence of samples
 $\big(Z^{(r)}, \theta^{(r)}, \psi^{(r)}\big)$, $1 \leq r \leq R_2$
 \end{algorithmic}
 \end{algorithm}
@@ -529,15 +552,6 @@ algorithm~\ref{alg:optN} describes a simple mode finding strategy that
 works for unimodal BIC sequences and reduces the overall computational
 cost.  
 
-
-%The first loop (line~\ref{coarse_search}) search some possible values
-%for the model rank, with a step $\delta$ such that five to nine values
-%will be tested in the worst case. It stops if all those possibilities
-%are tested or if two consecutively tested values do not improve the
-%best median BIC found so far. After a first optimum rank candidate is
-%found, the second loop (line~\ref{refine_search}) refines the search,
-%updating $\delta$ to half its value until the optimum rank is found.
-
 \begin{algorithm}
 \caption{Model Selection}\label{alg:optN}
 \begin{algorithmic}[1]
@@ -547,11 +561,15 @@ $\frac{1}{8}T < \delta \leq \frac{1}{4}T$
 \State $\mathcal{T} \gets \{1, 1+\delta,1+2\delta, \ldots, T\}$
 \State $i \gets 1$
 \State $k^* \gets k \gets \mathcal{T}[1]$
+\State Compute $\overline{\text{BIC}}_{k^*}$ via Algorithm 1 with $N
+\gets k^*$
 \While{$k < (k^* + 2\delta)$ \textbf{and}
   $i<length(\mathcal{T})$} \label{coarse_search}
 %\Statex \Comment{stop if two consecutively tested ranks show
 %$\overline{\text{BIC}}\; \leq \; \overline{\text{BIC}}_{k^*}$}
 \State $k \gets \mathcal{T}[i+1]$
+\State Compute $\overline{\text{BIC}}_{k}$ via Algorithm 1 with $N
+\gets k$
 \If{$\overline{\text{BIC}}_k > \overline{\text{BIC}}_{k^*}$} $k^*
 \gets k$
 \EndIf
@@ -574,7 +592,7 @@ samples. This can be associated with independent knowledge such as
 clinical data in order to check how the activity of each mutational
 process correlates to the later. In particular, when \emph{a priori}
 information motivates the division of samples in two or more
-categories, we propose the use of the Kruskal-Wallis test, to check
+categories, we propose the use of the Kruskal-Wallis test to check
 whether exposure values are significantly different among
 categories. This test is applied to each sample of the exposure matrix
 $E^{(r)}$ generating a set of $p$-values, $p^{(r)}$, $1 \leq r \leq
@@ -583,7 +601,7 @@ values defines what we call the \emph{Differential Exposure Score}
 (DES). Signatures with a DES above a prescribed level are considered
 as differentially active among groups.
 
-\subsection{Genome sample classification}
+\subsection{Genome sample classification}\label{sec:Class} 
 The samples $E^{(r)}$, $1\leq r\leq R$, can also be used for the
 classification of genomes. The same as in Section~\ref{sec:DES},
 assume there exists prior information motivating the
@@ -629,10 +647,9 @@ This approach clearly provides a valuable tool for prognostic.
     BIC score presented in B. Signatures are labelled according to the
     order induced by the total signature exposure defined as $\hat e_n =
     \sum_{j} \hat e_{nj}$, with $S_1$ being the most exposed
-    signature. \textcolor{red}{Mention the rescaling so that sum of bars
-    equals 1?}  Bars are located at the MCMC sample median,
+    signature. Bars are located at the MCMC sample median,
     i.e. $\widehat P$, while other horizontal level marks are located
-    at the sample percentiles 5, 25, 75, and 95.
+    at the sample percentiles 0.05, 0.25, 0.75, and 0.95.
     B: Boxplots for the BIC$^{(r)}_k$, $1 \leq r \leq R$, values 
     obtained at various NMF ranks, $N$. C: Differential exposure
     scores - signatures
@@ -642,9 +659,9 @@ This approach clearly provides a valuable tool for prognostic.
     the levels 0.05, 0.01 and 0.001. D: Classifications
     obtained for each breast cancer genome based on the remaining 20
     samples. The sample marked as `*' was the only
-    misclassification found, `wt' stands for wild type BRCA1/BRCA2
-    condition. Percentages show the correct classification proportion
-    \textcolor{red}{RD: please confirm this last phrase}. 
+    misclassification found, `wt' stands for wild type \emph{BRCA1}/\emph{BRCA2}
+    condition. Percentages show the proportion of agreement among
+    classifications for each genome sample.
   }
  }\label{fig:bcancer} 
 \end{figure*}
@@ -661,7 +678,7 @@ genome. This frequency was multiplied by the CNV frequency
 found in the data set by \cite{NCell}.
 
 \subsection{\texttt{signeR}}
-All analyses described throughout are implemented in the open-source R
+All analyses described here are implemented in the open-source R
 language. Low level functions for the generation of random samples
 were coded in \CC. The design of our algorithm provides a combination
 of speed and low memory overhead enabling the execution on a standard
@@ -675,14 +692,14 @@ software are included as supplementary material.
 
 \section{Results}
 \subsection{The 21 breast cancer data}
-The analysis of the 21 breast cancer data with opportunities revealed
-5 distinct signatures (Figure~\ref{fig:bcancer}.A) that agree well
-with existing knowledge as documented in Sanger's catalogue of
-somatic cancer mutations (COSMIC, 
-\url{http://cancer.sanger.ac.uk/cosmic/signatures}), and also in
-\cite{HEN} and \cite{ANat}. The number of signatures necessary to
+The analysis of the 21 breast cancer data made by considering
+opportunities revealed 5 distinct signatures
+(Figure~\ref{fig:bcancer}.A) that agree well with existing knowledge
+as documented in Sanger's catalogue of somatic cancer mutations
+(COSMIC, \url{http://cancer.sanger.ac.uk/cosmic/signatures}), and
+in \cite{HEN} and \cite{ANat}. The number of signatures necessary to
 describe the data was obtained by considering the median BIC value out
-of the set of values computed via MCMC samples. The BIC boxplots
+of the set of values computed via the MCMC samples. The BIC boxplots
 obtained by varying $N$ from 1 to 12 are shown in
 Figure~\ref{fig:bcancer}.B. Signatures $S_1$ and $S_5$ (respectively
 signature 2 and 13 in COSMIC) are attributed to activity of the APOBEC
@@ -691,30 +708,33 @@ COSMIC) is associated with a process initiated by the spontaneous
 deamination of 5-methylcytosine and it correlates with patient age at
 cancer diagnosis. Signature $S_3$ (signature 3 in COSMIC) is
 associated with failure of DNA double-strand break-repair by
-homologous recombination. Signature $S_4$ is of unknown aetiology. 
+homologous recombination. Signature $S_4$ has not been reported
+previously.
 
 Results for the differential exposure score obtained while grouping
 the data into two categories defined by samples with and without
-germinative mutations in BRCA1 and BRCA2 genes are presented in
-Figure~\ref{fig:bcancer}.C. The proteins encoded by the genes BRCA1
-and BRCA2 play important roles in maintaining genomic stability and
-are involved in a variety of cellular processes such as damage
-signalling and DNA repair (\citealp{LY}). Disruption of such processes
-often leads to a rapid and widespread accumulation of somatic
-mutations in cancer cells (\citealp{Ash}). DES highlights three
-mutational signatures (Figure~\ref{fig:bcancer}: $S_3$-$S_5$), one is
-associated with inactivating mutations in BRCA1/BRCA2 genes ($S_{3}$),
+germinative mutations in \emph{BRCA1} and \emph{BRCA2} genes are
+presented in Figure~\ref{fig:bcancer}.C. The proteins encoded by the
+genes \emph{BRCA1} and \emph{BRCA2} play important roles in
+maintaining genomic stability and are involved in a variety of
+cellular processes such as damage signalling and DNA repair
+(\citealp{LY}). Disruption of such processes often leads to a rapid
+and widespread accumulation of somatic mutations in cancer cells
+(\citealp{Ash}). DES highlights three mutational signatures
+(Figure~\ref{fig:bcancer}: $S_3$-$S_5$), one is associated with
+inactivating mutations in \emph{BRCA1}/\emph{BRCA2} genes ($S_{3}$),
 another is implicated with the activity of APOBEC genes ($S_5$). Taken
 together, this findings are consistent with existing knowledge and
 thereby may help explain the failure in the response to DNA damage by
-homologous recombination in BRCA-defective breast cancer. It is worth
-observing that signatures $S_1$ and $S_2$ which are not differentially
-exposed have been reported as being present in most cancer types by
-Sanger's catalogue. We conclude that the DES method is quite effective
-at revealing genotype-phenotype relationships between groups of
-interest.\footnote{\textcolor{red}{IT, RD: $S_4$, not in COSMIC, is}
-VERY \textcolor{red}{differentially exposed. Which samples are these?
-Do we have anything to say?}}
+homologous recombination in BRCA-defective breast
+cancer. Interestingly, the signature $S_4$ is preferentially exposed
+in patients with deletions and mutations in gene p53, associated with
+more aggressive tumours in triple negative breast cancers
+(\citealp{DP}). It is also worth observing that signatures $S_1$ and
+$S_2$ which are not differentially exposed have been reported as being
+present in most cancer types by Sanger's catalogue. We conclude that
+the DES method is quite effective at revealing genotype-phenotype
+relationships between groups of interest.
 
 A leave-one-out cross-validation strategy was applied to test our
 classification approach by examining the same sample categories used
@@ -723,10 +743,10 @@ with mutational profiles similar to those found in genomes with
 mutated BRCA genes could respond to treatments targeting defective DNA
 double-strand break repair mechanisms (\citealp{Ash}).  Each one of
 the 21 genome samples had its label removed and was then subsequently
-classified based on the remaining 20 samples.  Results presented
-in Figure~\ref{fig:bcancer}.D show that only one sample carrying a
-mutation at the BRCA1 gene was misclassified, thus attesting the
-efficiency of our classification approach.
+classified based on the remaining 20 samples.  Results presented in
+Figure~\ref{fig:bcancer}.D show that only one sample carrying a
+mutation at the \emph{BRCA1} gene was misclassified, thus attesting
+the efficiency of our classification approach.
 
 
 \subsection{Simulation study}
@@ -756,32 +776,29 @@ detected four signatures, the other 91 analyses estimated three.  The
 accuracy of both methods was compared by the sum of squared errors
 between $\widetilde P$ and the estimated signature matrix $\widehat
 P$, defined by squaring the Frobenius norm $\|\widetilde P - \widehat
-P\|_F^2 = \sum_{in} |(\widetilde P)_{in} - (\widehat
-P)_{in}|^2$. Only those runs where EMu correctly estimated the
+P\|_F^2 = \sum_{in} |\widetilde p_{in} - \widehat
+p_{in}|^2$. Only those runs where EMu correctly estimated the
 dimension of $P$ where included. These results are presented in
-Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B. Clearly, the  estimates produced by
-\texttt{signeR} are more ($p<*$\footnote{\textcolor{red}{RD: If we
-    compare the values as two samples, we like to know if there is a
-    difference in their mean, so we carry out a t-Test or its
-    non-parametric version: Mann-Whitney. But, we are comparing
-    the SSE of two models so we could take their ratio and perform an
-    F-test.}}) accurate than those  obtained by EMu  
-or by LBA ($p<*$). The median for the sum of squared errors obtained
-with the analyses of \texttt{signeR} is *, while those for LBA and
-EMu's runs are respectively * and *.\footnote{\textcolor{red}{RD:
-perhaps put the variances (or standard deviations)}}.
+Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B. Clearly, the
+estimates produced by signeR are more accurate than those obtained by
+EMu ($p = 7.5$e$-7$, Wilcoxon rank sum test with continuity
+correction) or by LBA ($p < 2.2$e$-16$). For the analysis with
+opportunities, the mean and the standard deviation for the sum of
+squared errors for \texttt{signeR} are $0.092$ and $0.013$, and for
+EMu respectively $0.23$ and $0.008$. For the analysis without
+opportunities the values for \texttt{signeR} are $0.044$ and $0.029$
+and for ALB, $0.203$ and $0.012$.
 
-Further insights into the differences among the methods can be gained
-by inspection of the likelihood at the estimates for $P$ and $E$,
-despite of \texttt{signeR} being not just a likelihood maximisation
-technique. The estimates obtained by EMu cluster about two different
+Further insights into the differences between \texttt{signeR} and EMu 
+can be gained by inspection of the likelihood at the estimates for $P$
+and $E$, despite of \texttt{signeR} being not just a likelihood
+maximisation technique. The estimates obtained by EMu cluster about
+two different 
 likelihood values (Figure~\ref{fig:synth_LLh}), the lower one is
 identified with those runs where only three signatures are found and
 the higher with those instances with four signatures. The estimates
 obtained for \texttt{signeR} cluster at a single likelihood
-value\footnote{\textcolor{red}{RD: Maybe we can mention that the value
-is bellow one of EMu's because we have chosen to stay with the median
---not the mode (do you agree?)}}. These results reveal the stability
+value. These results reveal the stability
 of \texttt{signeR} as opposed to EMu. It is well known that
 the optimisation approach to NMF, as posed by~(\ref{eqn:NMF}), is
 very sensitive to the initial condition because of high
@@ -801,8 +818,10 @@ random initialisation for the matrices $P$ and $E$.
  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_Alex_boxplot_SSE_P}
    \end{tabular}
   \caption{\textrm{%
-    Sum of squared errors for the estimated signature matrix obtained
-    by \texttt{signeR}, LBA and EMu for a synthetic data set. 
+    Sum of squared errors for the estimated signatures. A:
+    comparison between \texttt{signeR} and EMu by modelling a synthetic
+    data set with opportunities. B: comparison between \texttt{signeR}
+    and LBA by modelling a data set without opportunities.
    }
   }
   \label{fig:synth_SSE}
@@ -822,13 +841,12 @@ random initialisation for the matrices $P$ and $E$.
 
 \section{Discussion}
 The consideration of mutational signatures in analyses of whole genome
-data has recently advanced the understanding of mutagenesis and the
-development of cancers. In this article we present a new method to
+data has significantly advanced the understanding of mutagenesis and
+the development of cancers. In this article we present a new method to
 identify mutational signatures based upon an empirical Bayesian
 treatment to the Poissonian NMF model. The empirical approach requires
 minimal intervention form part of the user and is specially suited for
-the applied practitioner. Still, the flexibility of our approach allows
-the incorporation of prior information. A key aspect of our analysis
+the applied practitioner.  A key aspect of our analysis
 is that it addresses the model selection problem directly,
 i.e. the estimation of the underlying number of signatures, without
 the use further approximations or ad hoc heuristics considered
@@ -848,49 +866,46 @@ literature and with the same NMF parameterisation as the one
 considered here. When compared to \cite{FICMV}, our
 method always estimates the correct number of signatures and even in
 those cases where the former estimates the correct model dimension,
-our estimates are more accurate. The comparison against the results
+our estimates are more accurate. A comparison against the results
 produced by \cite{A} with the correct dimension also shows that
 our estimates are more accurate.
 
 The estimation of the NMF rank is perhaps the most challenging
 question regarding statistical inferences in the mutational signature
-paradigm. Our approach to model choice relies on the use of the Bayes 
+paradigm. Our approach to model choice relies on the use of the Bayes
 Information criterion, which is a rough but simple approximation to
 Bayesian factors, see \cite{KR}. These factors typically require the
 computation of the marginal likelihood, defined as the normalising
-constant of the posterior $\pi(Z, \theta_N, \psi_N|M, \eta_N, \Mord)$,
-with $\Mord$ as the model corresponding to the
-factorisation rank $N$ and $\theta_N$, $\psi_N$ and $\eta_N$
-respectively the associated parameters, hyperparameters and hyperprior
-parameters. By setting $\eta_N = \hat\eta_N$ and conditioning on
-$\hat\eta_N$, Bayes theorem renders the marginal likelihood as the
-ratio
+constant of the posterior $\pi(Z, \theta_N, \psi_N|M, \eta, \Mord)$,
+with $\Mord$ as the model indicator corresponding to the factorisation
+rank $N$, and $\theta_N$ and $\psi_N$ respectively the associated
+parameters and hyperparameters. By setting $\eta = \hat\eta$ and
+conditioning on $\hat\eta$, Bayes theorem renders the marginal
+likelihood as the ratio
 \begin{equation}
   \label{eqn:Bfact}
    \ell(M|\hat \eta, \Mord) 
   = 
-    \frac{p(M, Z, \theta_N, \psi_N|\hat\eta_N, \Mord)}
-    {\pi(Z, \theta_N, \psi_N|M, \hat\eta_N, \Mord)},
+    \frac{p(M, Z, \theta_N, \psi_N|\hat\eta, \Mord)}
+    {\pi(Z, \theta_N, \psi_N|M, \hat\eta, \Mord)},
 \end{equation}
-but with $\eta$ fixed, contrary to what is assumed in definition of
-$\mathcal L(\eta; m)$ by~(\ref{eqn:margLik}). The numerator is easily 
-computed by observing the conditional decomposition determined by the
-hierarchical model. Omitting the model indicator, this is simply given
-by 
+with $\eta$ fixed, contrary to what is assumed in definition of
+$\mathcal L(\eta; m)$ by~(\ref{eqn:margLik}). The numerator is easily
+computed by observing the conditional decomposition defined by the
+hierarchical model. Indeed, this is simply given by
 \[
-  p(M, Z, \theta_N, \psi_N|\hat\eta_N) 
-  = 
-  p(Z, M|\theta_N, \psi_N) p(\theta_N|\psi_N) p(\psi_N|\hat\eta_N).
+%  p(M, Z, \theta_N, \psi_N|\hat\eta) 
+%  = 
+  p(Z, M|\theta_N, \psi_N, \Mord) p(\theta_N|\psi_N, \Mord)
+  p(\psi_N|\hat\eta, \Mord).
 \]
 The evaluation of the denominator in (\ref{eqn:Bfact}) is however more
-involved as it involves the joint posterior over the latent variables
-and the parameters $\theta_N$ and $\psi_N$. At any point of high
-posterior probability, this could in principle be estimated by using
-the output of the MCMC EM algorithm, as suggested by \cite{Ch}. There
-are currently a host of other techniques considered for the
-approximation of Bayes factors but further work in this direction is
+involved as it requires the joint posterior over the latent variables
+and the parameters $\theta_N$ and $\psi_N$. This could be estimated at
+any point of high probability by using the output from the MCMC EM
+algorithm by using the approach suggested by \cite{Ch} or by other
+means. Although promising, further work along these lines is
 required.
-
 
 \section*{Funding}
 This work was partially supported by Funda\c{c}\~ao de Apoio a
@@ -905,16 +920,3 @@ Pesquisa do Estado de S\~ao Paulo (FAPESP), grant $\ldots$.
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
-
-For the hierarchical model developed throughout, the Bayes
-factor is given by
-\begin{align*}
-  \ell(M| \eta_N, \Mord)
-  = 
-   \int \Big\{ 
-     & p(M, Z|\theta_N, \Mord) p(\theta_N|\psi_N, \Mord)   \\
-     & p(\psi_N|\eta_N, \Mord)\Big\}\ dZ d\theta_N d\psi_N.
-\end{align*}
-This integral is not available in closed form but its value may be
-estimated by using the output generated by the MCMC EM method
-described here.
