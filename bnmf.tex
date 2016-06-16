@@ -6,23 +6,23 @@
     \allowdisplaybreaks 
 \usepackage{graphicx}
 \newtheorem{thrm}{Theorem} 
-%\usepackage[
-%    colorlinks, linkcolor={blue}, citecolor={blue},
-%    urlcolor={blue}]{hyperref}  
+\usepackage[
+    colorlinks, linkcolor={blue}, citecolor={blue},
+    urlcolor={blue}]{hyperref} 
 %% Option 1 URW Garamond (free any latex distribution): 
-%% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 %    \usepackage[urw-garamond]{mathdesign} 
 %    \usepackage[T1]{fontenc} 
 %% Option 2: Classic Garamond (requires .pfb sources)
-%% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    \usepackage[T1]{fontenc} 
-    \usepackage{sabon}
-    \usepackage[italic,defaultmathsizes]{mathastext}
-    % mdugm.sty magic bellow --!!!
-    \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it} 
-%% Option 3 (Times via MathTimes Pro) 
-%% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-%    \usepackage[subscriptcorrection]{mtpro}
+%% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+%    \usepackage[T1]{fontenc} 
+%    \usepackage{sabon}
+%    \usepackage[italic,defaultmathsizes]{mathastext}
+%%    % mdugm.sty magic bellow --- !!!
+%    \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it} 
+%% Option 3 (Times via MathTimes Pro)
+%% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+%   \usepackage[subscriptcorrection]{mtpro} 
 %       \DeclareMathSizes{8}{7.15}{5.2}{4.2}
 %    \usepackage[mtpcal]{mtpb}
 \DeclareMathAlphabet{\txcal}{U}{tx-cal}{m}{n}
@@ -50,17 +50,18 @@
     Rafael A. Rosales\,$^{\text{\sfb 1,}\dagger}$, 
     Rodrigo D. Drummond\,$^{\text{\sfb 2,}\dagger}$, 
     Renan Valieris\,$^{\text{\sfb 2}}$,
-    Emmanuel Dias-Neto\,$^{\text{\sfb 3}}$, 
-    Israel T. da Silva\,$^{\text{\sfb 2,4}*}$} 
-\address{%
+    Emmanuel Dias-Neto\,$^{\text{\sfb 3,4}}$, 
+    Israel T. da Silva\,$^{\text{\sfb 2,5}*}$}
+\address{% 
    $^{\text{\sf 1}}$Departamento de Computa\c{c}\~ao e
-   Matem\'atica, Universidade de S\~ao Paulo, 14040-901 SP, Brazil, 
+   Matem\'atica, Universidade de S\~ao Paulo, SP 14040-901, Brazil, 
    $^{\text{\sf 2}}$Laboratory of Bioinformatics and Computational 
-   Biology, A. C. Camargo Cancer Center, S\~ao Paulo  01509-010, 
+   Biology, A. C. Camargo Cancer Center, SP  01509-010, 
    Brazil, $^{\text{\sf 3}}$Laboratory of Medical Genomics,
-   A. C. Camargo Cancer Center, S\~ao Paulo 01509-010, Brazil, 
-   $^{\text{\sf 4}}$Laboratory of Molecular Immunology, The
-   Rockefeller University, New York, NY 10065, USA\\[1em]
+   A. C. Camargo Cancer Center, SP 01509-010, Brazil, $^{\text{\sf  4}}$Laboratory of Neurosciences (LIM27),
+   Department and Institute of Psychiatry, Faculty of Medicine, University of S\~ao Paulo, SP 05403-903, Brazil,
+   $^{\text{\sf 5}}$Laboratory of Molecular Immunology, The
+   Rockefeller University, NY 10065, USA\\[1em]
    {\normalsize $^{\dagger}$The authors wish it to be known
    that, in their opinion, the first two authors should be regarded
    as joint First Authors} 
@@ -69,47 +70,44 @@
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX} 
 \editor{Associate Editor: XXXXXXX} 
 \abstract{%
-\textbf{Motivation:} Tracking the activity of mutational processes
-provides an unique opportunity to understand the origins of human 
-cancer. These processes have recently been identified with mutational
-signatures while analysing high throughput data from cancer
-genomes. Mutational signatures are nowadays identified by using
-non-negative factorisation (NMF) techniques. An important question in
-this context consists in the determination of the actual number of
-signatures that best represent the data. Current methods, based on
-optimisation techniques, employ ad-hoc heuristics to address this
-issue. Moreover, they are strongly dependent on initial conditions 
-because the NMF paradigm is highly dimensional and a non-convex
-optimisation problem. The extraction of  mutational signatures
-from high-throughput data still remains therefore a challenging
-question.
+\textbf{Motivation:} Neoplastic alterations found in
+eukaryotic cells may result from mutagenic agents that produce
+particular mutation signatures.  These signatures can be used to
+understand cancer origins and provide a unique opportunity to group
+tumor types that share the same origins and result from similar
+processes. Mutational signatures have been identified from high
+throughput sequencing data generated from cancer genomes by using
+non-negative factorisation (NMF) techniques.  Current methods are
+based on optimisation techniques and are strongly sensitive to initial
+conditions due to high dimensionality and non-convexity of the NMF
+paradigm. An important question in this context consists in the
+determination of the actual number of signatures that best represent
+the data. The extraction of mutational signatures from high-throughput
+data still remains a daunting task.
 \\
-\textbf{Results:} 
-Here we present a method for the statistical estimation of mutational
-signatures based on an empirical Bayesian treatment of the NMF model.
-While requiring minimal intervention from part of the user our method
-addresses the determination of the number of signatures directly as a
-model selection problem. Our modelling introduces two new concepts for
-evaluating the mutational profile that are of considerable clinical
-interest. The advantages of our approach are shown by the analysis of
-real and synthetic data sets.  The later are used to compare our
-approach against two alternative methods mostly used in the literature
-and with the same NMF parametrisation as the one considered here. Our
-approach is robust to initial conditions and more accurate than
-competing alternatives. It also estimates the correct number of
-signatures even when other methods fail. Results obtained in the
-analysis of a publicly available data set formed by somatic mutations 
-from 21 breast cancers are consistent with previous knowledge.
+\textbf{Results:} Here we present a new method for the statistical
+estimation of mutational signatures based on an empirical Bayesian
+treatment of the NMF model. While requiring minimal intervention from
+the user, our method addresses the determination of the number of
+signatures directly as a model selection problem. In addition, we
+introduce two new concepts, of significant clinical relevance for
+evaluating the mutational profile: the differential exposure score and
+the posterior classification. The advantages brought by our approach
+are shown by the analysis of real and synthetic data sets. The later
+are used to compare our approach against two alternative methods
+mostly used in the literature and with the same NMF parametrisation as
+the one considered here. Our approach is robust to initial conditions
+and more accurate than competing alternatives. It also estimates the
+correct number of signatures even when other methods fail. Results
+obtained in the analysis of a publicly available data set formed by
+somatic mutations from 21 breast cancers are consistent with current
+knowledge.
 \\
 \textbf{Availability and implementation:} \texttt{singeR} is
-implemented in R and C++, and is available as a R package at
-\url{http://bioconductor.org/...}\\
- \textbf{Contact:}
-%\href{rrosales@usp.br}{\texttt{rrosales@usp.br}},
-%\href{rdrummond@gmail.com}{\texttt{rdrummond@cipe.accamargo.org.br}},
-%\href{rvalieris@gmail.com}{\texttt{rvalieris@cipe.accamargo.org.br}},
-itojal@cipe.accamargo.org.br\\
-\textbf{Supplementary information:} Supplementary data are available  
+implemented in R and C++, and is available as a R package at 
+\url{https://github.com/rvalieris/signeR}\\
+ \textbf{Contact:} itojal@cipe.accamargo.org.br\\
+\textbf{Supplementary information:} Supplementary data are available
 at \textit{Bioinformatics} online.
 }
 \maketitle
@@ -145,45 +143,43 @@ trinucleotide mutation types. More generally, the definition of
 $\txcal A$ could in principle accommodate mutations of various other
 kinds
 %such as indels, rearrangements, copy number changes 
-and even wider neighbouring contexts. Once $\txcal A$
-is properly defined, the counts for the mutations found in $G$
-different genomes are assembled into a $K\times G$ matrix $M$ with $K
-= |\txcal A|$. An crucial assumption consists in viewing the counts
-in $M$ as the additive effect of $N$ mutational processes, each
-defined as a $K\times 1$ vector of mutational rates. The later defines
-what is known to be as a mutational signature. More precisely, the
-mutations across all genomes result as the linear combination of $N$
-basis vectors of dimension $K\times 1$, with mixture coefficients
-defined by $N$ exposure vectors of dimension $1 \times G$. If the
-basis vectors are merged into a $K\times N$ matrix of signatures $P$,
-and the coefficient vectors into a $N\times G$ matrix of exposures
-$E$, then the data can be simply factored as $M=PE$. An example of
-this is shown in Figure~\ref{fig:toyNMF}. 
+and even wider neighbouring contexts. Once $\txcal A$ is properly
+defined, the counts for the mutations found in $G$ different genomes
+are assembled into a $K\times G$ matrix $M$ with $K = |\txcal A|$. An
+crucial assumption consists in viewing the counts in $M$ as the
+additive effect of $N$ mutational processes, each defined as a
+$K\times 1$ vector of mutational rates. The later defines what is
+known as a mutational signature. More precisely, the mutations across
+all genomes result as the linear combination of $N$ basis vectors of
+dimension $K\times 1$, with mixture coefficients defined by $N$
+exposure vectors of dimension $1 \times G$. If the basis vectors are
+merged into a $K\times N$ matrix of signatures $P$, and the
+coefficient vectors into a $N\times G$ matrix of exposures $E$, then
+the data can be simply factored as $M=PE$. An example of this is shown
+in Figure~\ref{fig:toyNMF}.
 
 \begin{figure*}
-  \centering\includegraphics[width=13.5cm]{figs/f_bw_t}
+  \centering\includegraphics[width = 13.5cm]{figs/f_bw_t}
   \caption{\textrm{%
    A factorisation for a mutation counts matrix $M$. The
    mutation matrix shown at the centre is defined over an alphabet
-   with $K=11$ symbols, $1 \leq i \leq 11$, and $G=15$
-   genomes, $1\leq j\leq 15$. The matrices at the left and
-   the right represent respectively a signature and an exposure matrix
-   $P$ and $E$, obtained for a factorisation with rank $N=5$. 
-   }
+   with $K = 11$ symbols, $1 \leq i \leq 11$, and $G = 15$ genomes,
+   $1\leq j\leq 15$. The matrices at the left and the right
+   represent respectively a signature and an exposure matrix $P$ and
+   $E$, obtained for a factorisation with rank $N = 5$.
   }
+ }
  \label{fig:toyNMF}
 \end{figure*}
 
-
-For any given a mutation counts matrix there are essentially two
-interrelated questions that should be addressed. The first one
-concerns the determination of the underlying signatures and exposures
-to best account for the observations. The second is related to the
-determination of the actual number of signatures $N$. \cite{NCell} and
-\cite{A} addressed the first issue by using nonnegative matrix
-factorisation (NMF) techniques.  NMF as conceived by \cite{LS} finds
-the factors $P$, $E$ that approximately solve the following non-convex
-optimisation problem
+For any given mutation-count matrix there are essentially two
+interrelated questions that should be addressed: 1. the determination
+of the underlying signatures and exposures to best account for the
+observations, and 2. the determination of the actual number of
+signatures $N$. \cite{NCell} and \cite{A} addressed the first issue by
+using nonnegative matrix factorisation (NMF) techniques. NMF as
+conceived by \cite{LS} finds the factors $P$, $E$ that approximately
+solve the following non-convex optimisation problem
 \begin{equation}
   \label{eqn:NMF}
     \min_{P\geq 0,\ E\geq 0}\|M - PE\|,
@@ -191,7 +187,7 @@ optimisation problem
 for a given fixed rank $N$ and an appropriately chosen norm.
 To deal with the second question, \cite{NCell} and \cite{A}
 perform the factorisation of the same data for various ranks, namely
-for $1 \leq N \leq \min\{K, G\}-1$. The rank is then determined rather 
+for $1 \leq N \leq \min\{K, G\}-1$. The rank is then determined rather
 indirectly by studying the clustering properties of the obtained
 factors via a criterion developed by \cite{BTGM} or by using the 
 residual sum of squares, \cite{HMSG}.
@@ -220,16 +216,17 @@ signatures where estimated by considering an (unnecessary) saddlepoint
 approximation to the Bayesian information criterion (BIC). Recently,
 \cite{STMS} and \cite{RMHTS} also considered a statistical approach to
 the determination of mutational signatures. The former, however,
-considers a different NMF parametrisation in which the components of
-the symbols in $\txcal A$ are assumed independent. The latter
-considers the simpler problem of the estimation of $E$ for given $M$,
-$P$ and $N$.
+considers a different NMF parametrisation in which the features
+composing each mutation type in $\txcal A$ are assumed
+independent. The latter considers the simpler problem of the
+estimation of $E$ for given $M$, $P$ and $N$.
 
 In this article we consider an empirical Bayesian treatment to the NMF
 model as initially described by \cite{A} for the estimation of
 mutational signatures. Following \cite{FICMV}, our model also
-incorporates the genome frequencies of the symbols in $\txcal A$ known
-as opportunities. These enter the model as a matrix of weights $W$,
+incorporates the genome frequencies of the triplets where each
+mutation type in $\txcal A$ can occur, which are known as
+opportunities. These enter the model as a matrix of weights $W$,
 leading to observations generated at rate $PE\circ W$ with $\circ$ as
 Hadamard's element wise matrix product. Both, the effectiveness and
 the advantages of our method are shown by using real and synthetic
@@ -249,12 +246,11 @@ For a given sample of $M$, say $m$, this formulation is sufficient to
 define the likelihood function $\mathcal L(\theta, W; m)$ if one
 identifies the matrices $P, E$ as model parameters $\theta$, for
 $\theta \in \Theta = \mathbb R_+^{K\times N}\times \mathbb
-R_+^{N\times G}$. The opportunities are known or set to $W =
+R_+^{N\times G}$. The opportunities are either known or set to $W =
 \mathbf{1}$, and hence regarded as fixed parameters. To simplify
-notation we omit any further reference to $W$. An
-expression for $\mathcal L(\theta; m)$ is presented as supplementary
-material by the equation ($s_1$).
-
+notation we omit any further reference to $W$. An expression for
+$\mathcal L(\theta; m)$ is presented as supplementary material by the
+equation ($s_1$).
 
 This relatively simple model allows for a latent variable
 representation in which the observed counts are expressed as the sum
@@ -279,7 +275,6 @@ augmentation scheme defined by~(\ref{eqn:latent_representation}).
 Hereafter we denote by $Z$ the random tensor $\{Z_{inj}: 1\leq i\leq
 K, 1\leq n \leq N, 1\leq j\leq G\}$ and then let $z$ be a generic
 value for $Z$.
-
 
 \subsubsection{Priors and hyperpriors} 
 We consider conjugate priors for the matrices $P$ and $E$ by modelling
@@ -403,7 +398,7 @@ $\pi(Z, \theta, \psi|m, \eta)$ with $\eta = \eta_0$ at both sides of
   =\ & 
   \mathbb E\big[\ln\mathcal L(\eta; m, Z, \theta, \psi)
     \big|  \eta_0\big]\\ 
-  &-
+     &-
   \mathbb E\big[\ln \pi(Z, \theta, \psi\,|\,m,\eta)\big| \eta_0\big].
 \end{align*}  
 This expression is the basic identity on which the EM algorithm is
@@ -477,7 +472,7 @@ supplementary material.
 
 The implementation of the MCMC EM used to estimate $\eta$ and generate
 the samples for $(Z, \theta, \psi)$ conditionally on $\eta$ for the
-rank $N$ is shown Algorithm~\ref{alg:mcmcem}. Model parameters
+rank $N$ is shown in Algorithm~\ref{alg:mcmcem}. Model parameters
 $\theta$ are initialised by sampling from the prior or by considering
 the optimisation approach to (\ref{eqn:NMF}), implemented in R via the
 NMF package by \cite{GS}. The constants $R_1$ and $R_2$ are set to 100
@@ -610,22 +605,16 @@ genomes for which this information is not available
 (unlabelled samples). Assigning those genomes to one of the categories 
 based on their mutational profiles could be of interest, especially
 in clinical applications. We propose the use of classification
-algorithms, e.g. $k$-Nearest Neighbours or Random Forests to
-accomplish this task. The selected algorithm is applied to each 
-sample $E^{(r)}$ in order to classify the unlabelled
-genomes according to their exposures to mutational processes.
-This procedure generates a set of possible classifications
-%\footnote{If
-%kNN is used, one classification is generated for each instance of
-%matrix $E$. If Random Forest is used instead, a number of classification
-%trees is generated for each $E$ instance, according to the parameter
-%ntree. In the last case, the number of possible classifications will
-%be given by the product of ntree by the number of $E$ instances.} 
-for each unlabelled sample, and one can apply a majority rule to find
-the final group assignment.  Unlabelled samples are assigned to a
-group if there is more than 75\% of agreement among possible
-classifications, otherwise they are labeled as \textit{undefined}.
-This approach clearly provides a valuable tool for prognostic.
+algorithms, e.g. $k$-Nearest Neighbours to accomplish this task. The
+selected algorithm is applied to each sample $E^{(r)}$ in order to
+classify the unlabelled genomes according to their exposures to
+mutational processes.  This procedure generates a set of possible
+classifications for each unlabelled sample, and one can apply a
+majority rule to find the final group assignment.  Unlabelled samples
+are assigned to a group if there is more than 75\% of agreement among
+possible classifications, otherwise they are labeled as
+\textit{undefined}. This approach clearly provides a valuable tool
+for prognostic.
 
 \section{Methods}
 \begin{figure*}[htb!]
@@ -659,32 +648,32 @@ This approach clearly provides a valuable tool for prognostic.
     the levels 0.05, 0.01 and 0.001. D: Classifications
     obtained for each breast cancer genome based on the remaining 20
     samples. The sample marked as `*' was the only
-    misclassification found, `wt' stands for wild type \emph{BRCA1}/\emph{BRCA2}
-    condition. Percentages show the proportion of agreement among
-    classifications for each genome sample.
+    misclassification found, `wt' stands for wild type
+    \emph{BRCA1}/\emph{BRCA2} condition. Percentages show the
+    proportion of agreement among classifications for each genome
+    sample.
   }
  }\label{fig:bcancer} 
 \end{figure*}
 \subsection{Data} The data set containing 183916 somatic point
 mutations from 21 breast cancer genomes was obtained from
-\url{ftp://ftp.sanger.ac.uk/pub/cancer/Nik-ZainalEtAl}, by
-following the instructions in~\cite{NCell}, Table S1. Single base 
-substitutions where mapped onto trinucleotide sequences by considering
-the $5'$ and $3'$ neighboring bases in order to construct a $96\times
-21$ matrix of mutation counts. The $(i,j)$-th element of the
-opportunity matrix was computed as the cumulative sum of the number of
-times that the $i$-th symbol of $\txcal A$ occurs in the $j$-th
-genome. This frequency was multiplied by the CNV frequency
-found in the data set by \cite{NCell}.
+\url{ftp://ftp.sanger.ac.uk/pub/cancer/Nik-ZainalEtAl}, by following
+the instructions in~\cite{NCell}, Table S1. Single base substitutions
+where mapped onto trinucleotide sequences by considering the $5'$ and
+$3'$ neighboring bases in order to construct a $96\times 21$ matrix of
+mutation counts.  The $(i,j)$-th element of the opportunity matrix was
+computed as the frequency of the triplets in the $j$-th genome where
+the $i$-th mutation can occur. This frequency takes in account the
+Copy Number Variations found in the data set by \cite{NCell}. 
 
 \subsection{\texttt{signeR}}
 All analyses described here are implemented in the open-source R
 language. Low level functions for the generation of random samples
 were coded in \CC. The design of our algorithm provides a combination
 of speed and low memory overhead enabling the execution on a standard
-computer. The stand alone algorithm, \texttt{signeR}, is available as
-a Bioconductor package, \url{http://bioconductor.org/}. This package
-allows the extraction of the sequence context of somatic variants
+computer. The stand alone algorithm, \texttt{signeR}, is available at
+\url{https://github.com/rvalieris/signeR}. This package allows the 
+extraction of the sequence context of somatic variants
 necessary to construct the $M$ matrix from VCF files and also
 provides a variety of graphics to facilitate the interpretation of
 results. Further instructions about how to install and run this
@@ -705,11 +694,11 @@ Figure~\ref{fig:bcancer}.B. Signatures $S_1$ and $S_5$ (respectively
 signature 2 and 13 in COSMIC) are attributed to activity of the APOBEC
 family of cytidine deaminases.  Signature $S_2$ (signature 1 in
 COSMIC) is associated with a process initiated by the spontaneous
-deamination of 5-methylcytosine and it correlates with patient age at
+deamination of 5-methylcytosine and correlates with the patient age at 
 cancer diagnosis. Signature $S_3$ (signature 3 in COSMIC) is
 associated with failure of DNA double-strand break-repair by
-homologous recombination. Signature $S_4$ has not been reported
-previously.
+homologous recombination, whereas signature $S_4$ has not been
+reported previously.
 
 Results for the differential exposure score obtained while grouping
 the data into two categories defined by samples with and without
@@ -717,23 +706,24 @@ germinative mutations in \emph{BRCA1} and \emph{BRCA2} genes are
 presented in Figure~\ref{fig:bcancer}.C. The proteins encoded by the
 genes \emph{BRCA1} and \emph{BRCA2} play important roles in
 maintaining genomic stability and are involved in a variety of
-cellular processes such as damage signalling and DNA repair
+cellular processes such as damage, signalling and DNA repair
 (\citealp{LY}). Disruption of such processes often leads to a rapid
 and widespread accumulation of somatic mutations in cancer cells
 (\citealp{Ash}). DES highlights three mutational signatures
 (Figure~\ref{fig:bcancer}: $S_3$-$S_5$), one is associated with
 inactivating mutations in \emph{BRCA1}/\emph{BRCA2} genes ($S_{3}$),
 another is implicated with the activity of APOBEC genes ($S_5$). Taken
-together, this findings are consistent with existing knowledge and
-thereby may help explain the failure in the response to DNA damage by
-homologous recombination in BRCA-defective breast
-cancer. Interestingly, the signature $S_4$ is preferentially exposed
-in patients with deletions and mutations in gene p53, associated with
+together, these findings are consistent with existing knowledge and,
+at the same time, they reinforce and help demonstrating the failure in
+the response to DNA damage by homologous recombination in
+BRCA-defective breast cancer. Interestingly, the signature $S_4$ is
+preferentially exposed in patients with deletions and mutations in
+gene p53 (Tables S.1 and S.2, supplementary material), associated with
 more aggressive tumours in triple negative breast cancers
-(\citealp{DP}). It is also worth observing that signatures $S_1$ and
-$S_2$ which are not differentially exposed have been reported as being
-present in most cancer types by Sanger's catalogue. We conclude that
-the DES method is quite effective at revealing genotype-phenotype
+(\citealp{DP}). We observe that the signatures $S_1$ and
+$S_2$, which are not differentially exposed, have been reported as
+being present in most cancer types by Sanger's catalogue. We conclude
+that the DES method is quite effective at revealing genotype-phenotype 
 relationships between groups of interest.
 
 A leave-one-out cross-validation strategy was applied to test our
@@ -745,9 +735,8 @@ double-strand break repair mechanisms (\citealp{Ash}).  Each one of
 the 21 genome samples had its label removed and was then subsequently
 classified based on the remaining 20 samples.  Results presented in
 Figure~\ref{fig:bcancer}.D show that only one sample carrying a
-mutation at the \emph{BRCA1} gene was misclassified, thus attesting
-the efficiency of our classification approach.
-
+mutation at the \emph{BRCA1} gene was misclassified, thus reinforcing 
+the efficacy of our classification approach.
 
 \subsection{Simulation study}
 Synthetic data sets mimicking real observations were assembled by
@@ -758,57 +747,64 @@ resulting signature matrix.  The exposures are generated by maximising
 the likelihood $\mathcal L(\theta; m)$ for a given data sample $m$
 with respect to the exposure matrix $E$ by assuming the data as being
 generated by $\widetilde P$. The maximisation of the likelihood in
-($s_1$) with $P$ fixed at $\widetilde P$ is achieved by using the
-\texttt{nlopt} package in R, but it may also be made by using
+($s_1$) with $P$ fixed at $\widetilde P$ is achieved by using R's 
+\texttt{nlopt} package, but it may also be made by using
 \cite{LS} multiplicative update algorithm to solve~(\ref{eqn:NMF}). A
 matrix of simulated mutation counts $\widetilde m$ is finally
 generated by sampling each entry $\widetilde m_{ij}$ from a Poisson
 distribution with rate $(\widetilde P\widetilde E\circ W)_{ij}$.
 
-A synthetic data set $\widetilde m$ generated by using the 21 breast
-cancer data set was considered to compare the estimates for $\theta$
-produced by our method and by those in \cite{A} and \cite{FICMV}. We
-refer to these two alternative methods respectively as LBA and EMu.
-The same data set was analysed 100 times by each of the three
-methods. All of the analyses made with \texttt{signeR} correctly
-estimated four signatures. Only nine of the analyses performed by EMu
-detected four signatures, the other 91 analyses estimated three.  The
-accuracy of both methods was compared by the sum of squared errors
-between $\widetilde P$ and the estimated signature matrix $\widehat
-P$, defined by squaring the Frobenius norm $\|\widetilde P - \widehat
-P\|_F^2 = \sum_{in} |\widetilde p_{in} - \widehat
-p_{in}|^2$. Only those runs where EMu correctly estimated the
-dimension of $P$ where included. These results are presented in
-Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B. Clearly, the
-estimates produced by signeR are more accurate than those obtained by
-EMu ($p = 7.5$e$-7$, Wilcoxon rank sum test with continuity
-correction) or by LBA ($p < 2.2$e$-16$). For the analysis with
-opportunities, the mean and the standard deviation for the sum of
-squared errors for \texttt{signeR} are $0.092$ and $0.013$, and for
-EMu respectively $0.23$ and $0.008$. For the analysis without
+Two synthetic data sets $\widetilde m_1$ and $\widetilde m_2$ were
+generated by using the 21 breast cancer data respectively without and
+with opportunities, i.e. by setting $W=\mathbf{1}$  or taking $W$
+from the real data. The former is used to compare the estimates for 
+ $\theta$ produced by
+\texttt{signeR} and the method in \cite{A}. The latter was used to
+establish a comparison between \texttt{signeR} and the method in
+\cite{FICMV}. We refer to these two alternative methods respectively 
+as LBA and EMu. The data set $\widetilde m_1$ was analysed 100 times
+by both \texttt{signeR} and LBA and $\widetilde m_2$ 500 times by
+\texttt{signeR} and EMu. The NMF rank was set to 4 for all analyses
+made by LBA. All of the analyses made with \texttt{signeR}
+correctly estimated four signatures. Only 51 of the analyses
+performed by EMu detected four signatures, the other 449 analyses
+estimated three.  The accuracy of each method was compared by the sum
+of squared errors between $\widetilde P$ and the estimated signature
+matrix $\widehat P$, defined by squaring the Frobenius norm
+$\|\widetilde P - \widehat P\|_F^2 = \sum_{in} |\widetilde p_{in} -
+\widehat p_{in}|^2$. Only those runs where EMu correctly estimated the
+dimension of $P$ where included for this analysis. These results are
+presented in Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B.
+Clearly, the estimates produced by signeR are more accurate than those
+obtained by EMu ($p < 2.2$e$-16$, Wilcoxon rank sum test with
+continuity correction) or by LBA ($p < 2.2$e$-16$). For the analysis
+with opportunities, the mean and the standard deviation for the sum of
+squared errors for \texttt{signeR} are $0.095$ and $0.016$, and for
+EMu respectively $0.23$ and $0.007$. For the analysis without
 opportunities the values for \texttt{signeR} are $0.044$ and $0.029$
 and for ALB, $0.203$ and $0.012$.
 
-Further insights into the differences between \texttt{signeR} and EMu 
+Further insights into the differences between \texttt{signeR} and EMu
 can be gained by inspection of the likelihood at the estimates for $P$
 and $E$, despite of \texttt{signeR} being not just a likelihood
-maximisation technique. The estimates obtained by EMu cluster about
-two different 
-likelihood values (Figure~\ref{fig:synth_LLh}), the lower one is
-identified with those runs where only three signatures are found and
-the higher with those instances with four signatures. The estimates
-obtained for \texttt{signeR} cluster at a single likelihood
-value. These results reveal the stability
-of \texttt{signeR} as opposed to EMu. It is well known that
-the optimisation approach to NMF, as posed by~(\ref{eqn:NMF}), is
-very sensitive to the initial condition because of high
-dimensionality and because (\ref{eqn:NMF}) does not have a
+maximisation technique. An analogous comparison between
+\texttt{signeR} and LBA was not considered because LBA sets by default
+various entries of $P$ to 0, rendering the likelihood undefined. The
+estimates obtained by EMu cluster about two different likelihood
+values (Figure~\ref{fig:synth_LLh}), the lower one is identified with
+those runs where only three signatures are found and the higher with
+those instances with four signatures. The estimates obtained for
+\texttt{signeR} cluster at a single likelihood value. These results
+reveal the stability of \texttt{signeR} as opposed to EMu. It is well
+known that the optimisation approach to NMF, as posed
+by~(\ref{eqn:NMF}), is very sensitive to the initial condition because
+of high dimensionality and because (\ref{eqn:NMF}) does not have a
 unique global minimum. This problem has deserved special attention in
-the optimisation community and several initialisation
-strategies in this context have been suggested, see for instance
-\cite{BBLPP, BG, LNACDarXiv}. Both the methods by \cite{FICMV} 
-and \cite{A} do not take these into account and consider instead a
-random initialisation for the matrices $P$ and $E$.
+the optimisation community and several initialisation strategies in
+this context have been suggested, see for instance \cite{BBLPP, BG,
+LNACDarXiv}. Both the methods by \cite{FICMV} and \cite{A} do not take
+these into account and consider instead a random initialisation for
+the matrices $P$ and $E$.
 
 \begin{figure}  
  \centering
@@ -828,7 +824,7 @@ random initialisation for the matrices $P$ and $E$.
 \end{figure}
 \begin{figure}  
  \centering
-  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_histogram_LLh_same_axis}
+  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_histogram_LLh_same_axis_500sim} 
   \caption{\textrm{%
    Histogram of Log likelihood values at the estimates for $P$ and $E$
    obtained by the analysis of a 4 signatures synthetic data set via
@@ -840,7 +836,7 @@ random initialisation for the matrices $P$ and $E$.
 \end{figure}
 
 \section{Discussion}
-The consideration of mutational signatures in analyses of whole genome
+The detection of mutational signatures from whole genome sequencing 
 data has significantly advanced the understanding of mutagenesis and
 the development of cancers. In this article we present a new method to
 identify mutational signatures based upon an empirical Bayesian
@@ -853,8 +849,7 @@ the use further approximations or ad hoc heuristics considered
 previously. In addition, we introduce two concepts, namely the
 Differential Exposure Score and posterior sample classification, which
 may have potential impact in clinical practice.
-% The use of these allow to identify molecular sub-types that permit
-% the stratification of patients for subsequent targeted therapies.
+
 
 The effectiveness of our method is shown by the analysis of real and
 synthetic data sets. The results obtained with publicly available
@@ -909,7 +904,11 @@ required.
 
 \section*{Funding}
 This work was partially supported by Funda\c{c}\~ao de Apoio a
-Pesquisa do Estado de S\~ao Paulo (FAPESP), grant $\ldots$. 
+Pesquisa do Estado de S\~ao Paulo (FAPESP), grant 15/19324-6. ED-N is
+a research fellow from Conselho Nacional de Desenvolvimento Cientifico
+e Tecnologico, Brazil (CNPq) and acknowledges the support received
+from Associac\~ao Beneficente Alzira Denise Hertzog Silva (ABADHS) and 
+FAPESP grant 14/26897-0.
 
 %\bibliographystyle: natbib, achemnat, plainnat, abbrv, plain
 \bibliographystyle{bioinformatics} 
