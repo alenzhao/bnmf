@@ -1,4 +1,4 @@
-\documentclass{bioinfo} 
+\documentclass{bioinfo}
 \copyrightyear{2016} \pubyear{2016}
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Original Paper} 
@@ -6,9 +6,9 @@
     \allowdisplaybreaks 
 \usepackage{graphicx}
 \newtheorem{thrm}{Theorem} 
-\usepackage[
-    colorlinks, linkcolor={blue}, citecolor={blue},
-    urlcolor={blue}]{hyperref} 
+%\usepackage[
+%    colorlinks, linkcolor={blue}, citecolor={blue},
+%    urlcolor={blue}]{hyperref}  
 %% Option 1 URW Garamond (free any latex distribution): 
 %% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 %    \usepackage[urw-garamond]{mathdesign} 
@@ -103,7 +103,7 @@ obtained in the analysis of a publicly available data set formed by
 somatic mutations from 21 breast cancers are consistent with current
 knowledge.
 \\
-\textbf{Availability and implementation:} \texttt{singeR} is
+\textbf{Availability and implementation:} \texttt{signeR} is
 implemented in R and C++, and is available as a R package at 
 \url{https://github.com/rvalieris/signeR}\\
  \textbf{Contact:} itojal@cipe.accamargo.org.br\\
@@ -476,7 +476,7 @@ rank $N$ is shown in Algorithm~\ref{alg:mcmcem}. Model parameters
 $\theta$ are initialised by sampling from the prior or by considering
 the optimisation approach to (\ref{eqn:NMF}), implemented in R via the
 NMF package by \cite{GS}. The constants $R_1$, $R_2$ and $U$ are set
-to 100, 1000 and 1000, but may also be changed by the user.
+to 100, 1000 and 100, but may also be changed by the user.
 
 \begin{algorithm}
 \caption{MCMC EM}\label{alg:mcmcem}
@@ -773,19 +773,17 @@ of squared errors between $\widetilde P$ and the estimated signature
 matrix $\widehat P$, defined by squaring the Frobenius norm of
 $\widehat P - \widetilde P$. This actually led to the consideration of
 \[
-   \min_k 
-   \big\|
-       \widetilde P - \widehat P[k]
-   \big\|_F^2 
+   \min_\sigma
+   \big\|\widetilde P - \widehat P[\sigma]\big\|_F^2 
   = 
-   \min_k \sum_{in}
-     |\widetilde p_{in} - \widehat p_{ik(n)}|^2,
+   \min_\sigma \sum_{in}
+     |\widetilde p_{in} - \widehat p_{i \sigma(n)}|^2,
 \]
-where $\widehat P[k]$ is a permutation of the columns of $\widehat P$
-introduced to account for the order in which each method exports the 
-signatures. Only those runs where EMu correctly estimated the
-dimension of $P$ where included for this analysis. These results are
-presented in Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B.
+where $\widehat P[\sigma]$ is a permutation of the columns of
+$\widehat P$ introduced to account for the order in which each method
+exports the signatures. Only those runs where EMu correctly estimated
+the dimension of $P$ where included for this analysis. These results
+are presented in Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B.
 Clearly, the estimates produced by signeR are more accurate than those
 obtained by EMu ($p < 2.2$e$-16$, Wilcoxon rank sum test with
 continuity correction) or by LBA ($p < 2.2$e$-16$). For the analysis
@@ -800,22 +798,22 @@ can be gained by inspection of the likelihood at the estimates for $P$
 and $E$, despite of \texttt{signeR} being not just a likelihood
 maximisation technique. An analogous comparison between
 \texttt{signeR} and LBA was not considered because LBA sets by default
-various entries of $P$ to 0, rendering the likelihood undefined. The
-estimates obtained by EMu cluster about two different likelihood
-values (Figure~\ref{fig:synth_LLh}), the lower one is identified with
-those runs where only three signatures are found and the higher with
-those instances with four signatures. The estimates obtained for
-\texttt{signeR} cluster at a single likelihood value. These results
-reveal the stability of \texttt{signeR} as opposed to EMu. It is well
-known that the optimisation approach to NMF, as posed
-by~(\ref{eqn:NMF}), is very sensitive to the initial condition because
-of high dimensionality and because (\ref{eqn:NMF}) does not have a
-unique global minimum. This problem has deserved special attention in
-the optimisation community and several initialisation strategies in
-this context have been suggested, see for instance \cite{BBLPP, BG,
-LNACDarXiv}. Both the methods by \cite{FICMV} and \cite{A} do not take
-these into account and consider instead a random initialisation for
-the matrices $P$ and $E$.
+various entries of $P$ to 0, leading to an undefined log
+likelihood. The estimates obtained by EMu cluster about two different
+likelihood values (Figure~\ref{fig:synth_LLh}), the lower one is
+identified with those runs where only three signatures are found and
+the higher with those instances with four signatures. The estimates
+obtained for \texttt{signeR} cluster at a single likelihood
+value. These results reveal the stability of \texttt{signeR} as
+opposed to EMu. It is well known that the optimisation approach to
+NMF, as posed by~(\ref{eqn:NMF}), is very sensitive to the initial
+condition because of high dimensionality and because (\ref{eqn:NMF})
+does not have a unique global minimum. This problem has deserved
+special attention in the optimisation community and several
+initialisation strategies in this context have been suggested, see for
+instance \cite{BBLPP, BG, LNACDarXiv}. Both the methods by
+\cite{FICMV} and \cite{A} do not take these into account and consider
+instead a random initialisation for the matrices $P$ and $E$. 
 
 \begin{figure}  
  \centering
