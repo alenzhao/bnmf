@@ -44,8 +44,8 @@
 \begin{document}
 \firstpage{1}
 %\subtitle{}
-\title[empirical Bayesian NMF]{An empirical Bayesian approach to
-  mutational signature discovery}
+\title[empirical Bayesian NMF]{signer: An empirical Bayesian approach
+  to mutational signature discovery}
 \author[Rosales, R. A. and Drummond, R. D.~\textit{et~al}.]{
     Rafael A. Rosales\,$^{\text{\sfb 1,}\dagger}$, 
     Rodrigo D. Drummond\,$^{\text{\sfb 2,}\dagger}$, 
@@ -368,7 +368,7 @@ approach.
 
 \subsubsection{MCMC EM}\label{sec:MCMCEM}
 For a given data sample $m$ and $Z = z$, direct use of Bayes theorem 
-allows to  express the the marginal likelihood for $\eta$, i.e. the
+allows to  express the marginal likelihood for $\eta$, i.e. the
 function $\mathcal L: \Lambda \to \mathbb R$ induced by $\eta 
 \mapsto p(M=m|\eta)$, as
 \begin{equation}
@@ -475,8 +475,8 @@ the samples for $(Z, \theta, \psi)$ conditionally on $\eta$ for the
 rank $N$ is shown in Algorithm~\ref{alg:mcmcem}. Model parameters
 $\theta$ are initialised by sampling from the prior or by considering
 the optimisation approach to (\ref{eqn:NMF}), implemented in R via the
-NMF package by \cite{GS}. The constants $R_1$ and $R_2$ are set to 100
-and 1000, but may also be changed by the user.
+NMF package by \cite{GS}. The constants $R_1$, $R_2$ and $U$ are set
+to 100, 1000 and 1000, but may also be changed by the user.
 
 \begin{algorithm}
 \caption{MCMC EM}\label{alg:mcmcem}
@@ -499,7 +499,7 @@ and 1000, but may also be changed by the user.
 %\Comment{full conditional}
 \State \textbf{Burning phase:} run the Gibbs sampler for $R_2$ 
 iterations
-\While {$\epsilon > 0.05$ \textbf{and}  $u \leq 100$}
+\While {$\epsilon > 0.05$ \textbf{and}  $u \leq U$}
 \State Iterate the Gibbs sampler to get  $\big(Z^{(r)},
  \theta^{(r)}, \psi^{(r)}\big)$, $1 \leq r \leq R_1$
 \State Update $\hat\eta^{(u)}$ according to the MCMC EM 
@@ -770,9 +770,20 @@ correctly estimated four signatures. Only 51 of the analyses
 performed by EMu detected four signatures, the other 449 analyses
 estimated three.  The accuracy of each method was compared by the sum
 of squared errors between $\widetilde P$ and the estimated signature
-matrix $\widehat P$, defined by squaring the Frobenius norm
-$\|\widetilde P - \widehat P\|_F^2 = \sum_{in} |\widetilde p_{in} -
-\widehat p_{in}|^2$. Only those runs where EMu correctly estimated the
+matrix $\widehat P$, defined by squaring the Frobenius norm of
+$\widehat P - \widetilde P$. This actually led to the consideration of
+\[
+   \min_k 
+   \big\|
+       \widetilde P - \widehat P[k]
+   \big\|_F^2 
+  = 
+   \min_k \sum_{in}
+     |\widetilde p_{in} - \widehat p_{ik(n)}|^2,
+\]
+where $\widehat P[k]$ is a permutation of the columns of $\widehat P$
+introduced to prevent the order in which each method exports the
+signatures. Only those runs where EMu correctly estimated the
 dimension of $P$ where included for this analysis. These results are
 presented in Figure~\ref{fig:synth_SSE}A., \ref{fig:synth_SSE}.B.
 Clearly, the estimates produced by signeR are more accurate than those
@@ -782,7 +793,7 @@ with opportunities, the mean and the standard deviation for the sum of
 squared errors for \texttt{signeR} are $0.095$ and $0.016$, and for
 EMu respectively $0.23$ and $0.007$. For the analysis without
 opportunities the values for \texttt{signeR} are $0.044$ and $0.029$
-and for ALB, $0.203$ and $0.012$.
+and for ALB, $0.203$ and $0.012$.3
 
 Further insights into the differences between \texttt{signeR} and EMu
 can be gained by inspection of the likelihood at the estimates for $P$
@@ -845,7 +856,7 @@ minimal intervention form part of the user and is specially suited for
 the applied practitioner.  A key aspect of our analysis
 is that it addresses the model selection problem directly,
 i.e. the estimation of the underlying number of signatures, without
-the use further approximations or ad hoc heuristics considered
+using further approximations or ad hoc heuristics considered
 previously. In addition, we introduce two concepts, namely the
 Differential Exposure Score and posterior sample classification, which
 may have potential impact in clinical practice.
