@@ -505,7 +505,7 @@ have
      \big(B_e^{(r)}\big)}_{nj}  a_e.
 \]
 
-The maximization of the fourth and the seventh terms in
+The maximization of the fourth and the sixth terms in
 (\ref{eqn:ell}) must be handled numerically. This situation is
 analogous to the maximum likelihood estimation of the rate parameter
 of a Gamma density, which has no closed form solution, see
@@ -577,8 +577,8 @@ Markov chain $\xi$ corresponding to the random scan Gibbs
 sampler. Assume that the $k$-th coordinate of $\xi$ is sampled via the
 Metropolis-Hastings step inducing a new Markov operator $P_k$,
 i.e. that $\xi_k$ is drawn according to the kernel $P_k$. Denote by
-$\mathfrak S$ the state space for $\xi$ and by $x$ a generic
-element of $\mathfrak S$, and let $\|\ \|$ be the total variation norm 
+$\mathfrak S$ the state space of $\xi$ and by $x$ a generic
+element of $\mathfrak S$. Let $\|\ \|$ be the total variation norm 
 defined in $(\mathfrak S, \sigma(\mathfrak S), m)$ with $m$ as
 Lebesgue measure and $\sigma(\mathfrak S)$ the Borel $\sigma$-algebra
 of $\mathfrak S$.
@@ -818,7 +818,8 @@ DES analysis performed previously. For instance,
                     plotfile="Sample_classification.pdf")
 \end{lstlisting}
 Further information about how to install and use \texttt{signeR} can
-be found at \\ \url{http://rvalieris.github.io/signeR/vignette.html}.
+be found at \\ 
+\indent\indent\url{http://rvalieris.github.io/signeR/vignette.html}.
 
 \section{Additional Results}
 This section presents some information to complement the results
@@ -919,21 +920,23 @@ This section presents some additional figures related to the analysis
 of the synthetic data set generated according to the description in
 Section 4.2 in the main text. It should be observed that the resulting
 data set is rather challenging because of the similarity of signatures
-$S_2$ and $S_4$. The analyses were made by using \texttt{signeR} and
+$S_2$ and $S_4$. The simulated data sets used throughout can be downloaded from\\
+\indent\indent\url{http://rvalieris.github.io/signeR/simulated_data.zip}\\
+The analyses were made by using \texttt{signeR} and
 the latest versions of EMu, \cite{FICMV}, and LBA, \cite{A}. The
 latest version of EMu was obtained by following the instructions in\\
-\indent\url{http://www.sanger.ac.uk/science/tools/emu}\\  
+\indent\indent\url{http://www.sanger.ac.uk/science/tools/emu}\\  
 which redirects to\\ 
-\indent \url{https://github.com/andrej-fischer/EMu}\\
+\indent\indent\url{https://github.com/andrej-fischer/EMu}\\
 The analyses with the framework described in \cite{A} were made by
 downloading Mathlab code from\\
-\indent\url{http://www.mathworks.com/matlabcentral/fileexchange/38724}\\
+\indent\indent\url{http://www.mathworks.com/matlabcentral/fileexchange/38724}\\
 Execution also required prior installation of Mathlab's Parallel
 Computing Toolbox.
 
 Figure~\ref{fig:COSMIC} here presents the signatures 1, 2, 3 and 13 as
 obtained from Sanger's catalogue at\\
-\indent\url{http://cancer.sanger.ac.uk/cosmic/signatures}
+\indent\indent\url{http://cancer.sanger.ac.uk/cosmic/signatures}
 
 The signatures estimated by \texttt{signeR} while modeling the data
 with opportunities are shown in Figure~\ref{fig:signeR}. These
