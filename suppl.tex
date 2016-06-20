@@ -752,6 +752,25 @@ from R's prompt by typing
    library(signeR)
 \end{lstlisting}
 
+We have made available a Rstudio server
+running \texttt{signeR} to aid in the reviewing process  in case there
+should be any problem during the installation. The address of our
+server, hosted by the Bioinformatics Laboratory of the Medical School 
+of the University of S\~ao Paulo, Ribeir\~ao Preto, Brazil, is 
+\url{http://143.107.223.173:8787/}. The following accounts
+(login/passwd) are available
+\begin{lstlisting}
+   guest1   2q0556w53f
+   guest2   i4zbviebyv
+   guest3   b2oy5burlx
+   guest4   ia96wivkk3
+   guest5   33o82k0vz2
+\end{lstlisting}
+This information will be removed from this document after the
+reviewing process. 
+
+
+
 \subsection{Running signeR} The code in this section illustrates a
 step-by-step analysis followed while considering the  21 breast cancer
 data set obtained according to \cite{NCellFull}. The first step
@@ -814,7 +833,7 @@ DES analysis performed previously. For instance,
    BRCA_labels[c(15,20,21)] <- NA 
    # those three samples, randomly chosen, will be classified
    # based upon the labels of the remaining samples
-   Class <- Classify(Outsi$SignExposures, labels=BRCA_labels,
+   Class <- Classify(Outsig$SignExposures, labels=BRCA_labels,
                     plotfile="Sample_classification.pdf")
 \end{lstlisting}
 Further information about how to install and use \texttt{signeR} can
