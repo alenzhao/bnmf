@@ -70,20 +70,18 @@
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX} 
 \editor{Associate Editor: XXXXXXX} 
 \abstract{%
-\textbf{Motivation:} Neoplastic alterations found in
-eukaryotic cells may result from mutagenic agents that produce
-particular mutation signatures.  These signatures can be used to
-understand cancer origins and provide a unique opportunity to group
-tumor types that share the same origins and result from similar
-processes. Mutational signatures have been identified from high
-throughput sequencing data generated from cancer genomes by using
-non-negative factorisation (NMF) techniques.  Current methods are
-based on optimisation techniques and are strongly sensitive to initial
-conditions due to high dimensionality and non-convexity of the NMF
-paradigm. An important question in this context consists in the
-determination of the actual number of signatures that best represent
-the data. The extraction of mutational signatures from high-throughput
-data still remains a daunting task.
+\textbf{Motivation:} Mutational signatures can be used to understand
+cancer origins and provide a unique opportunity to group tumor types
+that share the same origins and result from similar processes. These
+signatures have been identified from high throughput sequencing data
+generated from cancer genomes by using non-negative matrix
+factorisation (NMF) techniques. Current methods based on optimisation
+techniques are strongly sensitive to initial conditions due to high
+dimensionality and nonconvexity of the NMF paradigm. In this context,
+an important question consists in the determination of the actual
+number of signatures that best represent the data. The extraction of
+mutational signatures from high-throughput data still remains a
+daunting task.
 \\
 \textbf{Results:} Here we present a new method for the statistical
 estimation of mutational signatures based on an empirical Bayesian
@@ -91,24 +89,21 @@ treatment of the NMF model. While requiring minimal intervention from
 the user, our method addresses the determination of the number of
 signatures directly as a model selection problem. In addition, we
 introduce two new concepts, of significant clinical relevance for
-evaluating the mutational profile: the differential exposure score and
-the posterior classification. The advantages brought by our approach
-are shown by the analysis of real and synthetic data sets. The later
-are used to compare our approach against two alternative methods
+evaluating the mutational profile. The advantages brought by our
+approach are shown by the analysis of real and synthetic data. The
+later is used to compare our approach against two alternative methods
 mostly used in the literature and with the same NMF parametrisation as
 the one considered here. Our approach is robust to initial conditions
 and more accurate than competing alternatives. It also estimates the
-correct number of signatures even when other methods fail. Results
-obtained in the analysis of a publicly available data set formed by
-somatic mutations from 21 breast cancers are consistent with current
-knowledge.
+correct number of signatures even when other methods fail. Results on
+real data agree well with current knowledge.
 \\
 \textbf{Availability and implementation:} \texttt{signeR} is
 implemented in R and C++, and is available as a R package at 
 \url{https://github.com/rvalieris/signeR}\\
  \textbf{Contact:} itojal@cipe.accamargo.org.br\\
 \textbf{Supplementary information:} Supplementary data are available
-at \textit{Bioinformatics} online.
+at \textit{Bioinformatics} online. 
 }
 \maketitle
 \section{Introduction}
@@ -116,7 +111,7 @@ Cancer is a collection of diverse pathological entities that harbour
 and probably derive from a complex collection of genomic
 alterations. Today, it is widely accepted that the accumulation of
 these alterations, including somatic mutations, is one of the major
-causes of the malignant transformation, triggering the expansion of
+causes of the malignant transformation triggering the expansion of
 tumour cell clones. As tumors evolve, these mutations are found across
 many genomic loci, but also tend to preferentially affect certain
 pathways (\citealp{CCSS}). The diversity and complexity of somatic
@@ -212,7 +207,7 @@ the general NMF context and then considered by \cite{FICMV} for the
 mutational signature application. \cite{FICMV} modelled $M$ as Poisson
 distributed and then considered the estimation of $P$ and $E$ by using
 an expectation maximisation (EM) algorithm. The number of mutational
-signatures where estimated by considering an (unnecessary) saddlepoint
+signatures was estimated by considering an (unnecessary) saddlepoint
 approximation to the Bayesian information criterion (BIC). Recently,
 \cite{STMS} and \cite{RMHTS} also considered a statistical approach to
 the determination of mutational signatures. The former, however,
@@ -475,8 +470,9 @@ the samples for $(Z, \theta, \psi)$ conditionally on $\eta$ for the
 rank $N$ is shown in Algorithm~\ref{alg:mcmcem}. Model parameters
 $\theta$ are initialised by sampling from the prior or by considering
 the optimisation approach to (\ref{eqn:NMF}), implemented in R via the
-NMF package by \cite{GS}. The constants $R_1$, $R_2$ and $U$ are set
-to 100, 1000 and 100, but may also be changed by the user.
+NMF package by \cite{GS}. The constants $R_0$ and $R_2$ are set to
+1000 and $R_1$ and $U$ are set to 100, but all may also be changed by
+the user.
 
 \begin{algorithm}
 \caption{MCMC EM}\label{alg:mcmcem}
@@ -497,7 +493,7 @@ to 100, 1000 and 100, but may also be changed by the user.
 \State $Z^{(0)} \gets Z^{conditional} \sim p(Z \mid \theta^{(0)},
 \psi^{(0)}, M, \eta^{(0)})$
 %\Comment{full conditional}
-\State \textbf{Burning phase:} run the Gibbs sampler for $R_2$ 
+\State \textbf{Burning phase:} run the Gibbs sampler for $R_0$ 
 iterations
 \While {$\epsilon > 0.05$ \textbf{and}  $u \leq U$}
 \State Iterate the Gibbs sampler to get  $\big(Z^{(r)},
@@ -604,7 +600,7 @@ division of samples in two or more categories and suppose there are
 genomes for which this information is not available 
 (unlabelled samples). Assigning those genomes to one of the categories 
 based on their mutational profiles could be of interest, especially
-in clinical applications. We propose the use of classification
+in clinical settings. We propose the use of classification
 algorithms, e.g. $k$-Nearest Neighbours to accomplish this task. The
 selected algorithm is applied to each sample $E^{(r)}$ in order to
 classify the unlabelled genomes according to their exposures to
@@ -627,7 +623,7 @@ for prognostic.
    &
    \includegraphics[width=5.5cm]{figs/Diffexp_boxplot_21bc_com_Opp_bw3}
    & 
-   \includegraphics[width=4.5cm]{figs/Classific}
+   \includegraphics[width=4.5cm]{figs/Classific} 
  \end{tabular}
  \end{tabular}
  \caption{\textrm{%
@@ -765,13 +761,14 @@ establish a comparison between \texttt{signeR} and the method in
 as LBA and EMu. The data set $\widetilde m_1$ was analysed 100 times
 by both \texttt{signeR} and LBA and $\widetilde m_2$ 500 times by
 \texttt{signeR} and EMu. The NMF rank was set to 4 for all analyses
-made by LBA. All of the analyses made with \texttt{signeR}
-correctly estimated four signatures. Only 51 of the analyses
-performed by EMu detected four signatures, the other 449 analyses
-estimated three.  The accuracy of each method was compared by the sum
-of squared errors between $\widetilde P$ and the estimated signature
-matrix $\widehat P$, defined by squaring the Frobenius norm of
-$\widehat P - \widetilde P$. This actually led to the consideration of
+made by LBA. Whereas all analyses made with \texttt{signeR} (500/500)
+correctly estimated four signatures, only 51/500 of the analyses
+performed by EMu detected four signatures, the remaining 449/500
+analyses estimated only three. The accuracy of each method was
+compared by the sum of squared errors between $\widetilde P$ and the
+estimated signature matrix $\widehat P$, defined by squaring the
+Frobenius norm of $\widehat P - \widetilde P$. This actually led to
+the consideration of
 \[
    \min_\sigma
    \big\|\widetilde P - \widehat P[\sigma]\big\|_F^2 
@@ -845,19 +842,19 @@ instead a random initialisation for the matrices $P$ and $E$.
 \end{figure}
 
 \section{Discussion}
-The detection of mutational signatures from whole genome sequencing 
-data has significantly advanced the understanding of mutagenesis and
-the development of cancers. In this article we present a new method to
-identify mutational signatures based upon an empirical Bayesian
-treatment to the Poissonian NMF model. The empirical approach requires
-minimal intervention form part of the user and is specially suited for
-the applied practitioner.  A key aspect of our analysis
-is that it addresses the model selection problem directly,
-i.e. the estimation of the underlying number of signatures, without
-using further approximations or ad hoc heuristics considered
-previously. In addition, we introduce two concepts, namely the
-Differential Exposure Score and posterior sample classification, which
-may have potential impact in clinical practice.
+The detection of mutational signatures from whole genome sequencing
+data has significantly helped to advance the understanding of
+mutagenesis and the development of cancers. In this article we present
+a new method to identify mutational signatures based upon an empirical
+Bayesian treatment to the Poissonian NMF model. The empirical approach
+requires minimal intervention form part of the user and is specially
+suited for the applied practitioner.  A key aspect of our analysis is
+that it addresses the model selection problem directly, i.e. the
+estimation of the underlying number of signatures, without using
+further approximations or ad hoc heuristics previously considered. In
+addition, we introduce two concepts, namely the Differential Exposure
+Score and posterior sample classification, which may have potential
+impact in clinical practice.
 
 
 The effectiveness of our method is shown by the analysis of real and
