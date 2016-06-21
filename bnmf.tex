@@ -1,4 +1,4 @@
-\documentclass{bioinfo}
+\documentclass{bioinfo} 
 \copyrightyear{2016} \pubyear{2016}
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Original Paper} 
@@ -788,7 +788,7 @@ with opportunities, the mean and the standard deviation for the sum of
 squared errors for \texttt{signeR} are $0.095$ and $0.016$, and for
 EMu respectively $0.23$ and $0.007$. For the analysis without
 opportunities the values for \texttt{signeR} are $0.044$ and $0.029$
-and for ALB, $0.203$ and $0.012$.3
+and for ALB, $0.203$ and $0.012$.
 
 Further insights into the differences between \texttt{signeR} and EMu
 can be gained by inspection of the likelihood at the estimates for $P$
@@ -808,14 +808,14 @@ condition because of high dimensionality and because (\ref{eqn:NMF})
 does not have a unique global minimum. This problem has deserved
 special attention in the optimisation community and several
 initialisation strategies in this context have been suggested, see for
-instance \cite{BBLPP, BG, LNACDarXiv}. Both the methods by
-\cite{FICMV} and \cite{A} do not take these into account and consider
-instead a random initialisation for the matrices $P$ and $E$. 
+instance \cite{BBLPP, BG}. Both the methods by \cite{FICMV} and
+\cite{A} do not take these into account and consider instead a random
+initialisation for the matrices $P$ and $E$. 
 
 \begin{figure}  
  \centering
    \begin{tabular}{c}
- \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_boxplot_SSE}
+ \includegraphics[width=6cm]{figs/Simulation_signeR_vs_EMu_boxplot_SSE_500sim} 
    \\
  \includegraphics[width=6cm]{figs/Simulation_signeR_vs_Alex_boxplot_SSE_P}
    \end{tabular}
