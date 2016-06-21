@@ -743,94 +743,15 @@ to
 \end{algorithm}
 
 
-\section{Installing and running \texttt{signeR}}
-\subsection{Installing \texttt{signeR}}
+\section{Installing \texttt{signeR}}
 \texttt{signeR} is available as an R package and it can be installed
 from R's prompt by typing
 \begin{lstlisting}[]
    source("https://rvalieris.github.io/signeR/install_signeR.R")
+\end{lstlisting}
+Once installed, the library is available by issuing the command
+\begin{lstlisting}[]
    library(signeR)
-\end{lstlisting}
-
-We have made available a Rstudio server
-running \texttt{signeR} to aid in the reviewing process  in case there
-should be any problem during the installation. The address of our
-server, hosted by the Bioinformatics Laboratory of the Medical School 
-of the University of S\~ao Paulo, Ribeir\~ao Preto, Brazil, is 
-\url{http://143.107.223.173:8787/}. The following accounts
-(login/passwd) are available
-\begin{lstlisting}
-   ... removed!
-\end{lstlisting}
-This information will be removed from this document after the
-reviewing process. 
-
-
-
-\subsection{Running signeR} The code in this section illustrates a
-step-by-step analysis followed while considering the  21 breast cancer
-data set obtained according to \cite{NCellFull}. The first step
-loads the mutation matrix of counts $M$ and the opportunity matrix
-$W$ (included in our distribution). This is accomplished by typing
-\begin{lstlisting}[]
-   Mut <- read.table(system.file("extdata",  
-                     "21_breast_cancers.mutations.txt",
-                     package="signeR"))
-   Opp <- read.table(system.file("extdata",  
-                     "21_breast_cancers.opportunity.txt",
-                     package="signeR"))
-\end{lstlisting}
-The second step runs \texttt{signeR}, by passing the \texttt{Mut} and
-the \texttt{Opp} matrices. 
-\begin{lstlisting}[]
-   Outsig <- signeR(M=Mut, Opport=Opp, Mheader=FALSE)
-\end{lstlisting}
-Without any further arguments this will estimate the number of
-mutation signatures that best describe the observations and also the
-actual signatures and their exposures. \texttt{signeR} can also be run
-by passing the NMF factorisation rank, for
-instance
-\begin{lstlisting}[]
-   Outsig <- signeR(M=Mut, Opport=Opp, nsig=5)
-\end{lstlisting}
-In this case, only the rank $N=5$ is considered to estimate the
-signatures and their exposures. The actual test for various values
-BIC$_k$, $1\leq k \leq T$, described by Algorithm 2 in the main text
-is not considered here.  In any case, the estimated signatures can be
-visualised by issuing the following command
-\begin{lstlisting}[]
-   SignPlot(Outsig$SignExposures)
-\end{lstlisting}
-Likewhise, the exposures can be visualised as
-\begin{lstlisting}[]
-   ExposureBoxplot(Outsig$SignExposures)
-\end{lstlisting}
-
-
-The differential exposure analysis, using a provided list sample
-labels, can be made as
-\begin{lstlisting}[]
-   BRCA_labels <- c("wt","BRCA+","BRCA+","BRCA+","BRCA+","BRCA+",
-                    "BRCA+", "wt","wt","wt","wt","BRCA+","wt","BRCA+",
-                    "BRCA+","wt","wt","wt","wt","wt","wt")
-   diff_exposure <- DiffExp(Outsig$SignExposures, labels=BRCA_labels,
-                            plotfile="Diffexp_boxplot.pdf")
-\end{lstlisting}
-The sample label used here was actually taken from the description of
-the 21 breast cancer data set, see Table~\ref{tab:tableA} here. The
-DES plot, similar, to the one presented in the main text is saved by
-the last command as a PDF file.
-
-
-A example of the posterior sample classification analysis described in
-the main text can be made by using the sample labels defined in the
-DES analysis performed previously. For instance,
-\begin{lstlisting}[]
-   BRCA_labels[c(15,20,21)] <- NA 
-   # those three samples, randomly chosen, will be classified
-   # based upon the labels of the remaining samples
-   Class <- Classify(Outsig$SignExposures, labels=BRCA_labels,
-                    plotfile="Sample_classification.pdf")
 \end{lstlisting}
 Further information about how to install and use \texttt{signeR} can
 be found at \\ 
@@ -969,16 +890,13 @@ where EMu correctly estimated the NMF model rank. As mentioned in the
 main text, this corresponds to 51 runs out of 500. The signatures
 presented here are the result of a randomly chosen run out of 51.
 
-Figure~\ref{fig:LBA} presents the signatures obtained in one of the 
+Figure~\ref{fig:LBA} presents the signatures obtained in one of the
 100 analyses made by using the software by Alexandrov, see
-\cite{A}. The synthetic data set simulated with the four signatures
-in Figure~\ref{fig:COSMIC} generated and analysed without
-opportunities. As mentioned in the main text, the analyses performed
-with the software in \cite{A} were made by setting the NMF rank to its
-correct value.
-
-
-
+\cite{A}. The synthetic data set simulated with the four signatures in
+Figure~\ref{fig:COSMIC} was generated and analysed without
+opportunities as described in the main text. The analysis with the
+software in \cite{A} was made by setting the NMF rank to its correct
+value.
 
 %-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -1050,13 +968,11 @@ correct value.
     \texttt{signeR} for the synthetic data set.}\label{fig:BICS}
 \end{figure}
 \end{center}
-
+\vspace{-2cm}
 \bibliographystyle{alpha}
 \bibliography{suppl}
-
-\vspace{2cm}
-
-
+\newpage
+%\vspace{0.5cm}
 {\footnotesize
 \begin{tabular}{ll}
  \centering
