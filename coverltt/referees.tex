@@ -1,0 +1,71 @@
+\documentclass[12pt]{article} 
+\usepackage{microtype} % Improves typography
+\usepackage[T1]{fontenc} % Required for accented characters
+\renewcommand*\ttdefault{txtt}
+\usepackage{sabon}
+\usepackage{xcolor}
+\definecolor{mygray}{rgb}{0.95,0.95,0.95}
+\usepackage{listings}
+ \lstset{language=R,
+     showspaces=false,
+     showtabs=false,
+     showstringspaces=false,
+     basicstyle=\ttfamily
+     \small,
+     backgroundcolor=\color{mygray},
+     frame=single,
+     framerule=0.0pt}
+\usepackage[colorlinks, 
+     linkcolor=mycolB, 
+     citecolor=blue,
+     urlcolor=blue]{hyperref}
+\begin{document}
+\begin{center}
+
+{\large\sc Supplementary File for Review Only}\\[2em]
+
+{\large signeR: An empirical Bayesian treatment\\ to mutational
+  signature discovery}\\[2em]
+\end{center}
+
+We have made our code available at\\
+\indent \url{https://github.com/rvalieris/signeR}\\
+A version submitted to Bioconductor should be available shortly. The
+supplementary material includes instructions about how to install
+\texttt{signeR}. Further instructions about how to run \texttt{signeR}
+can be accessed at\\
+\indent \url{http://rvalieris.github.io/signeR/vignette.html}\\
+
+In case there should be any problem during the installation of
+\texttt{signeR}, we have made available an Rstudio server running
+exactly the same version of \texttt{signeR} distributed at the link
+above. The address of our server, hosted by the Bioinformatics
+Laboratory of the Medical School of the University of S\~{a}o Paulo,
+Ribeir\~{a}o Preto, Brazil, is\\ 
+\indent \url{http://143.107.223.173:8787/}\\
+The following accounts (login/passwd) have been made available\\[-0.5em]
+\begin{lstlisting}[]
+    reviewer1   2q0556w53f
+    reviewer2   i4zbviebyv
+    reviewer3   b2oy5burlx
+    reviewer4   ia96wivkk3
+\end{lstlisting}
+
+
+\vspace{1cm}
+
+\hfill\today\\
+
+\noindent Regards,\\[0.75em]
+R. A. Rosales\\
+R. Drummond\\
+R. Valieris\\
+E. Dias-Neto\\
+I. T. da Silva
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
