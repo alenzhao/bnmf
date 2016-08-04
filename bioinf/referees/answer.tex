@@ -1,0 +1,168 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath, amssymb}
+\usepackage[marginratio = 1:1,
+   height = 601pt,
+   width = 435pt,
+   tmargin = 95pt]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks, linkcolor={blue},citecolor={blue},
+   urlcolor={blue}]{hyperref}
+\usepackage{verbatim}
+\renewcommand{\rmdefault}{ptm} % times
+\renewcommand*\ttdefault{txtt} % typewriter is txtt
+\renewcommand*\sfdefault{phv}  % helvetica
+\usepackage{microtype}
+
+\begin{document}
+
+\title[BIOINF-2016-0975]{}
+
+{\bf Bioinf-2016-0975}\hfill\\[1em]
+
+\begin{center}
+{\Large\bf Response to Reviewers}\\[2em]
+
+{\large Rafael A. Rosales,
+  Rodrigo D. Drummond,
+  Renan Valieris,\\[0.25em]
+  Emmanuel Dias-Neto and
+  Israel T. da Silva}\\[1.5em]
+
+\today\\[2em]
+\end{center}
+
+We have made a substantial revision of our manuscript by following the recommendation of the Editor and the observations made by the two reviewers. Changes in the revised manuscript are marked by
+highlighting the modified text in red. We include bellow our answers to all the points raised by the Reviewers.
+
+\section*{Reviewer 1}
+
+\textbf{Remark 1}. \emph{I do not necessarily believe that strong
+methodology papers need to have extensive data analysis components
+but, in this instance, I think the 21 breast cancer data set analysis and the simulated examples are insufficient to fully demonstrate the utility of the method. This is a tricky area in which to develop novel methodology as ``true'' biological mutational signatures are hard to validate independently.}
+\\
+
+\textbf{Answer to Remark 1}. The 21 breast cancer data set was chosen because it is well known and has been considered by other existing methods that used the same NMF parameterisation as the one considered here (\cite{A}, \cite{FICMV}). A careful definition of synthetic data sets conforming to our model was employed to establish quantitative comparisons against these alternative methods.  Following the recommendation of the reviewer, the revised
+version of our manuscript includes the analysis of a larger data set comprising 114 gastric cancer genomes. This data set was retrieved from The Cancer Genome Atlas (TCGA), and is further described in \cite{gastrico}. The inclusion of this data is described in Section 3.1. Clinical details about the chosen subset of samples are included as supplementary material in Section 6.2 and Table S.*.
+\\
+
+\textbf{Remark 2}. \emph{The authors claim that DES and the posterior sample classification may have an impact in clinical practice. I think these interesting aspects of the methodology need to be explored more in the Results section and applied to more data sets. The methods section could be reduced in length and parts transferred to Supplementary Information to make space for this.}
+\\
+
+\textbf{Answer to Remark 2}. The analysis of the gastric cancer data set with \texttt{signeR} revealed 4 signatures. These together with the Bayesian Information Criterion plot are included as supplementary material (please see Figures S.*, S.*).  Following the observation of the referee, the revised version includes both the DES and the posterior classification analyses of the new data set by considering two tumor subtypes according to Lauren's classification.
+To better understand the underlying molecular mechanism  in histological classification due to Lauren, this analysis examines the mutational signatures that are significantly exposed in these subtypes. Our results are described in Section 4.3.
+
+We prefer, if possible, to leave the description of the method as is. First, deciding upon which part could be transferred is difficult and may hinder the clarity of the overall exposition. Second, we believe that the focus and the main contribution of our work is methodological, although to make this point we agree that a clear
+
+demosntartion  despite of the fact that we are aware that the developed methods
+
+Although we have to report incremental improvements in the field by applying our framework on benchmark datasets.
+\\
+
+\textbf{Remark 3}. \emph{Can the authors also examine the recent work by Shiraishi et al. (2015)}
+\url{http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005657}?
+\\
+
+\textbf{Answer to Remark 3}. We are aware of this article and it was mentioned in the introduction of our manuscript. Although this article addresses the same issue, namely the estimation of mutational signatures and their exposures, it considers a different parametrisation and representation to the factorisation of a mutational counts matrix. A quantitative comparison of both parametrisations is therefore very difficult. We believe this approach adds to the existing state-of-the-art methods a new perspective for the mutational signatures analysis.
+
+\section*{Reviewer 2}
+\textbf{Remark 1}. \emph{
+The manuscript could perhaps have benefited from application to a
+broader array of true and simulated datasets; however, the authors’
+method appears to well motivated and represents a worthwhile
+contribution to the tools available in this area, even if its
+performance on the dataset studied does not generalize fully to
+other datasets.}
+\\
+
+\textbf{Answer to Remark 1}. We believe our methods to be quite general and applicable to a wide class of data sets. To support this we explored  a new real data set constituted by 114 gastric cancer genomes. This data set was taken from the from The Cancer Genome Atlas (TCGA), and is further described in \cite{gastrico}. The inclusion of this data is described in Section 3.1. Clinical details about the chosen subset of samples are included as supplementary material in Section 6.2 and Table S.*.
+\\
+
+
+\subsection*{Minor comments}
+\textbf{Remark 2.}\\
+\emph{
+P2L8 `include' should probably be `comprise' or `consist of'\\
+P2L19 typo: `An crucial assumption' $\to$ `A crucial assumption'\\
+P2L49 typo: `turns to be equivalent' $\to$ `turns out to be'\\
+P3L26 typo: `does not has' $\to$ `does not have'\\
+P4L5 `This rises however' $\to$ `This raises, however,'\\
+P4L35 Should `correlates to the later' be `correlates to the latter'?\\
+P7L36 `Despite of' $\to$ `Despite'\\
+P7L22 `Form part of' $\to$ `On the part of'\\
+P7L44 Should `Bayesian factors' be `Bayes Factors'?\\
+}
+
+
+\textbf{Answer to Remark 2}. We thank the reviewer for these observations. All of them have been considered and are included in the revised manuscript, marked in red.
+\\
+
+\textbf{Remark 3.}
+\emph{Errors encountered on attempted installation of the package are provided below, in case this may be helpful to the authors to improve package portability (on Mac version 10.11.1; R version 3.3.1; Bioconductor version 3.3) ...}
+\\
+
+\textbf{Answer to Remark 3}. We acknowledge for sharing the exceptions during the installation of \texttt{signeR} on a MAC. One of us actually experienced the same difficulty, which is related to ....
+
+
+The implementation of \texttt{signeR} requires compilation because of the \texttt{C++} code used to speed up computations. This code is integrated into \texttt{R} via the \texttt{Rccp} and \texttt{RcppArmadillo} libraries.We also make instructions available at the website showing how to how install libraries in the MAC systems.
+
+\bibliographystyle{alpha}
+\bibliography{answer}
+
+\vspace{2.5cm}
+
+{\footnotesize
+\begin{tabular}{ll}
+ \centering
+  \parbox[c][4cm][t]{8cm}{
+   {\sc Rafael A. Rosales}\\
+   {\it
+   Departamento de Computa\c{c}\~ao e Matem\'atica\\
+   Universidade de S\~ao Paulo\\
+   Av. Bandeirantes, 3900, Ribeir\~ao Preto\\
+   S\~ao Paulo 14049-901, Brazil\\}
+   E-mail: \verb~rrosales@usp.br~
+  }
+&
+  \parbox[c][4cm][t]{6.6cm}{
+   {\sc Rodrigo D. Drummond\\
+       Renan Valieris}\\
+    {\it
+    Laboratory of Bioinformatics and Computational\\
+    Biology, A. C. Camargo Cancer Center\\
+    S\~ao Paulo 01509-010, Brazil\\}
+    E-mails: \parbox[t]{2.5cm}{%
+      \verb~rddrummond@cipe.accamargo.org.br~\\
+      \verb~rvalieris@cipe.accamargo.org.br~}
+ }
+\\[-2em]
+  \parbox[c][4cm][t]{6.6cm}{
+   {\sc Emmanuel Dias-Neto}\\
+    {\it
+    Laboratory of Medical Genomics\\
+    A. C. Camargo Cancer Center\\
+    S\~ao Paulo 01509-010, Brazil\\}
+    E-mail: \parbox[t]{2.5cm}{%
+      \verb~emmanuel@cipe.accamargo.org.br~}
+ }
+&
+  \parbox[c][4cm][t]{6.6cm}{
+   {\sc Israel T. da Silva}\\
+   {\it
+    Laboratory of Bioinformatics and Computational\\
+    Biology, A. C. Camargo Cancer Center\\
+    S\~ao Paulo 01509-010, Brazil\\}
+    and\\
+   {\it Laboratory of Molecular Immunology\\
+    The Rockefeller University\\
+    1230 York Avenue, New York, NY 10065\\}
+    E-mail: \verb~itojal@cipe.accamargo.org.br~
+ }
+\end{tabular}
+}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
