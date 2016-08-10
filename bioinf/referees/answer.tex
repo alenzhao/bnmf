@@ -11,7 +11,23 @@
 \renewcommand{\rmdefault}{ptm} % times
 \renewcommand*\ttdefault{txtt} % typewriter is txtt
 \renewcommand*\sfdefault{phv}  % helvetica
+%\usepackage[subscriptcorrection]{mtpro}
+%\usepackage[mtphrb]{mtpams}
+%\usepackage[mtpcal, mtpfrak]{mtpb}
+%\usepackage{minionpro}
 \usepackage{microtype}
+\usepackage{listings}
+ \lstset{language=R,
+     showspaces=false,
+     showtabs=false,
+     showstringspaces=false,
+     basicstyle=\ttfamily
+     \small,
+     backgroundcolor=\color{mygray},
+     frame=single,
+     framerule=0.0pt}
+\usepackage{xcolor}
+\definecolor{mygray}{rgb}{0.95,0.95,0.95}
 
 \begin{document}
 
@@ -30,9 +46,7 @@
 
 \today\\[2em]
 \end{center}
-
-We have made a substantial revision of our manuscript by following the recommendation of the Editor and the observations made by the two reviewers. Changes in the revised manuscript are marked by
-highlighting the modified text in red. We include bellow our answers to all the points raised by the Reviewers.
+We would like to thank the Editor and the Reviewers, who brought relevant points to our attention and contributed significantly to the improvement of our manuscript. We have made a  revision by following the recommendation of the Editor and the observations made by the two Reviewers. Changes in the revised manuscript are marked by highlighting the modified text in red. Bellow we include a point-by-point reply to all the points that have been raised.
 
 \section*{Reviewer 1}
 
@@ -41,42 +55,32 @@ methodology papers need to have extensive data analysis components
 but, in this instance, I think the 21 breast cancer data set analysis and the simulated examples are insufficient to fully demonstrate the utility of the method. This is a tricky area in which to develop novel methodology as ``true'' biological mutational signatures are hard to validate independently.}
 \\
 
-\textbf{Answer to Remark 1}. The 21 breast cancer data set was chosen because it is well known and has been considered by other existing methods that used the same NMF parameterisation as the one considered here (\cite{A}, \cite{FICMV}). A careful definition of synthetic data sets conforming to our model was employed to establish quantitative comparisons against these alternative methods.  Following the recommendation of the reviewer, the revised
-version of our manuscript includes the analysis of a larger data set comprising 114 gastric cancer genomes. This data set was retrieved from The Cancer Genome Atlas (TCGA), and is further described in \cite{gastrico}. The inclusion of this data is described in Section 3.1. Clinical details about the chosen subset of samples are included as supplementary material in Section 6.2 and Table S.*.
+\textbf{Answer to Remark 1}. We agree and acknowledge that the presentation of our method will benefit from a larger data set. The 21 breast cancer data set was chosen because it is well known and has been considered by other existing methods that use the same NMF parameterisation as the one considered here (\cite{A}, \cite{FICMV}). A careful definition of synthetic data sets conforming to our model was employed to establish quantitative comparisons against these alternative methods.  In order to implement the recommendation of this reviewer, the revised
+version of our manuscript now includes the analysis of a larger data set comprising 114 gastric cancer genomes. This data set was retrieved from The Cancer Genome Atlas (TCGA), and is further described in \cite{gastrico}. The inclusion of this data is described in Section 3.1. Clinical details about the chosen subset of samples are included as supplementary material in Section 6.2 and Tables S.4-S.6. The utility of the method was successfully demonstrated in this new dataset, and revealed a signature present in most samples of a specific gastric subtype, which has a better overall prognosis. These results are described in Section 4.3 of the revised manuscript.
 \\
 
 \textbf{Remark 2}. \emph{The authors claim that DES and the posterior sample classification may have an impact in clinical practice. I think these interesting aspects of the methodology need to be explored more in the Results section and applied to more data sets. The methods section could be reduced in length and parts transferred to Supplementary Information to make space for this.}
 \\
 
-\textbf{Answer to Remark 2}. The analysis of the gastric cancer data set with \texttt{signeR} revealed 4 signatures. These together with the Bayesian Information Criterion plot are included as supplementary material (please see Figures S.*, S.*).  Following the observation of the referee, the revised version includes both the DES and the posterior classification analyses of the new data set by considering two tumor subtypes according to Lauren's classification.
-To better understand the underlying molecular mechanism  in histological classification due to Lauren, this analysis examines the mutational signatures that are significantly exposed in these subtypes. Our results are described in Section 4.3.
+\textbf{Answer to Remark 2}. As mentioned above, we have included a second data set. The analysis of this data with \texttt{signeR} revealed 4 signatures. These together with the Bayesian Information Criterion plot and the estimated exposures are included as supplementary material (please see respectively Figures S.9, S.10 and S.11).  Following the observation of the referee, the revised version includes both the DES and the posterior classification analyses of the new data set by considering two tumor subtypes according to Lauren's classification.
+To better understand the underlying molecular mechanisms involved, the analysis presented here has examined the mutational signatures that are significantly exposed in the Lauren's subtypes. Our results are described in Section 4.3.
 
-We prefer, if possible, to leave the description of the method as is. First, deciding upon which part could be transferred is difficult and may hinder the clarity of the overall exposition. Second, we believe that the focus and the main contribution of our work is methodological, although to make this point we agree that a clear
-
-demosntartion  despite of the fact that we are aware that the developed methods
-
-Although we have to report incremental improvements in the field by applying our framework on benchmark datasets.
+If possible, we would like to leave the description of the method as is. The reasons for this request are: i) it is difficult to decide which part could be transferred without sacrificing the clarity of the overall exposition of the method and ii) we believe that the focus and the main contribution of our work is methodological, and as such, it would be better served by a clear methodological exposition.
 \\
 
 \textbf{Remark 3}. \emph{Can the authors also examine the recent work by Shiraishi et al. (2015)}
 \url{http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005657}?
 \\
 
-\textbf{Answer to Remark 3}. We are aware of this article and it was mentioned in the introduction of our manuscript. Although this article addresses the same issue, namely the estimation of mutational signatures and their exposures, it considers a different parametrisation and representation to the factorisation of a mutational counts matrix. A quantitative comparison of both parametrisations is therefore very difficult. We believe this approach adds to the existing state-of-the-art methods a new perspective for the mutational signatures analysis.
+\textbf{Answer to Remark 3}. We were aware of this important article and as such it was mentioned in the introduction of our manuscript. Although the paper by Shiraishi et al. addresses the same issue, namely the estimation of mutational signatures and their exposures, it considers a different parametrisation and representation to the factorisation of a mutational counts matrix. A quantitative comparison of both parametrisations is therefore very difficult. Still, we believe this approach adds a different and interesting perspective to the analysis of mutational signatures.
 
 \section*{Reviewer 2}
 \textbf{Remark 1}. \emph{
-The manuscript could perhaps have benefited from application to a
-broader array of true and simulated datasets; however, the authors’
-method appears to well motivated and represents a worthwhile
-contribution to the tools available in this area, even if its
-performance on the dataset studied does not generalize fully to
-other datasets.}
+The manuscript could perhaps have benefited from application to a broader array of true and simulated datasets; however, the authors’ method appears to well motivated and represents a worthwhile contribution to the tools available in this area, even if its performance on the dataset studied does not generalize fully to other datasets.}
 \\
 
-\textbf{Answer to Remark 1}. We believe our methods to be quite general and applicable to a wide class of data sets. To support this we explored  a new real data set constituted by 114 gastric cancer genomes. This data set was taken from the from The Cancer Genome Atlas (TCGA), and is further described in \cite{gastrico}. The inclusion of this data is described in Section 3.1. Clinical details about the chosen subset of samples are included as supplementary material in Section 6.2 and Table S.*.
+\textbf{Answer to Remark 1}.  We believe our methods to be quite general and applicable to a wide class of data sets, because in essence this paper presents a Bayesian treatment to the Poissonian NMF paradigm. Still, in this article we are concerned principally with the application of this framework to the estimation of mutational signatures. As such, and following the recommendation made by the Reviewer \#1, the revised manuscript includes the analysis of a new real data set constituted by 114 gastric cancer genomes. This data set was taken from the from The Cancer Genome Atlas (TCGA), and is further described in \cite{gastrico}. The inclusion of this data is described in Section 3.1. The results are contained in Section 4.3 of the main article and Section 6.2 of the supplementary material. Further  details about the chosen subset of samples are included as supplementary material in Tables S.4-S.6.
 \\
-
 
 \subsection*{Minor comments}
 \textbf{Remark 2.}\\
@@ -93,23 +97,27 @@ P7L44 Should `Bayesian factors' be `Bayes Factors'?\\
 }
 
 
-\textbf{Answer to Remark 2}. We thank the reviewer for these observations. All of them have been considered and are included in the revised manuscript, marked in red.
+\textbf{Answer to Remark 2}. We thank the reviewer for his careful revision and for bringing up these observations. All of them have been accepted and are now included in the revised manuscript, highlighted in red.
 \\
 
 \textbf{Remark 3.}
 \emph{Errors encountered on attempted installation of the package are provided below, in case this may be helpful to the authors to improve package portability (on Mac version 10.11.1; R version 3.3.1; Bioconductor version 3.3) ...}
 \\
 
-\textbf{Answer to Remark 3}. We acknowledge for sharing the exceptions during the installation of \texttt{signeR} on a MAC. One of us actually experienced the same difficulty, which is related to ....
-
-
-The implementation of \texttt{signeR} requires compilation because of the \texttt{C++} code used to speed up computations. This code is integrated into \texttt{R} via the \texttt{Rccp} and \texttt{RcppArmadillo} libraries.We also make instructions available at the website showing how to how install libraries in the MAC systems.
-
+\textbf{Answer to Remark 3}. We acknowledge the detailed information sent by the Reviewer. The exception apearing during the installation of \texttt{signeR} on OS X occurs because \texttt{signeR} relies on the LAPACK and BLAS libraries via the \texttt{RcppArmadillo} package by Dirk Eddelbuettel, Romain Francois and Doug Bates, \cite{E}. Compilation requires therefore a functional gfortran suite. This issue is well documented in \texttt{RcppArmadillo} vignette, section 2.16, launched as
+\begin{lstlisting}[]
+vignette('Rcpp-FAQ')
+\end{lstlisting}
+The installation of a pre-compiled \texttt{gfortran} binary is achieved by typing at the terminal
+\begin{lstlisting}[]
+curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
+sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
+\end{lstlisting}
+These instructions are now included in the revised version of the
+supplementary material (Section 5.1) and also in \texttt{signeR}'s
+vignette.
 \bibliographystyle{alpha}
 \bibliography{answer}
-
-\vspace{2.5cm}
-
 {\footnotesize
 \begin{tabular}{ll}
  \centering
@@ -159,9 +167,7 @@ The implementation of \texttt{signeR} requires compilation because of the \textt
  }
 \end{tabular}
 }
-
 \end{document}
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
