@@ -15,9 +15,9 @@
 %    \usepackage[T1]{fontenc}
 %% Option 2: Classic Garamond (requires .pfb sources)
 %% =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    \usepackage[T1]{fontenc}
-    \usepackage{sabon}
-    \usepackage[italic,defaultmathsizes]{mathastext}
+%    \usepackage[T1]{fontenc}
+%    \usepackage{sabon}
+%    \usepackage[italic,defaultmathsizes]{mathastext}
 %%    % mdugm.sty magic bellow --- !!!
     \SetSymbolFont{letters}{normal}{OML}{mdugm}{m}{it}
 %% Option 3 (Times via MathTimes Pro)
@@ -139,7 +139,7 @@ further enlarged by including the $5'$ and $3'$ neighbouring bases of
 each substitution site, leading to an alphabet $\txcal A$ with 96
 trinucleotide mutation types. More generally, the definition of
 $\txcal A$ could in principle accommodate mutations of various other
-kinds %such as indels, rearrangements, copy number changes and even
+kinds such as indels, rearrangements, copy number changes and even
 wider neighbouring contexts. Once $\txcal A$ is properly defined, the
 counts for the mutations found in $G$ different genomes are assembled
 into a $K\times G$ matrix $M$ with $K = |\txcal
@@ -649,7 +649,7 @@ for prognostic.
 \end{figure*}
 \subsection{Data}
 Single base substitutions were mapped onto trinucleotide sequences by
-considering the $5'$ and $3'$ neighboring bases in order to construct
+including the $5'$ and $3'$ neighbouring base context to construct
 a $96\times G$ matrix of mutation counts.  The $(i,j)$-th element of
 the opportunity matrix was computed as the frequency of the triplets
 in the $j$-th genome where the $i$-th mutation can occur. A data set
@@ -657,13 +657,12 @@ containing 183916 somatic point mutations from $G=21$ breast cancer
 genomes was obtained from
 \url{ftp://ftp.sanger.ac.uk/pub/cancer/Nik-ZainalEtAl},
 by following the instructions in \cite{NCell},
-Table S1. \textcolor{red}{A second data set containing 38157 \textcolor{blue}{curated}
+Table S1. \textcolor{red}{A second data set containing 38157 curated
 somatic mutations identified in $G=114$ gastric cancer genomes were
 retrieved from the portal of The Cancer Genome Atlas (TCGA). This data
-represents a subset of the original data described in \cite{TCGABass},
-comprising only those samples classified according to Laur\'en's
-classification. Additional details about the actual samples are included
-as supplementary material.}
+is a subset of the original data described in \cite{TCGABass},
+restricted to samples grouped according to Laur\'en's
+classification. Additional details can be found as supplementary material.}
 
 \subsection{\texttt{signeR}}
 All analyses described here are implemented in the open-source R
@@ -837,7 +836,7 @@ initialisation for the matrices $P$ and $E$.
   \caption{\textrm{%
    Histogram of Log likelihood values at the estimates for $P$ and $E$
    obtained by the analysis of a 4 signatures synthetic data set via
-   \texttt{signeR} and EMu. The analysis was made by including the
+   \texttt{signeR} and EMu. The analysis was made by including a
    mutation opportunity matrix $W$.
    }
   }
@@ -846,24 +845,27 @@ initialisation for the matrices $P$ and $E$.
 
 \subsection{Gastric cancer data set}
 \textcolor{red}{
-To further demonstrate our framework this section presents the analysis of
-114 gastric cancer (GC) genomes found at TCGA. Although GC is a heterogeneous
-disease it may be divided into the intestinal and diffuse subtypes according
-to Laur\'en's histological classification. Here we aim at the identification of
-those signatures that are significantly exposed in each of these subtypes.
-We found that this data is best described by 4 signatures (suplementary
-Figures S.*, S.**) and following the DES analysis we were able to associate
-these to a prognostic according to Laur\'en's classification.
-The DES analysis shows that two of the signatures are differentially
-enriched (Figure *) for the intestinal type which has a better prognosis
-\cite{MSKZ}. Both signatures are described at the COSMIC database
+To further demonstrate our framework this section presents the analysis of 114 gastric cancer (GC) genomes sequenced at TCGA. Although heterogeneous, most GC cases can be grouped as intestinal or diffuse subtypes, according to the classic Lauren's histological classification. Here we aim at the identification of
+signatures that are significantly exposed in each of these subtypes.
+The analysis with \texttt{signer} reveals the data as being best described by 4 signatures (supplementary Figures S.9, S.10). The DES presented in Figure~\ref{fig:gastric_DES_Class} shows that two of these signatures are differentially enriched for the intestinal type which has a better prognosis, \cite{MSKZ}.
+These signatures are described at the COSMIC database
 as Signatures 3 and 17 respectively. None of the signatures found is exposed
-in the diffuse group. The classification of samples according to Laur\'en's
-subtypes reached 75\% of success (Figure **). We conclude that identification
-of mutational signatures analysis presented here provides an additional
-roadmap for patient stratification aiming to benefit surgical
-decision-making.
+in the diffuse group. We also considered the sample classification approach by using the signatures highlighted in the DES analysis. By following the same cross-validation  approach as the one considered in  the breast dataset, we were able to classify 65\% of the samples (Figure ~\ref{fig:gastric_DES_Class}.B).  Among these our classification reached 75\% of success. We conclude that the analyses pursued here provide an additional roadmap for patient stratification that could aid in surgical decision-making.
 }
+\begin{figure}[t!]
+ \centering
+  \begin{tabular}{c}
+  \includegraphics[width=6cm]{figs/DES_Mcur_so_Lauren_opp_bw} \\
+  \includegraphics[width=6cm]{figs/Classific_result_114_GC_copy}
+  \end{tabular}
+  \caption{\textrm{%
+   \textcolor{red}{A: DES analysis for the gastric cancer data set. B: posterior sample classification for each gastric cancer genome, based on the remaining samples. The two colours for each sample show the proportion of agreement among the a posteriori classifications. Missclasifications are marked with *.}
+   }
+  }
+  \label{fig:gastric_DES_Class}
+\end{figure}
+
+
 
 \section{Discussion}
 The detection of mutational signatures from whole genome sequencing
